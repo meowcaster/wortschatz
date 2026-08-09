@@ -1,0 +1,1010 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wortschatz — German Trainer</title>
+<meta name="description" content="Free spaced-repetition trainer for B1–C1 German: 120+ card deck, audio, and a verb-conjugation drill.">
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="theme-color" content="#EFEEE8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#18171A" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Wortschatz">
+</head>
+<body>
+<style>
+  :root{
+    --bg:#EFEEE8; --surface:#FBFAF5; --surface-2:#F4F2EA; --surface-3:#ECE9DF;
+    --ink:#26221E; --muted:#6C665C; --faint:#948D80; --line:#DBD7CC;
+    --accent:#6D4C7D; --accent-strong:#573C63; --accent-soft:rgba(109,76,125,.12);
+    --der:#3E6DA6; --die:#B24A63; --das:#3F8F6A;
+    --good:#3F8F6A; --warn:#B7862B; --bad:#B24A4A;
+    --shadow:0 1px 2px rgba(38,34,30,.05),0 8px 28px -14px rgba(38,34,30,.22);
+    --font-display:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,'Times New Roman',serif;
+    --font-sans:system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    --font-mono:ui-monospace,'Cascadia Code','SF Mono',Menlo,Consolas,monospace;
+    --r:14px;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --bg:#18171A; --surface:#201F24; --surface-2:#26252B; --surface-3:#2C2B31;
+      --ink:#ECE7DE; --muted:#A39C90; --faint:#7C7568; --line:#34323B;
+      --accent:#BE9BCE; --accent-strong:#D2B6DE; --accent-soft:rgba(190,155,206,.16);
+      --der:#84ABDC; --die:#DB8598; --das:#79C39A;
+      --good:#79C39A; --warn:#D6AC57; --bad:#D98A8A;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -16px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#EFEEE8; --surface:#FBFAF5; --surface-2:#F4F2EA; --surface-3:#ECE9DF;
+    --ink:#26221E; --muted:#6C665C; --faint:#948D80; --line:#DBD7CC;
+    --accent:#6D4C7D; --accent-strong:#573C63; --accent-soft:rgba(109,76,125,.12);
+    --der:#3E6DA6; --die:#B24A63; --das:#3F8F6A;
+    --good:#3F8F6A; --warn:#B7862B; --bad:#B24A4A;
+    --shadow:0 1px 2px rgba(38,34,30,.05),0 8px 28px -14px rgba(38,34,30,.22);
+  }
+  :root[data-theme="dark"]{
+    --bg:#18171A; --surface:#201F24; --surface-2:#26252B; --surface-3:#2C2B31;
+    --ink:#ECE7DE; --muted:#A39C90; --faint:#7C7568; --line:#34323B;
+    --accent:#BE9BCE; --accent-strong:#D2B6DE; --accent-soft:rgba(190,155,206,.16);
+    --der:#84ABDC; --die:#DB8598; --das:#79C39A;
+    --good:#79C39A; --warn:#D6AC57; --bad:#D98A8A;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -16px rgba(0,0,0,.7);
+  }
+
+  *{box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font-family:var(--font-sans);
+    line-height:1.5;-webkit-font-smoothing:antialiased;margin:0;}
+  .app{max-width:660px;margin:0 auto;padding:26px 20px 60px;}
+
+  .top{display:flex;flex-direction:column;gap:18px;margin-bottom:20px;}
+  .brand{display:flex;align-items:center;gap:14px;}
+  .logo{width:44px;height:44px;flex:none;border-radius:12px;background:var(--accent);
+    color:#fff;display:grid;place-items:center;font-family:var(--font-display);
+    font-size:24px;font-weight:600;box-shadow:var(--shadow);}
+  @media (prefers-color-scheme:dark){.logo{color:#1a1620;}}
+  :root[data-theme="dark"] .logo{color:#1a1620;}
+  .brand h1{font-family:var(--font-display);font-size:23px;font-weight:600;margin:0;letter-spacing:.2px;}
+  .brand .tag{margin:2px 0 0;font-size:13px;color:var(--muted);}
+
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+  .stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+    padding:12px 14px;box-shadow:var(--shadow);}
+  .stat .n{font-family:var(--font-display);font-size:26px;font-weight:600;line-height:1;
+    font-variant-numeric:tabular-nums;display:flex;align-items:baseline;gap:6px;}
+  .stat .n small{font-family:var(--font-sans);font-size:12px;font-weight:600;color:var(--faint);}
+  .stat .l{font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-top:6px;font-weight:600;}
+  .stat.due .n{color:var(--accent);}
+
+  .tabs{display:flex;gap:4px;background:var(--surface-2);border:1px solid var(--line);
+    border-radius:12px;padding:4px;margin-bottom:18px;}
+  .tabs button{flex:1;border:0;background:transparent;color:var(--muted);
+    font-family:var(--font-sans);font-size:13.5px;font-weight:600;padding:9px 6px;
+    border-radius:9px;cursor:pointer;transition:background .15s,color .15s;letter-spacing:.2px;}
+  .tabs button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow);}
+  .tabs button:hover:not([aria-selected="true"]){color:var(--ink);}
+
+  .deckpick{display:flex;align-items:center;gap:9px;margin-bottom:14px;font-size:12.5px;color:var(--muted);font-weight:600;}
+  .deckpick select{flex:1;padding:8px 11px;border:1px solid var(--line);border-radius:10px;
+    background:var(--surface);color:var(--ink);font-family:var(--font-sans);font-size:13.5px;font-weight:600;}
+  .deckpick select:focus-visible{outline:2px solid var(--accent);outline-offset:1px;}
+
+  .sess-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;
+    font-size:12.5px;color:var(--muted);font-weight:600;}
+  .sess-bar .track{flex:1;height:5px;background:var(--surface-3);border-radius:99px;margin:0 12px;overflow:hidden;}
+  .sess-bar .track i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .3s;}
+
+  .flashcard{background:var(--surface);border:1px solid var(--line);border-radius:20px;
+    box-shadow:var(--shadow);padding:34px 28px;min-height:300px;display:flex;flex-direction:column;
+    cursor:pointer;position:relative;transition:transform .12s ease;}
+  .flashcard:active{transform:scale(.995);}
+  .flashcard:focus-visible{outline:2.5px solid var(--accent);outline-offset:3px;}
+  .pos-kicker{font-size:11.5px;text-transform:uppercase;letter-spacing:.11em;font-weight:700;color:var(--faint);
+    display:flex;justify-content:space-between;align-items:center;gap:8px;}
+  .deckchip{font-family:var(--font-sans);text-transform:none;letter-spacing:0;font-size:10.5px;font-weight:600;
+    color:var(--muted);background:var(--surface-2);border:1px solid var(--line);border-radius:99px;padding:2px 9px;}
+  .word{font-family:var(--font-display);font-weight:600;letter-spacing:.3px;margin:auto 0;
+    text-align:center;line-height:1.12;font-size:clamp(32px,8.5vw,50px);}
+  .article{font-style:italic;}
+  .article.der{color:var(--der);} .article.die{color:var(--die);} .article.das{color:var(--das);}
+  .plural{display:block;font-family:var(--font-sans);font-size:15px;font-weight:500;color:var(--muted);margin-top:10px;letter-spacing:.2px;}
+  .genderhint{text-align:center;margin:auto 0 0;}
+  .genderhint .q{display:inline-flex;gap:10px;font-family:var(--font-display);font-style:italic;font-size:19px;}
+  .genderhint .q span{opacity:.4;}
+  .center-audio{display:flex;justify-content:center;margin-top:14px;}
+  .reveal{border-top:1px solid var(--line);margin-top:20px;padding-top:18px;
+    display:flex;flex-direction:column;gap:13px;}
+  .meaning{font-size:20px;font-weight:600;text-align:center;}
+  .example{background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:13px 15px;
+    display:flex;gap:11px;align-items:flex-start;}
+  .example .ex-main{flex:1;min-width:0;}
+  .example .de{font-family:var(--font-display);font-size:16.5px;line-height:1.45;}
+  .example .en{font-size:13.5px;color:var(--muted);margin-top:5px;}
+  .flip-hint{text-align:center;color:var(--faint);font-size:13px;margin-top:20px;font-weight:600;}
+  .flip-hint kbd,.footnote kbd{font-family:var(--font-mono);font-size:11px;background:var(--surface-3);
+    border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:var(--muted);}
+
+  .spk{border:1px solid var(--line);background:var(--surface);color:var(--accent);cursor:pointer;
+    width:38px;height:38px;border-radius:50%;flex:none;display:inline-grid;place-items:center;font-size:16px;
+    box-shadow:var(--shadow);transition:transform .1s,background .15s;}
+  .spk:hover{background:var(--accent-soft);}
+  .spk:active{transform:scale(.9);}
+  .spk:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .spk.sm{width:32px;height:32px;font-size:14px;}
+
+  .grades{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:16px;}
+  .grade{border:1px solid var(--line);background:var(--surface);border-radius:12px;
+    padding:11px 6px 9px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;
+    font-family:var(--font-sans);transition:transform .1s;box-shadow:var(--shadow);}
+  .grade:hover{transform:translateY(-2px);}
+  .grade:active{transform:translateY(0);}
+  .grade:focus-visible{outline:2.5px solid var(--accent);outline-offset:2px;}
+  .grade .g{font-size:13.5px;font-weight:700;}
+  .grade .iv{font-size:11px;color:var(--faint);font-variant-numeric:tabular-nums;font-family:var(--font-mono);}
+  .grade[data-g="again"]{border-color:color-mix(in srgb,var(--bad) 40%,var(--line));}
+  .grade[data-g="again"] .g{color:var(--bad);}
+  .grade[data-g="hard"] .g{color:var(--warn);}
+  .grade[data-g="good"] .g{color:var(--der);}
+  .grade[data-g="easy"] .g{color:var(--good);}
+  .actions2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;}
+
+  /* Conjugation */
+  .prompt-line{text-align:center;margin:auto 0 0;}
+  .prompt-line .pp{display:inline-flex;flex-direction:column;gap:4px;align-items:center;
+    background:var(--accent-soft);border:1px solid color-mix(in srgb,var(--accent) 35%,var(--line));
+    border-radius:13px;padding:11px 20px;}
+  .prompt-line .person{font-family:var(--font-display);font-size:24px;font-weight:600;color:var(--accent-strong);}
+  :root[data-theme="dark"] .prompt-line .person{color:var(--accent);}
+  @media (prefers-color-scheme:dark){.prompt-line .person{color:var(--accent);}}
+  .prompt-line .tense{font-size:11.5px;text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:var(--muted);}
+  .answer{text-align:center;margin:auto 0;display:flex;flex-direction:column;align-items:center;gap:12px;}
+  .answer .form{font-family:var(--font-display);font-weight:600;font-size:clamp(30px,7.5vw,44px);}
+  .answer .sub{font-size:13px;color:var(--muted);font-family:var(--font-mono);}
+
+  .empty{background:var(--surface);border:1px solid var(--line);border-radius:20px;
+    box-shadow:var(--shadow);padding:44px 30px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;}
+  .empty .em{font-size:40px;}
+  .empty h2{font-family:var(--font-display);font-size:24px;margin:4px 0 0;font-weight:600;}
+  .empty p{color:var(--muted);margin:0;max-width:38ch;font-size:14.5px;}
+
+  .toolrow{display:flex;gap:10px;margin-bottom:14px;align-items:center;}
+  .search{flex:1;position:relative;}
+  .search input{width:100%;padding:10px 12px 10px 34px;border:1px solid var(--line);border-radius:11px;
+    background:var(--surface);color:var(--ink);font-family:var(--font-sans);font-size:14px;}
+  .search input:focus-visible{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent);}
+  .search .ic{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--faint);font-size:14px;}
+  .cardrow{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);
+    border-radius:12px;padding:11px 13px;margin-bottom:8px;box-shadow:var(--shadow);}
+  .cardrow .bar{width:4px;align-self:stretch;border-radius:99px;background:var(--faint);flex:none;}
+  .cardrow .bar.der{background:var(--der);} .cardrow .bar.die{background:var(--die);} .cardrow .bar.das{background:var(--das);}
+  .cardrow .main{flex:1;min-width:0;}
+  .cardrow .de{font-family:var(--font-display);font-size:16px;font-weight:600;}
+  .cardrow .en{font-size:13px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .cardrow .meta{font-size:11px;font-family:var(--font-mono);color:var(--faint);text-align:right;flex:none;}
+  .cardrow .del{border:0;background:transparent;color:var(--faint);cursor:pointer;font-size:17px;
+    padding:4px 6px;border-radius:8px;line-height:1;flex:none;}
+  .cardrow .del:hover{color:var(--bad);background:var(--surface-3);}
+  .pill{display:inline-block;font-size:10.5px;font-family:var(--font-mono);padding:1px 7px;border-radius:99px;
+    border:1px solid var(--line);color:var(--muted);vertical-align:middle;margin-left:6px;}
+  .pill.new{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 40%,var(--line));}
+  .pill.due{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 40%,var(--line));}
+
+  form.add{background:var(--surface);border:1px solid var(--line);border-radius:16px;
+    box-shadow:var(--shadow);padding:20px;display:flex;flex-direction:column;gap:15px;}
+  .field{display:flex;flex-direction:column;gap:6px;}
+  .field label{font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:var(--muted);}
+  .field input,.field select,.field textarea{padding:10px 12px;border:1px solid var(--line);border-radius:10px;
+    background:var(--surface-2);color:var(--ink);font-family:var(--font-sans);font-size:14.5px;width:100%;}
+  .field textarea{font-family:var(--font-display);resize:vertical;min-height:52px;}
+  .field input:focus-visible,.field select:focus-visible,.field textarea:focus-visible{outline:2px solid var(--accent);outline-offset:0;border-color:var(--accent);}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .seg{display:flex;gap:6px;flex-wrap:wrap;}
+  .seg button{border:1px solid var(--line);background:var(--surface-2);color:var(--muted);
+    padding:8px 13px;border-radius:9px;cursor:pointer;font-size:13px;font-weight:600;font-family:var(--font-sans);}
+  .seg button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent-strong);border-color:var(--accent);}
+  :root[data-theme="dark"] .seg button[aria-pressed="true"]{color:var(--accent);}
+  @media (prefers-color-scheme:dark){.seg button[aria-pressed="true"]{color:var(--accent);}}
+
+  .btn{border:0;border-radius:11px;padding:12px 18px;font-family:var(--font-sans);font-size:14.5px;
+    font-weight:650;cursor:pointer;background:var(--accent);color:#fff;box-shadow:var(--shadow);letter-spacing:.2px;}
+  .btn:hover{background:var(--accent-strong);}
+  .btn:active{transform:translateY(1px);}
+  .btn:focus-visible{outline:2.5px solid var(--accent);outline-offset:2px;}
+  @media (prefers-color-scheme:dark){.btn{color:#1a1620;}}
+  :root[data-theme="dark"] .btn{color:#1a1620;}
+  .btn.ghost{background:transparent;color:var(--muted);box-shadow:none;border:1px solid var(--line);}
+  .btn.ghost:hover{background:var(--surface-2);color:var(--ink);}
+
+  footer{margin-top:26px;border-top:1px solid var(--line);padding-top:18px;}
+  .footrow{display:flex;flex-wrap:wrap;gap:9px;align-items:center;}
+  .footrow .btn.ghost{padding:8px 13px;font-size:13px;}
+  .footnote{margin-top:14px;font-size:12px;color:var(--faint);line-height:1.6;}
+  .hidden{display:none!important;}
+
+  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);
+    background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:11px;font-size:13.5px;font-weight:600;
+    box-shadow:0 10px 30px -8px rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:50;max-width:90vw;text-align:center;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;}}
+  @media (max-width:480px){
+    .grades{grid-template-columns:repeat(2,1fr);}
+    .app{padding:20px 15px 50px;}
+  }
+</style>
+
+<main class="app">
+  <header class="top">
+    <div class="brand">
+      <div class="logo">ß</div>
+      <div>
+        <h1>Wortschatz</h1>
+        <p class="tag">Spaced-repetition trainer · B1–C1 German</p>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat due"><div class="n" id="s-due">0</div><div class="l">Due now</div></div>
+      <div class="stat"><div class="n" id="s-learned">0<small id="s-total">/0</small></div><div class="l">Learned</div></div>
+      <div class="stat"><div class="n" id="s-streak">0<small>d</small></div><div class="l">Streak</div></div>
+    </div>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button role="tab" aria-selected="true" data-tab="study">Vocab</button>
+    <button role="tab" aria-selected="false" data-tab="verbs">Verbs</button>
+    <button role="tab" aria-selected="false" data-tab="deck">Deck</button>
+    <button role="tab" aria-selected="false" data-tab="add">Add</button>
+  </nav>
+
+  <!-- VOCAB -->
+  <section id="view-study">
+    <div class="deckpick">
+      <span>Deck</span>
+      <select id="deck-filter"></select>
+    </div>
+    <div id="study-live" class="hidden">
+      <div class="sess-bar">
+        <span id="sess-count">0 due</span>
+        <span class="track"><i id="sess-fill" style="width:0%"></i></span>
+        <span id="sess-done">0 done</span>
+      </div>
+      <div class="flashcard" id="flashcard" tabindex="0" role="button" aria-label="Flashcard, activate to reveal answer"></div>
+      <div id="grades" class="grades hidden"></div>
+      <div class="flip-hint" id="flip-hint"><kbd>Space</kbd> or tap to reveal</div>
+    </div>
+    <div id="study-empty" class="empty hidden"></div>
+  </section>
+
+  <!-- VERBS -->
+  <section id="view-verbs" class="hidden">
+    <div class="sess-bar">
+      <span id="v-count">Conjugation drill</span>
+      <span class="track"><i id="v-fill" style="width:0%"></i></span>
+      <span id="v-done">0 done</span>
+    </div>
+    <div class="flashcard" id="verbcard" tabindex="0" role="button" aria-label="Verb card, activate to reveal the conjugation"></div>
+    <div id="v-actions" class="actions2 hidden"></div>
+    <div class="flip-hint" id="v-hint"><kbd>Space</kbd> or tap to reveal</div>
+  </section>
+
+  <!-- DECK -->
+  <section id="view-deck" class="hidden">
+    <div class="toolrow">
+      <div class="search"><span class="ic">⌕</span><input id="search" type="text" placeholder="Search your deck…" autocomplete="off"></div>
+    </div>
+    <div id="deck-list"></div>
+  </section>
+
+  <!-- ADD -->
+  <section id="view-add" class="hidden">
+    <form class="add" id="add-form" autocomplete="off">
+      <div class="field">
+        <label>Part of speech</label>
+        <div class="seg" id="pos-seg">
+          <button type="button" data-pos="noun" aria-pressed="true">Noun</button>
+          <button type="button" data-pos="verb" aria-pressed="false">Verb</button>
+          <button type="button" data-pos="adj" aria-pressed="false">Adjective</button>
+          <button type="button" data-pos="conn" aria-pressed="false">Connector</button>
+          <button type="button" data-pos="other" aria-pressed="false">Other</button>
+        </div>
+      </div>
+      <div class="row2" id="noun-fields">
+        <div class="field">
+          <label>Gender (article)</label>
+          <select id="f-gender">
+            <option value="der">der (m)</option>
+            <option value="die">die (f)</option>
+            <option value="das">das (n)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Plural <span style="text-transform:none;font-weight:500;color:var(--faint)">(optional)</span></label>
+          <input id="f-plural" placeholder="-en, ¨-e, —">
+        </div>
+      </div>
+      <div class="field">
+        <label id="lbl-de">German noun</label>
+        <input id="f-de" placeholder="Erfahrung" required>
+      </div>
+      <div class="field">
+        <label>English meaning</label>
+        <input id="f-en" placeholder="experience" required>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>Example (German) <span style="text-transform:none;font-weight:500;color:var(--faint)">opt.</span></label>
+          <input id="f-exde" placeholder="Ich habe viel Erfahrung.">
+        </div>
+        <div class="field">
+          <label>Add to deck</label>
+          <select id="f-deck"></select>
+        </div>
+      </div>
+      <div class="field">
+        <label>Example translation <span style="text-transform:none;font-weight:500;color:var(--faint)">opt.</span></label>
+        <input id="f-exen" placeholder="I have a lot of experience.">
+      </div>
+      <button class="btn" type="submit">Add to deck</button>
+    </form>
+  </section>
+
+  <footer>
+    <div class="footrow">
+      <button class="btn ghost" id="btn-export">↧ Export deck</button>
+      <button class="btn ghost" id="btn-import">↥ Import</button>
+      <input type="file" id="file-import" accept=".json,application/json" class="hidden">
+      <button class="btn ghost" id="btn-restore">Restore starter deck</button>
+      <button class="btn ghost" id="btn-reset" style="margin-left:auto;color:var(--bad)">Reset progress</button>
+    </div>
+    <p class="footnote">
+      Shortcuts: <kbd>Space</kbd> reveal · <kbd>1</kbd>–<kbd>4</kbd> grade. 🔊 speaks German (uses your device's voices).
+      Everything saves in this browser only — nothing leaves your device. Export regularly to back up.
+      <br>On your phone: open this page in the browser → Share → <b>Add to Home Screen</b> to run it like an app.
+    </p>
+  </footer>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  "use strict";
+  var DAY=86400000, KEY2="wortschatz-de-v2", KEY1="wortschatz-de-v1";
+
+  var DECKS=[
+    {id:"a1",name:"A1 · Basics"},
+    {id:"a2",name:"A2 · Everyday"},
+    {id:"core",name:"Core B1–B2"},
+    {id:"arbeit",name:"Arbeit · Work"},
+    {id:"meinung",name:"Meinung · Opinions"},
+    {id:"advanced",name:"B2–C1 Advanced"},
+    {id:"mine",name:"My cards"}
+  ];
+  var DECKNAME={}; DECKS.forEach(function(d){DECKNAME[d.id]=d.name;});
+
+  /* rows: [deck, pos, gender|null, de, plural|null, en, exDe, exEn] */
+  var SEED=[
+    ["core","noun","die","Erfahrung","-en","experience","Ich habe viel Erfahrung mit dieser Arbeit.","I have a lot of experience with this work."],
+    ["core","noun","die","Entscheidung","-en","decision","Das war eine schwierige Entscheidung.","That was a difficult decision."],
+    ["core","noun","die","Möglichkeit","-en","possibility / opportunity","Es gibt keine andere Möglichkeit.","There is no other possibility."],
+    ["core","noun","der","Zusammenhang","¨-e","connection / context","In diesem Zusammenhang ist das wichtig.","In this context that is important."],
+    ["core","noun","die","Umgebung","-en","surroundings / environment","Die Umgebung ist sehr ruhig.","The surroundings are very quiet."],
+    ["core","noun","der","Vorschlag","¨-e","suggestion / proposal","Ich habe einen Vorschlag.","I have a suggestion."],
+    ["core","noun","die","Voraussetzung","-en","prerequisite / requirement","Gute Deutschkenntnisse sind eine Voraussetzung.","Good German skills are a requirement."],
+    ["core","noun","das","Verhältnis","-se","relationship / ratio","Sie haben ein gutes Verhältnis zueinander.","They have a good relationship with each other."],
+    ["core","noun","die","Auswirkung","-en","effect / impact","Das hat große Auswirkungen auf die Umwelt.","That has a big impact on the environment."],
+    ["core","noun","der","Eindruck","¨-e","impression","Er macht einen guten Eindruck.","He makes a good impression."],
+    ["core","noun","die","Bedeutung","-en","meaning / significance","Dieses Wort hat mehrere Bedeutungen.","This word has several meanings."],
+    ["core","noun","die","Verantwortung","-en","responsibility","Sie übernimmt die Verantwortung.","She takes on the responsibility."],
+    ["core","noun","der","Zweck","-e","purpose","Was ist der Zweck dieser Übung?","What is the purpose of this exercise?"],
+    ["core","noun","die","Ursache","-n","cause","Die Ursache ist noch unklar.","The cause is still unclear."],
+    ["core","noun","der","Vorteil","-e","advantage","Das hat viele Vorteile.","That has many advantages."],
+    ["core","noun","der","Nachteil","-e","disadvantage","Der einzige Nachteil ist der Preis.","The only disadvantage is the price."],
+    ["core","noun","die","Angelegenheit","-en","matter / affair","Das ist meine eigene Angelegenheit.","That is my own affair."],
+    ["core","noun","die","Gewohnheit","-en","habit","Früh aufstehen ist eine gute Gewohnheit.","Getting up early is a good habit."],
+    ["core","noun","der","Anspruch","¨-e","claim / demand","Sie hat hohe Ansprüche.","She has high standards."],
+    ["core","noun","das","Verständnis","—","understanding","Danke für Ihr Verständnis.","Thank you for your understanding."],
+    ["core","verb",null,"sich beschäftigen (mit)",null,"to occupy oneself / deal with","Ich beschäftige mich viel mit Kunst.","I spend a lot of time on art."],
+    ["core","verb",null,"erwähnen",null,"to mention","Er hat das mit keinem Wort erwähnt.","He didn't mention it with a single word."],
+    ["core","verb",null,"verzichten (auf)",null,"to do without / give up","Ich verzichte auf Zucker.","I go without sugar."],
+    ["core","verb",null,"sich verhalten",null,"to behave","Er hat sich seltsam verhalten.","He behaved strangely."],
+    ["core","verb",null,"beeinflussen",null,"to influence","Das Wetter beeinflusst meine Stimmung.","The weather influences my mood."],
+    ["core","verb",null,"berücksichtigen",null,"to take into account","Wir müssen alle Faktoren berücksichtigen.","We have to take all factors into account."],
+    ["core","verb",null,"sich lohnen",null,"to be worth it","Der Aufwand hat sich gelohnt.","The effort was worth it."],
+    ["core","verb",null,"vermeiden",null,"to avoid","Man sollte unnötigen Stress vermeiden.","One should avoid unnecessary stress."],
+    ["core","verb",null,"gelingen",null,"to succeed / turn out well","Der Kuchen ist mir gut gelungen.","The cake turned out well for me."],
+    ["core","verb",null,"sich gewöhnen (an)",null,"to get used to","Ich habe mich an das Klima gewöhnt.","I got used to the climate."],
+    ["core","verb",null,"voraussetzen",null,"to presuppose / require","Das setzt viel Geduld voraus.","That requires a lot of patience."],
+    ["core","verb",null,"betonen",null,"to emphasize","Sie betonte die Wichtigkeit des Themas.","She emphasized the importance of the topic."],
+    ["core","verb",null,"erledigen",null,"to get done / take care of","Ich muss noch ein paar Dinge erledigen.","I still have to take care of a few things."],
+    ["core","verb",null,"sich bewerben (um)",null,"to apply (for a job)","Er bewirbt sich um die Stelle.","He is applying for the position."],
+    ["core","verb",null,"auffallen",null,"to stand out / be noticed","Mir ist etwas aufgefallen.","Something caught my attention."],
+    ["core","verb",null,"zunehmen",null,"to increase / gain weight","Die Zahl der Nutzer nimmt zu.","The number of users is increasing."],
+    ["core","verb",null,"abnehmen",null,"to decrease / lose weight","Ich möchte ein paar Kilo abnehmen.","I'd like to lose a few kilos."],
+    ["core","verb",null,"wahrnehmen",null,"to perceive / be aware of","Er hat die Gefahr nicht wahrgenommen.","He didn't perceive the danger."],
+    ["core","verb",null,"sich weigern",null,"to refuse","Sie weigerte sich, das zu tun.","She refused to do it."],
+    ["core","verb",null,"erfordern",null,"to require / demand","Diese Aufgabe erfordert Konzentration.","This task requires concentration."],
+    ["core","adj",null,"anspruchsvoll",null,"demanding / sophisticated","Das ist ein anspruchsvoller Text.","That is a demanding text."],
+    ["core","adj",null,"zuverlässig",null,"reliable","Er ist ein zuverlässiger Mitarbeiter.","He is a reliable employee."],
+    ["core","adj",null,"wahrscheinlich",null,"probable / likely","Wahrscheinlich regnet es morgen.","It will probably rain tomorrow."],
+    ["core","adj",null,"ausführlich",null,"detailed / thorough","Sie erklärte alles sehr ausführlich.","She explained everything in great detail."],
+    ["core","adj",null,"vorläufig",null,"provisional / temporary","Das ist nur eine vorläufige Lösung.","That is only a temporary solution."],
+    ["core","adj",null,"gleichzeitig",null,"simultaneous(ly)","Ich kann nicht alles gleichzeitig machen.","I can't do everything at the same time."],
+    ["core","adj",null,"ausgerechnet",null,"of all (times/people)","Ausgerechnet heute muss es regnen.","Of all days, it has to rain today."],
+    ["core","adj",null,"dringend",null,"urgent(ly)","Ich muss dich dringend sprechen.","I urgently need to talk to you."],
+    ["core","adj",null,"selbstverständlich",null,"of course / self-evident","Selbstverständlich helfe ich dir.","Of course I'll help you."],
+    ["core","adj",null,"empfindlich",null,"sensitive","Meine Haut ist sehr empfindlich.","My skin is very sensitive."],
+    ["core","conn",null,"trotzdem",null,"nevertheless","Es regnete; trotzdem gingen wir spazieren.","It was raining; nevertheless we went for a walk."],
+    ["core","conn",null,"dennoch",null,"nonetheless","Es war teuer, dennoch kaufte er es.","It was expensive, nonetheless he bought it."],
+    ["core","conn",null,"obwohl",null,"although","Obwohl er müde war, arbeitete er weiter.","Although he was tired, he kept working."],
+    ["core","conn",null,"deshalb",null,"therefore / that's why","Ich war krank, deshalb blieb ich zu Hause.","I was ill, that's why I stayed home."],
+    ["core","conn",null,"beziehungsweise",null,"respectively / or rather","Er kommt am Montag beziehungsweise Dienstag.","He's coming on Monday or rather Tuesday."],
+    ["core","conn",null,"einerseits … andererseits",null,"on one hand … on the other","Einerseits will ich, andererseits habe ich Angst.","On one hand I want to, on the other I'm afraid."],
+    ["core","conn",null,"je … desto",null,"the … the …","Je mehr ich lerne, desto besser verstehe ich.","The more I learn, the better I understand."],
+    ["core","conn",null,"sobald",null,"as soon as","Ich rufe an, sobald ich ankomme.","I'll call as soon as I arrive."],
+    ["core","conn",null,"falls",null,"in case / if","Falls es regnet, bleiben wir zu Hause.","In case it rains, we'll stay home."],
+    ["core","conn",null,"vorausgesetzt, dass",null,"provided that","Wir kommen, vorausgesetzt, dass wir Zeit haben.","We'll come, provided that we have time."],
+
+    ["arbeit","noun","der","Lebenslauf","¨-e","CV / résumé","Schicken Sie mir bitte Ihren Lebenslauf.","Please send me your CV."],
+    ["arbeit","noun","das","Vorstellungsgespräch","-e","job interview","Ich habe morgen ein Vorstellungsgespräch.","I have a job interview tomorrow."],
+    ["arbeit","noun","die","Bewerbung","-en","job application","Meine Bewerbung wurde angenommen.","My application was accepted."],
+    ["arbeit","noun","die","Stelle","-n","position / job","Sie sucht eine neue Stelle.","She is looking for a new job."],
+    ["arbeit","noun","der","Vertrag","¨-e","contract","Ich habe den Vertrag unterschrieben.","I signed the contract."],
+    ["arbeit","noun","das","Gehalt","¨-er","salary","Das Gehalt ist verhandelbar.","The salary is negotiable."],
+    ["arbeit","noun","die","Besprechung","-en","meeting","Die Besprechung dauert eine Stunde.","The meeting lasts an hour."],
+    ["arbeit","noun","die","Frist","-en","deadline","Die Frist läuft am Freitag ab.","The deadline is Friday."],
+    ["arbeit","noun","die","Abteilung","-en","department","Sie arbeitet in der Marketing-Abteilung.","She works in the marketing department."],
+    ["arbeit","noun","der","Termin","-e","appointment","Ich habe einen Termin um drei.","I have an appointment at three."],
+    ["arbeit","noun","die","Überstunde","-n","overtime hour","Ich mache diese Woche viele Überstunden.","I'm doing a lot of overtime this week."],
+    ["arbeit","noun","der","Feierabend","-e","end of the workday","Schönen Feierabend!","Have a nice evening after work!"],
+    ["arbeit","noun","die","Gehaltserhöhung","-en","pay raise","Er hat um eine Gehaltserhöhung gebeten.","He asked for a pay raise."],
+    ["arbeit","noun","die","Kündigung","-en","termination / resignation","Sie hat ihre Kündigung eingereicht.","She handed in her resignation."],
+    ["arbeit","noun","die","Fähigkeit","-en","skill / ability","Teamarbeit ist eine wichtige Fähigkeit.","Teamwork is an important skill."],
+    ["arbeit","noun","der","Arbeitgeber","-","employer","Mein Arbeitgeber ist sehr fair.","My employer is very fair."],
+    ["arbeit","noun","das","Praktikum","Praktika","internship","Sie macht ein Praktikum bei einer Bank.","She is doing an internship at a bank."],
+    ["arbeit","verb",null,"einstellen",null,"to hire / employ","Die Firma stellt neue Leute ein.","The company is hiring new people."],
+
+    ["meinung","other",null,"meiner Meinung nach",null,"in my opinion","Meiner Meinung nach ist das falsch.","In my opinion that is wrong."],
+    ["meinung","other",null,"ich bin der Ansicht, dass",null,"I take the view that","Ich bin der Ansicht, dass wir handeln müssen.","I take the view that we must act."],
+    ["meinung","other",null,"es kommt darauf an",null,"it depends","Es kommt darauf an, wie viel Zeit wir haben.","It depends on how much time we have."],
+    ["meinung","other",null,"das sehe ich anders",null,"I see it differently","Das sehe ich ein bisschen anders.","I see it a bit differently."],
+    ["meinung","other",null,"offen gesagt",null,"frankly / to be honest","Offen gesagt gefällt mir das nicht.","Frankly, I don't like it."],
+    ["meinung","other",null,"im Großen und Ganzen",null,"by and large / overall","Im Großen und Ganzen war es gut.","By and large it was good."],
+    ["meinung","other",null,"da stimme ich dir zu",null,"I agree with you there","Da stimme ich dir völlig zu.","I completely agree with you there."],
+    ["meinung","noun","die","Ansicht","-en","view / opinion","Wir haben unterschiedliche Ansichten.","We have differing views."],
+    ["meinung","noun","der","Standpunkt","-e","point of view","Ich verstehe deinen Standpunkt.","I understand your point of view."],
+    ["meinung","noun","das","Argument","-e","argument","Das ist ein überzeugendes Argument.","That is a convincing argument."],
+    ["meinung","noun","der","Zweifel","-","doubt","Ich habe da so meine Zweifel.","I have my doubts about that."],
+    ["meinung","noun","die","Überzeugung","-en","conviction / belief","Er handelt aus Überzeugung.","He acts out of conviction."],
+    ["meinung","verb",null,"bezweifeln",null,"to doubt","Ich bezweifle, dass er kommt.","I doubt that he'll come."],
+    ["meinung","verb",null,"zustimmen",null,"to agree / consent","Alle haben dem Vorschlag zugestimmt.","Everyone agreed to the proposal."],
+    ["meinung","verb",null,"ablehnen",null,"to reject / decline","Sie lehnte die Idee ab.","She rejected the idea."],
+    ["meinung","verb",null,"überzeugen",null,"to convince","Er hat mich überzeugt.","He convinced me."],
+    ["meinung","verb",null,"behaupten",null,"to claim / assert","Er behauptet, alles zu wissen.","He claims to know everything."],
+    ["meinung","verb",null,"einschätzen",null,"to assess / judge","Wie schätzt du die Lage ein?","How do you assess the situation?"],
+
+    ["advanced","noun","die","Herausforderung","-en","challenge","Das ist eine große Herausforderung.","That is a big challenge."],
+    ["advanced","noun","die","Nachhaltigkeit","—","sustainability","Nachhaltigkeit ist ihm sehr wichtig.","Sustainability is very important to him."],
+    ["advanced","noun","der","Zusammenhalt","—","cohesion / solidarity","Der Zusammenhalt im Team ist stark.","The cohesion in the team is strong."],
+    ["advanced","noun","die","Auseinandersetzung","-en","dispute / engagement (with)","Eine kritische Auseinandersetzung mit dem Thema.","A critical engagement with the topic."],
+    ["advanced","noun","das","Bewusstsein","—","awareness / consciousness","Das Bewusstsein für Umweltschutz wächst.","Awareness of environmental protection is growing."],
+    ["advanced","noun","der","Widerspruch","¨-e","contradiction","Das ist ein klarer Widerspruch.","That is a clear contradiction."],
+    ["advanced","noun","die","Voreingenommenheit","—","bias / prejudice","Man sollte Voreingenommenheit vermeiden.","One should avoid bias."],
+    ["advanced","noun","die","Selbstständigkeit","—","independence / self-employment","Er wagte den Schritt in die Selbstständigkeit.","He took the leap into self-employment."],
+    ["advanced","verb",null,"bewältigen",null,"to cope with / manage","Sie hat die Krise gut bewältigt.","She managed the crisis well."],
+    ["advanced","verb",null,"hinterfragen",null,"to question / scrutinize","Man sollte alles kritisch hinterfragen.","One should critically question everything."],
+    ["advanced","verb",null,"verwirklichen",null,"to realize / make happen","Er hat seinen Traum verwirklicht.","He made his dream come true."],
+    ["advanced","verb",null,"sich auseinandersetzen (mit)",null,"to engage deeply with","Ich habe mich mit dem Thema auseinandergesetzt.","I engaged deeply with the topic."],
+    ["advanced","verb",null,"beitragen (zu)",null,"to contribute to","Jeder kann zum Klimaschutz beitragen.","Everyone can contribute to climate protection."],
+    ["advanced","verb",null,"gewährleisten",null,"to guarantee / ensure","Wir gewährleisten die Qualität.","We guarantee the quality."],
+    ["advanced","verb",null,"nachvollziehen",null,"to comprehend / relate to","Ich kann deine Entscheidung nachvollziehen.","I can understand your decision."],
+    ["advanced","verb",null,"sich durchsetzen",null,"to prevail / assert oneself","Die neue Technologie hat sich durchgesetzt.","The new technology has prevailed."],
+    ["advanced","adj",null,"nachvollziehbar",null,"understandable / comprehensible","Deine Reaktion ist völlig nachvollziehbar.","Your reaction is completely understandable."],
+    ["advanced","adj",null,"umstritten",null,"controversial / disputed","Das ist ein umstrittenes Thema.","That is a controversial topic."],
+    ["advanced","adj",null,"maßgeblich",null,"decisive / significant(ly)","Sie war maßgeblich am Erfolg beteiligt.","She was significantly involved in the success."],
+    ["advanced","adj",null,"unerlässlich",null,"indispensable / essential","Regelmäßige Übung ist unerlässlich.","Regular practice is essential."],
+    ["advanced","adj",null,"vorübergehend",null,"temporary / temporarily","Die Straße ist vorübergehend gesperrt.","The road is temporarily closed."],
+    ["advanced","adj",null,"aufschlussreich",null,"revealing / informative","Das Gespräch war sehr aufschlussreich.","The conversation was very revealing."],
+
+    ["a1","noun","das","Haus","¨-er","house","Das Haus ist sehr groß.","The house is very big."],
+    ["a1","noun","die","Frau","-en","woman / wife","Die Frau heißt Anna.","The woman's name is Anna."],
+    ["a1","noun","der","Mann","¨-er","man / husband","Der Mann ist mein Vater.","The man is my father."],
+    ["a1","noun","das","Kind","-er","child","Das Kind spielt im Garten.","The child is playing in the garden."],
+    ["a1","noun","der","Freund","-e","friend","Er ist mein bester Freund.","He is my best friend."],
+    ["a1","noun","die","Familie","-n","family","Meine Familie ist groß.","My family is big."],
+    ["a1","noun","das","Wasser","—","water","Ich trinke gern Wasser.","I like drinking water."],
+    ["a1","noun","das","Brot","-e","bread","Ich kaufe Brot beim Bäcker.","I buy bread at the bakery."],
+    ["a1","noun","der","Tag","-e","day","Heute ist ein schöner Tag.","Today is a nice day."],
+    ["a1","noun","die","Nacht","¨-e","night","Ich wünsche dir eine gute Nacht.","I wish you a good night."],
+    ["a1","noun","die","Zeit","-en","time","Ich habe heute keine Zeit.","I don't have time today."],
+    ["a1","noun","das","Jahr","-e","year","Ich lerne seit einem Jahr Deutsch.","I've been learning German for a year."],
+    ["a1","noun","die","Schule","-n","school","Die Kinder gehen zur Schule.","The children go to school."],
+    ["a1","noun","die","Stadt","¨-e","city / town","Berlin ist eine große Stadt.","Berlin is a big city."],
+    ["a1","noun","das","Auto","-s","car","Mein Auto ist rot.","My car is red."],
+    ["a1","noun","der","Tisch","-e","table","Das Essen steht auf dem Tisch.","The food is on the table."],
+    ["a1","noun","die","Tür","-en","door","Mach bitte die Tür zu.","Please close the door."],
+    ["a1","noun","das","Buch","¨-er","book","Ich lese gerade ein gutes Buch.","I'm reading a good book right now."],
+    ["a1","verb",null,"sein",null,"to be","Ich bin heute sehr müde.","I'm very tired today."],
+    ["a1","verb",null,"haben",null,"to have","Ich habe einen kleinen Hund.","I have a small dog."],
+    ["a1","verb",null,"machen",null,"to do / make","Was machst du am Wochenende?","What are you doing at the weekend?"],
+    ["a1","verb",null,"gehen",null,"to go","Ich gehe jetzt nach Hause.","I'm going home now."],
+    ["a1","verb",null,"kommen",null,"to come","Woher kommst du?","Where do you come from?"],
+    ["a1","verb",null,"essen",null,"to eat","Zum Frühstück esse ich ein Brot.","For breakfast I eat some bread."],
+    ["a1","verb",null,"trinken",null,"to drink","Trinkst du morgens Kaffee?","Do you drink coffee in the morning?"],
+    ["a1","verb",null,"wohnen",null,"to live / reside","Ich wohne in einer kleinen Wohnung.","I live in a small apartment."],
+    ["a1","verb",null,"arbeiten",null,"to work","Sie arbeitet in einem Büro.","She works in an office."],
+    ["a1","verb",null,"sprechen",null,"to speak","Sprichst du Deutsch?","Do you speak German?"],
+    ["a1","verb",null,"kaufen",null,"to buy","Ich kaufe ein Geschenk für sie.","I'm buying a present for her."],
+    ["a1","verb",null,"heißen",null,"to be called","Wie heißt du?","What's your name?"],
+    ["a1","verb",null,"verstehen",null,"to understand","Ich verstehe das leider nicht.","Unfortunately I don't understand that."],
+    ["a1","verb",null,"lernen",null,"to learn","Ich lerne jeden Tag Deutsch.","I learn German every day."],
+    ["a1","adj",null,"gut",null,"good","Das Essen schmeckt sehr gut.","The food tastes very good."],
+    ["a1","adj",null,"groß",null,"big / tall","Sein Bruder ist sehr groß.","His brother is very tall."],
+    ["a1","adj",null,"klein",null,"small","Die Wohnung ist ziemlich klein.","The apartment is quite small."],
+    ["a1","adj",null,"neu",null,"new","Ich habe ein neues Handy.","I have a new phone."],
+    ["a1","adj",null,"alt",null,"old","Mein Auto ist schon alt.","My car is already old."],
+    ["a1","adj",null,"schön",null,"beautiful / nice","Das Wetter ist heute schön.","The weather is nice today."],
+    ["a1","q",null,"wie",null,"how","Wie geht es dir?","How are you?"],
+    ["a1","q",null,"was",null,"what","Was ist das?","What is that?"],
+    ["a1","q",null,"wo",null,"where","Wo wohnst du?","Where do you live?"],
+    ["a1","q",null,"wer",null,"who","Wer ist das denn?","Who is that?"],
+
+    ["a2","noun","die","Wohnung","-en","apartment / flat","Ich suche eine neue Wohnung.","I'm looking for a new apartment."],
+    ["a2","noun","die","Arbeit","-en","work / job","Ich fahre mit dem Bus zur Arbeit.","I take the bus to work."],
+    ["a2","noun","das","Wetter","—","weather","Wie ist das Wetter heute?","How is the weather today?"],
+    ["a2","noun","der","Zug","¨-e","train","Der Zug hat zehn Minuten Verspätung.","The train is ten minutes late."],
+    ["a2","noun","die","Reise","-n","trip / journey","Wir planen eine Reise nach Italien.","We're planning a trip to Italy."],
+    ["a2","noun","der","Urlaub","-e","vacation / holiday","Ich fahre im Sommer in den Urlaub.","I'm going on vacation in the summer."],
+    ["a2","noun","das","Geld","—","money","Ich habe nicht genug Geld dabei.","I don't have enough money on me."],
+    ["a2","noun","die","Krankheit","-en","illness","Er ist wegen einer Krankheit zu Hause.","He's at home because of an illness."],
+    ["a2","noun","der","Arzt","¨-e","doctor","Ich muss heute zum Arzt gehen.","I have to go to the doctor today."],
+    ["a2","noun","das","Krankenhaus","¨-er","hospital","Sie arbeitet in einem Krankenhaus.","She works in a hospital."],
+    ["a2","noun","die","Rechnung","-en","bill / invoice","Können wir bitte die Rechnung haben?","Can we have the bill, please?"],
+    ["a2","noun","das","Geschäft","-e","shop / business","Das Geschäft ist sonntags geschlossen.","The shop is closed on Sundays."],
+    ["a2","noun","die","Nachricht","-en","message / news","Ich habe dir eine Nachricht geschickt.","I sent you a message."],
+    ["a2","noun","die","Gesundheit","—","health","Gesundheit ist das Wichtigste.","Health is the most important thing."],
+    ["a2","noun","das","Gefühl","-e","feeling","Ich habe ein gutes Gefühl dabei.","I have a good feeling about it."],
+    ["a2","noun","der","Nachbar","-n","neighbour","Mein Nachbar ist sehr freundlich.","My neighbour is very friendly."],
+    ["a2","noun","das","Rezept","-e","recipe / prescription","Ich brauche ein Rezept vom Arzt.","I need a prescription from the doctor."],
+    ["a2","noun","die","Verspätung","-en","delay","Der Bus hatte heute Verspätung.","The bus was late today."],
+    ["a2","verb",null,"anrufen",null,"to call (phone)","Ich rufe dich morgen an.","I'll call you tomorrow."],
+    ["a2","verb",null,"einladen",null,"to invite","Ich lade dich zu meiner Party ein.","I'm inviting you to my party."],
+    ["a2","verb",null,"helfen",null,"to help","Kannst du mir bitte helfen?","Can you help me, please?"],
+    ["a2","verb",null,"brauchen",null,"to need","Ich brauche deine Hilfe.","I need your help."],
+    ["a2","verb",null,"bekommen",null,"to get / receive","Ich habe heute ein Paket bekommen.","I received a package today."],
+    ["a2","verb",null,"bezahlen",null,"to pay","Ich möchte bitte bezahlen.","I'd like to pay, please."],
+    ["a2","verb",null,"bleiben",null,"to stay","Ich bleibe heute lieber zu Hause.","I'd rather stay home today."],
+    ["a2","verb",null,"treffen",null,"to meet","Wir treffen uns um acht Uhr.","We're meeting at eight o'clock."],
+    ["a2","verb",null,"vergessen",null,"to forget","Ich habe meinen Schlüssel vergessen.","I forgot my key."],
+    ["a2","verb",null,"mitbringen",null,"to bring along","Soll ich etwas zu essen mitbringen?","Should I bring something to eat?"],
+    ["a2","verb",null,"erklären",null,"to explain","Kannst du mir das erklären?","Can you explain that to me?"],
+    ["a2","verb",null,"wiederholen",null,"to repeat","Können Sie das bitte wiederholen?","Could you please repeat that?"],
+    ["a2","verb",null,"sich freuen (auf)",null,"to look forward to","Ich freue mich auf das Wochenende.","I'm looking forward to the weekend."],
+    ["a2","verb",null,"dauern",null,"to last / take (time)","Wie lange dauert der Film?","How long does the film last?"],
+    ["a2","adj",null,"wichtig",null,"important","Das ist mir sehr wichtig.","That's very important to me."],
+    ["a2","adj",null,"richtig",null,"correct / right","Deine Antwort ist richtig.","Your answer is correct."],
+    ["a2","adj",null,"falsch",null,"wrong / false","Das ist die falsche Adresse.","That's the wrong address."],
+    ["a2","adj",null,"billig",null,"cheap","Das Hotel war ziemlich billig.","The hotel was quite cheap."],
+    ["a2","adj",null,"teuer",null,"expensive","Das Auto ist mir zu teuer.","The car is too expensive for me."],
+    ["a2","adj",null,"müde",null,"tired","Nach der Arbeit bin ich immer müde.","After work I'm always tired."],
+    ["a2","adj",null,"glücklich",null,"happy","Sie ist mit ihrem Job glücklich.","She's happy with her job."],
+    ["a2","adj",null,"schwierig",null,"difficult","Die Prüfung war sehr schwierig.","The exam was very difficult."],
+    ["a2","conn",null,"weil",null,"because","Ich bleibe zu Hause, weil ich krank bin.","I'm staying home because I'm sick."],
+    ["a2","conn",null,"wenn",null,"when / if","Wenn ich Zeit habe, rufe ich dich an.","When I have time, I'll call you."],
+    ["a2","conn",null,"dass",null,"that","Ich glaube, dass du recht hast.","I think that you're right."]
+  ];
+
+  /* Conjugation verbs: praes = ich,du,er,wir,ihr,sie ; praet = ich/er (identical) */
+  var VERBS=[
+    {inf:"sein",en:"to be",aux:"sein",pp:"gewesen",praes:{ich:"bin",du:"bist",er:"ist",wir:"sind",ihr:"seid",sie:"sind"},praet:"war"},
+    {inf:"haben",en:"to have",aux:"haben",pp:"gehabt",praes:{ich:"habe",du:"hast",er:"hat",wir:"haben",ihr:"habt",sie:"haben"},praet:"hatte"},
+    {inf:"werden",en:"to become",aux:"sein",pp:"geworden",praes:{ich:"werde",du:"wirst",er:"wird",wir:"werden",ihr:"werdet",sie:"werden"},praet:"wurde"},
+    {inf:"gehen",en:"to go",aux:"sein",pp:"gegangen",praes:{ich:"gehe",du:"gehst",er:"geht",wir:"gehen",ihr:"geht",sie:"gehen"},praet:"ging"},
+    {inf:"kommen",en:"to come",aux:"sein",pp:"gekommen",praes:{ich:"komme",du:"kommst",er:"kommt",wir:"kommen",ihr:"kommt",sie:"kommen"},praet:"kam"},
+    {inf:"fahren",en:"to drive / go",aux:"sein",pp:"gefahren",praes:{ich:"fahre",du:"fährst",er:"fährt",wir:"fahren",ihr:"fahrt",sie:"fahren"},praet:"fuhr"},
+    {inf:"essen",en:"to eat",aux:"haben",pp:"gegessen",praes:{ich:"esse",du:"isst",er:"isst",wir:"essen",ihr:"esst",sie:"essen"},praet:"aß"},
+    {inf:"sehen",en:"to see",aux:"haben",pp:"gesehen",praes:{ich:"sehe",du:"siehst",er:"sieht",wir:"sehen",ihr:"seht",sie:"sehen"},praet:"sah"},
+    {inf:"sprechen",en:"to speak",aux:"haben",pp:"gesprochen",praes:{ich:"spreche",du:"sprichst",er:"spricht",wir:"sprechen",ihr:"sprecht",sie:"sprechen"},praet:"sprach"},
+    {inf:"nehmen",en:"to take",aux:"haben",pp:"genommen",praes:{ich:"nehme",du:"nimmst",er:"nimmt",wir:"nehmen",ihr:"nehmt",sie:"nehmen"},praet:"nahm"},
+    {inf:"geben",en:"to give",aux:"haben",pp:"gegeben",praes:{ich:"gebe",du:"gibst",er:"gibt",wir:"geben",ihr:"gebt",sie:"geben"},praet:"gab"},
+    {inf:"finden",en:"to find",aux:"haben",pp:"gefunden",praes:{ich:"finde",du:"findest",er:"findet",wir:"finden",ihr:"findet",sie:"finden"},praet:"fand"},
+    {inf:"bleiben",en:"to stay",aux:"sein",pp:"geblieben",praes:{ich:"bleibe",du:"bleibst",er:"bleibt",wir:"bleiben",ihr:"bleibt",sie:"bleiben"},praet:"blieb"},
+    {inf:"lesen",en:"to read",aux:"haben",pp:"gelesen",praes:{ich:"lese",du:"liest",er:"liest",wir:"lesen",ihr:"lest",sie:"lesen"},praet:"las"},
+    {inf:"wissen",en:"to know",aux:"haben",pp:"gewusst",praes:{ich:"weiß",du:"weißt",er:"weiß",wir:"wissen",ihr:"wisst",sie:"wissen"},praet:"wusste"},
+    {inf:"wollen",en:"to want",aux:"haben",pp:"gewollt",praes:{ich:"will",du:"willst",er:"will",wir:"wollen",ihr:"wollt",sie:"wollen"},praet:"wollte"},
+    {inf:"können",en:"to be able to / can",aux:"haben",pp:"gekonnt",praes:{ich:"kann",du:"kannst",er:"kann",wir:"können",ihr:"könnt",sie:"können"},praet:"konnte"},
+    {inf:"müssen",en:"to have to / must",aux:"haben",pp:"gemusst",praes:{ich:"muss",du:"musst",er:"muss",wir:"müssen",ihr:"müsst",sie:"müssen"},praet:"musste"},
+    {inf:"tun",en:"to do",aux:"haben",pp:"getan",praes:{ich:"tue",du:"tust",er:"tut",wir:"tun",ihr:"tut",sie:"tun"},praet:"tat"},
+    {inf:"bringen",en:"to bring",aux:"haben",pp:"gebracht",praes:{ich:"bringe",du:"bringst",er:"bringt",wir:"bringen",ihr:"bringt",sie:"bringen"},praet:"brachte"},
+    {inf:"denken",en:"to think",aux:"haben",pp:"gedacht",praes:{ich:"denke",du:"denkst",er:"denkt",wir:"denken",ihr:"denkt",sie:"denken"},praet:"dachte"},
+    {inf:"laufen",en:"to run / walk",aux:"sein",pp:"gelaufen",praes:{ich:"laufe",du:"läufst",er:"läuft",wir:"laufen",ihr:"lauft",sie:"laufen"},praet:"lief"},
+    {inf:"helfen",en:"to help",aux:"haben",pp:"geholfen",praes:{ich:"helfe",du:"hilfst",er:"hilft",wir:"helfen",ihr:"helft",sie:"helfen"},praet:"half"},
+    {inf:"lassen",en:"to let / leave",aux:"haben",pp:"gelassen",praes:{ich:"lasse",du:"lässt",er:"lässt",wir:"lassen",ihr:"lasst",sie:"lassen"},praet:"ließ"}
+  ];
+
+  function seedCard(row,i){
+    return { id:"s"+i, deck:row[0], pos:row[1], gender:row[2], de:row[3], plural:row[4],
+      en:row[5], exDe:row[6], exEn:row[7], ef:2.5, interval:0, reps:0, due:Date.now(), created:Date.now() };
+  }
+  function buildSeed(){ return SEED.map(seedCard); }
+
+  var state, ui={ tab:"study", pos:"noun", deckFilter:"all", queue:[], current:null, shown:false, doneToday:0, ahead:false,
+                  verb:null, vPrompt:null, vShown:false, vDone:0 };
+
+  /* ---------- Persistence + migration ---------- */
+  // Add any starter cards not already present (by deck+word) — lets existing
+  // users receive newly-added decks (e.g. A1/A2) without losing progress.
+  function mergeSeed(){
+    var have={}; state.cards.forEach(function(c){ have[(c.deck||"")+"|"+c.de]=true; });
+    var n=0; buildSeed().forEach(function(sc){ if(!have[(sc.deck||"")+"|"+sc.de]){ state.cards.push(sc); n++; } });
+    return n;
+  }
+  function load(){
+    var loaded=false;
+    try{ var raw=localStorage.getItem(KEY2); if(raw){ state=JSON.parse(raw); if(state&&state.cards) loaded=true; } }catch(e){}
+    if(!loaded){
+      state={ v:2, cards:buildSeed(), streak:0, lastDay:null };
+      try{
+        var old=localStorage.getItem(KEY1);
+        if(old){
+          var o=JSON.parse(old);
+          if(o&&o.cards){
+            var byId={}; state.cards.forEach(function(c){byId[c.id]=c;});
+            o.cards.forEach(function(oc){
+              if(oc.id && oc.id.charAt(0)==="u"){ if(!oc.deck) oc.deck="mine"; state.cards.push(oc); }
+              else if(byId[oc.id]){ var c=byId[oc.id]; c.ef=oc.ef; c.interval=oc.interval; c.reps=oc.reps; c.due=oc.due; }
+            });
+            state.streak=o.streak||0; state.lastDay=o.lastDay||null;
+          }
+        }
+      }catch(e){}
+    }
+    mergeSeed();
+    save();
+  }
+  function save(){ try{ localStorage.setItem(KEY2, JSON.stringify(state)); }catch(e){} }
+
+  /* ---------- Audio (Web Speech API) ---------- */
+  var voices=[], hasTTS=("speechSynthesis" in window);
+  function loadVoices(){ if(hasTTS){ try{ voices=speechSynthesis.getVoices()||[]; }catch(e){} } }
+  if(hasTTS){ loadVoices(); try{ speechSynthesis.onvoiceschanged=loadVoices; }catch(e){} }
+  function speak(text){
+    if(!hasTTS||!text) return;
+    try{
+      speechSynthesis.cancel();
+      var u=new SpeechSynthesisUtterance(text.replace(/…|\/|¨|\(|\)/g," "));
+      u.lang="de-DE"; u.rate=0.92;
+      var v=null;
+      for(var i=0;i<voices.length;i++){ if(voices[i].lang&&voices[i].lang.toLowerCase().indexOf("de")===0){ v=voices[i]; break; } }
+      if(v) u.voice=v;
+      speechSynthesis.speak(u);
+    }catch(e){}
+  }
+
+  /* ---------- Dates / scheduling ---------- */
+  function endOfToday(){ var d=new Date(); d.setHours(23,59,59,999); return d.getTime(); }
+  function todayStr(){ var d=new Date(); return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate(); }
+  function isDue(c){ return c.due<=endOfToday(); }
+  function fmtDays(d){
+    if(d<1) return Math.max(1,Math.round(d*24*60))+" min";
+    if(d<30) return d+" d";
+    if(d<365) return Math.round(d/30)+" mo";
+    return (d/365).toFixed(1)+" y";
+  }
+  function next(card,grade){
+    var ef=card.ef||2.5, iv=card.interval||0, reps=card.reps||0, due, label;
+    if(grade==="again"){ ef=Math.max(1.3,ef-0.2); return {ef:ef,interval:0,reps:0,due:Date.now()+60000,label:"1 min"}; }
+    if(grade==="hard"){ ef=Math.max(1.3,ef-0.15); iv=reps===0?1:Math.max(1,Math.round(iv*1.2)); }
+    else if(grade==="good"){ iv=reps===0?1:reps===1?6:Math.round(iv*ef); }
+    else { ef=ef+0.1; iv=reps===0?4:reps===1?8:Math.round(iv*ef*1.3); }
+    iv=Math.max(1,iv); reps=reps+1; due=Date.now()+iv*DAY;
+    return {ef:ef,interval:iv,reps:reps,due:due,label:fmtDays(iv)};
+  }
+
+  /* ---------- Helpers ---------- */
+  function esc(s){ return String(s).replace(/[&<>]/g,function(m){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[m];}); }
+  function attr(s){ return esc(s).replace(/"/g,"&quot;"); }
+  function spk(text,cls){ return '<button class="spk '+(cls||"")+'" data-say="'+attr(text)+'" aria-label="Play pronunciation">🔊</button>'; }
+  var POSLABEL={noun:"Noun",verb:"Verb",adj:"Adjective",conn:"Connector",other:"Phrase",q:"Question word"};
+
+  /* ---------- Stats ---------- */
+  function refreshStats(){
+    var due=state.cards.filter(isDue).length;
+    var learned=state.cards.filter(function(c){return c.reps>0;}).length;
+    document.getElementById("s-due").textContent=due;
+    document.getElementById("s-learned").firstChild.textContent=learned;
+    document.getElementById("s-total").textContent="/"+state.cards.length;
+    document.getElementById("s-streak").firstChild.textContent=state.streak||0;
+  }
+
+  /* ---------- Deck filter dropdown ---------- */
+  function fillDeckFilter(){
+    var sel=document.getElementById("deck-filter");
+    var present={}; state.cards.forEach(function(c){present[c.deck||"mine"]=true;});
+    var opts='<option value="all">All decks</option>';
+    DECKS.forEach(function(d){ if(present[d.id]){ var n=state.cards.filter(function(c){return c.deck===d.id;}).length; opts+='<option value="'+d.id+'">'+esc(d.name)+' ('+n+')</option>'; } });
+    sel.innerHTML=opts;
+    sel.value=ui.deckFilter;
+  }
+  function fillAddDeck(){
+    var sel=document.getElementById("f-deck");
+    sel.innerHTML=DECKS.map(function(d){return '<option value="'+d.id+'"'+(d.id==="mine"?" selected":"")+'>'+esc(d.name)+'</option>';}).join("");
+  }
+
+  /* ---------- Vocab study ---------- */
+  function buildQueue(){
+    var pool=state.cards.filter(function(c){
+      if(ui.deckFilter!=="all" && (c.deck||"mine")!==ui.deckFilter) return false;
+      return ui.ahead ? true : isDue(c);
+    });
+    pool.sort(function(a,b){return a.due-b.due;});
+    if(ui.ahead) pool=pool.slice(0,20);
+    ui.queue=pool;
+  }
+  function studyRender(){
+    var live=document.getElementById("study-live"), empty=document.getElementById("study-empty");
+    buildQueue(); ui.current=ui.queue[0]||null;
+    if(!ui.current){ live.classList.add("hidden"); empty.classList.remove("hidden"); renderEmpty(empty); return; }
+    live.classList.remove("hidden"); empty.classList.add("hidden"); ui.shown=false;
+    var total=ui.queue.length+ui.doneToday;
+    document.getElementById("sess-count").textContent=ui.queue.length+" to review";
+    document.getElementById("sess-done").textContent=ui.doneToday+" done";
+    document.getElementById("sess-fill").style.width=total?(ui.doneToday/total*100)+"%":"0%";
+    renderFront(ui.current);
+    document.getElementById("grades").classList.add("hidden");
+    document.getElementById("flip-hint").classList.remove("hidden");
+  }
+  function renderFront(c){
+    var fc=document.getElementById("flashcard"), h="";
+    h+='<div class="pos-kicker"><span>'+(POSLABEL[c.pos]||"")+'</span><span class="deckchip">'+esc(DECKNAME[c.deck]||"My cards")+'</span></div>';
+    h+='<div class="word">'+esc(c.de)+'</div>';
+    h+='<div class="center-audio">'+spk(c.de)+'</div>';
+    if(c.pos==="noun"){ h+='<div class="genderhint"><span class="q"><span>der</span><span>die</span><span>das</span></span></div>'; }
+    else { h+='<div class="genderhint" style="opacity:0">.</div>'; }
+    fc.innerHTML=h;
+  }
+  function renderBack(c){
+    var fc=document.getElementById("flashcard"), h="";
+    h+='<div class="pos-kicker"><span>'+(POSLABEL[c.pos]||"")+'</span><span class="deckchip">'+esc(DECKNAME[c.deck]||"My cards")+'</span></div>';
+    if(c.pos==="noun"){
+      var pl=c.plural?(c.plural==="—"?"no plural":"pl. "+esc(c.plural)):"";
+      h+='<div class="word"><span class="article '+c.gender+'">'+c.gender+'</span> '+esc(c.de)+'<span class="plural">'+pl+'</span></div>';
+    } else { h+='<div class="word">'+esc(c.de)+'</div>'; }
+    h+='<div class="center-audio">'+spk((c.pos==="noun"&&c.gender?c.gender+" ":"")+c.de)+'</div>';
+    h+='<div class="reveal"><div class="meaning">'+esc(c.en)+'</div>';
+    if(c.exDe){
+      h+='<div class="example"><div class="ex-main"><div class="de">'+esc(c.exDe)+'</div>'+
+         (c.exEn?'<div class="en">'+esc(c.exEn)+'</div>':'')+'</div>'+spk(c.exDe,"sm")+'</div>';
+    }
+    h+='</div>';
+    fc.innerHTML=h;
+  }
+  function reveal(){
+    if(ui.shown||!ui.current) return; ui.shown=true; renderBack(ui.current);
+    var g=document.getElementById("grades");
+    var grades=[["again","Again"],["hard","Hard"],["good","Good"],["easy","Easy"]];
+    g.innerHTML=grades.map(function(x){ var p=next(ui.current,x[0]); return '<button class="grade" data-g="'+x[0]+'"><span class="g">'+x[1]+'</span><span class="iv">'+p.label+'</span></button>'; }).join("");
+    g.classList.remove("hidden"); document.getElementById("flip-hint").classList.add("hidden");
+  }
+  function grade(g){
+    if(!ui.shown||!ui.current) return;
+    var c=ui.current, r=next(c,g); c.ef=r.ef; c.interval=r.interval; c.reps=r.reps; c.due=r.due;
+    var t=todayStr();
+    if(state.lastDay!==t){ var y=new Date(Date.now()-DAY); var ys=y.getFullYear()+"-"+(y.getMonth()+1)+"-"+y.getDate();
+      state.streak=(state.lastDay===ys)?(state.streak||0)+1:1; state.lastDay=t; }
+    if(g!=="again") ui.doneToday++;
+    save(); refreshStats(); studyRender();
+  }
+  function renderEmpty(el){
+    var up=state.cards.filter(function(c){return !isDue(c);}).sort(function(a,b){return a.due-b.due;})[0];
+    var when=up?"Next card is due "+relTime(up.due):"";
+    var filt = ui.deckFilter!=="all" ? " in "+esc(DECKNAME[ui.deckFilter]) : "";
+    el.innerHTML='<div class="em">✓</div><h2>'+(ui.doneToday?"Alles erledigt!":"Nichts fällig"+filt)+'</h2>'+
+      '<p>'+(ui.doneToday?"You reviewed "+ui.doneToday+" card"+(ui.doneToday>1?"s":"")+" today. ":"")+(when?when+". ":"")+'Come back later, or get ahead now.</p>'+
+      '<div style="display:flex;gap:9px;margin-top:8px;flex-wrap:wrap;justify-content:center">'+
+      '<button class="btn" id="btn-ahead">Study ahead</button>'+
+      '<button class="btn ghost" id="btn-goadd">Add a card</button></div>';
+    document.getElementById("btn-ahead").onclick=function(){ ui.ahead=true; studyRender(); };
+    document.getElementById("btn-goadd").onclick=function(){ setTab("add"); };
+  }
+  function relTime(ts){ var d=ts-Date.now(); if(d<=0) return "now"; if(d<DAY) return "in "+Math.max(1,Math.round(d/3600000))+" h"; return "in "+Math.round(d/DAY)+" d"; }
+
+  /* ---------- Verb conjugation drill ---------- */
+  var PLABEL={ich:"ich",du:"du",er:"er/sie/es",ihr:"ihr"};
+  function pickPrompt(){
+    var r=Math.random();
+    if(r<0.6){ var ps=["ich","du","er","ihr"]; return {tense:"Präsens",person:ps[Math.floor(Math.random()*ps.length)]}; }
+    if(r<0.85) return {tense:"Perfekt",person:Math.random()<0.5?"ich":"er"};
+    return {tense:"Präteritum",person:Math.random()<0.5?"ich":"er"};
+  }
+  function conjAnswer(v,pr){
+    if(pr.tense==="Präsens") return PLABEL[pr.person]+" "+v.praes[pr.person];
+    if(pr.tense==="Präteritum") return PLABEL[pr.person]+" "+v.praet;
+    var aux=v.aux==="sein"?{ich:"bin",er:"ist"}:{ich:"habe",er:"hat"};
+    return PLABEL[pr.person]+" "+aux[pr.person]+" "+v.pp;
+  }
+  function nextVerb(){
+    ui.verb=VERBS[Math.floor(Math.random()*VERBS.length)];
+    ui.vPrompt=pickPrompt(); ui.vShown=false;
+    document.getElementById("v-done").textContent=ui.vDone+" done";
+    document.getElementById("v-fill").style.width=Math.min(100,ui.vDone*4)+"%";
+    document.getElementById("v-count").textContent="Conjugation drill";
+    renderVerbFront();
+    document.getElementById("v-actions").classList.add("hidden");
+    document.getElementById("v-hint").classList.remove("hidden");
+  }
+  function renderVerbFront(){
+    var v=ui.verb, pr=ui.vPrompt, fc=document.getElementById("verbcard"), h="";
+    h+='<div class="pos-kicker"><span>Verb · conjugate</span><span class="deckchip">'+esc(v.aux)+' · Partizip II</span></div>';
+    h+='<div class="word" style="margin:22px 0 6px">'+esc(v.inf)+'</div>';
+    h+='<div style="text-align:center;color:var(--muted);font-size:14px;margin-bottom:6px">'+esc(v.en)+'</div>';
+    h+='<div class="prompt-line"><span class="pp"><span class="person">'+esc(PLABEL[pr.person])+'</span><span class="tense">'+esc(pr.tense)+'</span></span></div>';
+    fc.innerHTML=h;
+  }
+  function revealVerb(){
+    if(ui.vShown||!ui.verb) return; ui.vShown=true;
+    var v=ui.verb, pr=ui.vPrompt, ans=conjAnswer(v,pr), fc=document.getElementById("verbcard"), h="";
+    h+='<div class="pos-kicker"><span>'+esc(v.inf)+' — '+esc(v.en)+'</span><span class="deckchip">'+esc(pr.person==="er"?"er/sie/es":pr.person)+' · '+esc(pr.tense)+'</span></div>';
+    h+='<div class="answer"><div class="form">'+esc(ans)+'</div>'+spk(ans)+
+       '<div class="sub">Perfekt: '+esc((v.aux==="sein"?"ist":"hat")+" "+v.pp)+'  ·  Prät.: '+esc("er "+v.praet)+'</div></div>';
+    fc.innerHTML=h;
+    var a=document.getElementById("v-actions");
+    a.innerHTML='<button class="btn ghost" data-v="again">Nochmal üben</button><button class="btn" data-v="good">Konnte ich ✓</button>';
+    a.classList.remove("hidden"); document.getElementById("v-hint").classList.add("hidden");
+  }
+  function gradeVerb(g){ if(!ui.vShown) return; if(g==="good") ui.vDone++; nextVerb(); }
+
+  /* ---------- Deck browse ---------- */
+  function deckRender(){
+    var q=(document.getElementById("search").value||"").toLowerCase().trim();
+    var list=document.getElementById("deck-list");
+    var cards=state.cards.slice().sort(function(a,b){return a.de.localeCompare(b.de,"de");});
+    if(q) cards=cards.filter(function(c){return c.de.toLowerCase().indexOf(q)>=0||c.en.toLowerCase().indexOf(q)>=0;});
+    if(!cards.length){ list.innerHTML='<p style="color:var(--muted);text-align:center;padding:30px 0">No cards match “'+esc(q)+'”.</p>'; return; }
+    list.innerHTML=cards.map(function(c){
+      var g=c.pos==="noun"?c.gender:"";
+      var status=c.reps===0?'<span class="pill new">new</span>':(isDue(c)?'<span class="pill due">due</span>':'');
+      var iv=c.reps===0?"unseen":(isDue(c)?"due":"in "+fmtDays(Math.round((c.due-Date.now())/DAY)||1));
+      var disp=c.pos==="noun"&&c.gender?'<span class="article '+c.gender+'">'+c.gender+'</span> '+esc(c.de):esc(c.de);
+      return '<div class="cardrow" data-id="'+c.id+'"><div class="bar '+g+'"></div>'+
+        '<div class="main"><div class="de">'+disp+status+'</div><div class="en">'+esc(c.en)+'</div></div>'+
+        '<div class="meta">'+iv+'</div>'+spk(c.de,"sm")+
+        '<button class="del" title="Delete card" aria-label="Delete card">×</button></div>';
+    }).join("");
+    Array.prototype.forEach.call(list.querySelectorAll(".del"),function(btn){
+      btn.onclick=function(){
+        var id=btn.parentNode.getAttribute("data-id"); var c=state.cards.filter(function(x){return x.id===id;})[0];
+        if(c&&confirm("Delete “"+c.de+"”?")){ state.cards=state.cards.filter(function(x){return x.id!==id;}); save(); refreshStats(); fillDeckFilter(); deckRender(); }
+      };
+    });
+  }
+
+  /* ---------- Add ---------- */
+  function setPos(p){
+    ui.pos=p;
+    Array.prototype.forEach.call(document.querySelectorAll("#pos-seg button"),function(b){ b.setAttribute("aria-pressed",b.getAttribute("data-pos")===p?"true":"false"); });
+    document.getElementById("noun-fields").style.display=p==="noun"?"grid":"none";
+    var lbls={noun:"German noun",verb:"German verb (infinitive)",adj:"German adjective",conn:"Connector / phrase",other:"German word / phrase"};
+    document.getElementById("lbl-de").textContent=lbls[p];
+  }
+  function addCard(e){
+    e.preventDefault();
+    var de=document.getElementById("f-de").value.trim(), en=document.getElementById("f-en").value.trim();
+    if(!de||!en) return;
+    var c={ id:"u"+Date.now()+Math.round(performance.now()), deck:document.getElementById("f-deck").value||"mine",
+      pos:ui.pos, gender:ui.pos==="noun"?document.getElementById("f-gender").value:null, de:de,
+      plural:ui.pos==="noun"?(document.getElementById("f-plural").value.trim()||null):null, en:en,
+      exDe:document.getElementById("f-exde").value.trim(), exEn:document.getElementById("f-exen").value.trim(),
+      ef:2.5, interval:0, reps:0, due:Date.now(), created:Date.now() };
+    state.cards.push(c); save(); refreshStats(); fillDeckFilter();
+    document.getElementById("add-form").reset(); setPos(ui.pos); fillAddDeck();
+    toast("Added “"+de+"” — due now");
+  }
+
+  /* ---------- Tabs ---------- */
+  function setTab(t){
+    ui.tab=t;
+    Array.prototype.forEach.call(document.querySelectorAll(".tabs button"),function(b){ b.setAttribute("aria-selected",b.getAttribute("data-tab")===t?"true":"false"); });
+    document.getElementById("view-study").classList.toggle("hidden",t!=="study");
+    document.getElementById("view-verbs").classList.toggle("hidden",t!=="verbs");
+    document.getElementById("view-deck").classList.toggle("hidden",t!=="deck");
+    document.getElementById("view-add").classList.toggle("hidden",t!=="add");
+    if(t==="study"){ ui.ahead=false; studyRender(); }
+    if(t==="verbs"){ if(!ui.verb) nextVerb(); }
+    if(t==="deck") deckRender();
+  }
+
+  /* ---------- Export / Import / Reset ---------- */
+  function exportDeck(){
+    var data=JSON.stringify(state,null,2);
+    if(window.claude&&window.claude.downloads){
+      window.claude.downloads.save({filename:"wortschatz-deck.json",data:data})
+        .then(function(){ toast("Deck exported"); })
+        .catch(function(err){ if(err&&err.code==="declined") return; fallbackDownload(data); });
+    } else fallbackDownload(data);
+  }
+  function fallbackDownload(data){
+    try{ var b=new Blob([data],{type:"application/json"}), a=document.createElement("a");
+      a.href=URL.createObjectURL(b); a.download="wortschatz-deck.json"; document.body.appendChild(a); a.click();
+      setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },100); toast("Deck exported");
+    }catch(e){ toast("Export not available here"); }
+  }
+  function importDeck(file){
+    var r=new FileReader();
+    r.onload=function(){ try{ var o=JSON.parse(r.result); if(!o.cards||!o.cards.length) throw 0;
+      if(confirm("Replace your current deck with "+o.cards.length+" imported cards? Current progress will be overwritten.")){
+        state=o; save(); refreshStats(); fillDeckFilter(); setTab("study"); toast("Imported "+o.cards.length+" cards"); }
+    }catch(e){ toast("That file isn't a valid deck export"); } };
+    r.readAsText(file);
+  }
+  function resetProgress(){
+    if(!confirm("Reset all scheduling? Cards stay, but every card becomes due now and progress is cleared.")) return;
+    state.cards.forEach(function(c){ c.ef=2.5; c.interval=0; c.reps=0; c.due=Date.now(); });
+    state.streak=0; state.lastDay=null; ui.doneToday=0; save(); refreshStats(); setTab("study"); toast("Progress reset");
+  }
+  function restoreSeed(){
+    if(!confirm("Restore the full starter deck? This replaces your current deck (your added cards will be removed).")) return;
+    state={ v:2, cards:buildSeed(), streak:state.streak||0, lastDay:state.lastDay }; save(); refreshStats(); fillDeckFilter(); setTab("study"); toast("Starter deck restored");
+  }
+
+  /* ---------- Toast ---------- */
+  var toastT;
+  function toast(m){ var el=document.getElementById("toast"); el.textContent=m; el.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(function(){ el.classList.remove("show"); },2100); }
+
+  /* ---------- Init ---------- */
+  function init(){
+    load(); refreshStats(); fillDeckFilter(); fillAddDeck();
+    Array.prototype.forEach.call(document.querySelectorAll(".tabs button"),function(b){ b.onclick=function(){ setTab(b.getAttribute("data-tab")); }; });
+
+    var fc=document.getElementById("flashcard");
+    fc.onclick=function(e){ var s=e.target.closest(".spk"); if(s){ e.stopPropagation(); speak(s.getAttribute("data-say")); return; } if(!ui.shown) reveal(); };
+    document.getElementById("grades").onclick=function(e){ var b=e.target.closest(".grade"); if(b) grade(b.getAttribute("data-g")); };
+
+    var vc=document.getElementById("verbcard");
+    vc.onclick=function(e){ var s=e.target.closest(".spk"); if(s){ e.stopPropagation(); speak(s.getAttribute("data-say")); return; } if(!ui.vShown) revealVerb(); };
+    document.getElementById("v-actions").onclick=function(e){ var b=e.target.closest("button[data-v]"); if(b) gradeVerb(b.getAttribute("data-v")); };
+
+    document.getElementById("deck-filter").onchange=function(e){ ui.deckFilter=e.target.value; ui.ahead=false; studyRender(); };
+    document.getElementById("deck-list").addEventListener("click",function(e){ var s=e.target.closest(".spk"); if(s){ speak(s.getAttribute("data-say")); } });
+    document.getElementById("search").oninput=deckRender;
+    Array.prototype.forEach.call(document.querySelectorAll("#pos-seg button"),function(b){ b.onclick=function(){ setPos(b.getAttribute("data-pos")); }; });
+    document.getElementById("add-form").onsubmit=addCard;
+    document.getElementById("btn-export").onclick=exportDeck;
+    document.getElementById("btn-import").onclick=function(){ document.getElementById("file-import").click(); };
+    document.getElementById("file-import").onchange=function(e){ if(e.target.files[0]) importDeck(e.target.files[0]); e.target.value=""; };
+    document.getElementById("btn-reset").onclick=resetProgress;
+    document.getElementById("btn-restore").onclick=restoreSeed;
+
+    document.addEventListener("keydown",function(e){
+      var tag=(e.target.tagName||"").toLowerCase();
+      if(tag==="input"||tag==="textarea"||tag==="select") return;
+      if(ui.tab==="study"){
+        if((e.key===" "||e.key==="Enter")&&!ui.shown&&ui.current){ e.preventDefault(); reveal(); return; }
+        if(ui.shown){ var m={"1":"again","2":"hard","3":"good","4":"easy"}; if(m[e.key]){ e.preventDefault(); grade(m[e.key]); } }
+      } else if(ui.tab==="verbs"){
+        if((e.key===" "||e.key==="Enter")&&!ui.vShown){ e.preventDefault(); revealVerb(); return; }
+        if(ui.vShown){ if(e.key==="1"){ e.preventDefault(); gradeVerb("again"); } else if(e.key==="2"||e.key==="Enter"){ e.preventDefault(); gradeVerb("good"); } }
+      }
+    });
+
+    setPos("noun"); setTab("study");
+  }
+  init();
+})();
+</script>
+<style>
+  /* Respect notch / home-indicator safe areas (overrides .app padding, defined after it) */
+  .app{ padding-top:calc(22px + env(safe-area-inset-top)); padding-bottom:calc(56px + env(safe-area-inset-bottom)); }
+</style>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('./sw.js').catch(function () {});
+  });
+}
+</script>
+</body>
+</html>
