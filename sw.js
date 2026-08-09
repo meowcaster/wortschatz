@@ -1,6 +1,7 @@
-/* Wortschatz service worker — minimal, versioned app-shell cache.
-   Bump VERSION when you change any file so installed phones pick up the update. */
-const VERSION = 'wortschatz-v3';
+/* Wortschatz service worker — network-first for the page, cache-first for static assets.
+   Network-first means new words/features appear as soon as you're online; the cache is the
+   offline fallback. Bump VERSION whenever you change files so installed apps refresh cleanly. */
+const VERSION = 'wortschatz-v4';
 const ASSETS = [
   './',
   './index.html',
@@ -13,9 +14,7 @@ const ASSETS = [
 ];
 
 self.addEventListener('install', (e) => {
-  e.waitUntil(
-    caches.open(VERSION).then((c) => c.addAll(ASSETS)).then(() => self.skipWaiting())
-  );
+  e.waitUntil(caches.open(VERSION).then((c) => c.addAll(ASSETS)).then(() => self.skipWaiting()));
 });
 
 self.addEventListener('activate', (e) => {
@@ -29,18 +28,31 @@ self.addEventListener('activate', (e) => {
 self.addEventListener('fetch', (e) => {
   const req = e.request;
   if (req.method !== 'GET') return;
-  e.respondWith(
-    caches.match(req).then((cached) => {
-      if (cached) return cached;
-      return fetch(req).then((res) => {
-        try {
-          if (new URL(req.url).origin === self.location.origin) {
-            const copy = res.clone();
-            caches.open(VERSION).then((c) => c.put(req, copy));
-          }
-        } catch (_) {}
+  const accept = req.headers.get('accept') || '';
+  const isPage = req.mode === 'navigate' || accept.includes('text/html');
+
+  if (isPage) {
+    // Network-first: always try for the freshest page; fall back to cache when offline.
+    e.respondWith(
+      fetch(req).then((res) => {
+        const copy = res.clone();
+        caches.open(VERSION).then((c) => c.put('./index.html', copy)).catch(() => {});
         return res;
-      }).catch(() => caches.match('./index.html'));
-    })
+      }).catch(() => caches.match('./index.html').then((r) => r || caches.match('./')))
+    );
+    return;
+  }
+
+  // Cache-first for static assets (icons, manifest, future data files).
+  e.respondWith(
+    caches.match(req).then((cached) => cached || fetch(req).then((res) => {
+      try {
+        if (new URL(req.url).origin === self.location.origin) {
+          const copy = res.clone();
+          caches.open(VERSION).then((c) => c.put(req, copy));
+        }
+      } catch (_) {}
+      return res;
+    }).catch(() => undefined))
   );
 });

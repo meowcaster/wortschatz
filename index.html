@@ -1036,7 +1036,8 @@
   function isIOS(){ return /iphone|ipad|ipod/i.test(navigator.userAgent||""); }
   function installDismissed(){ try{ return localStorage.getItem("ws-install-dismissed")==="1"; }catch(e){ return false; } }
   function hideInstall(msg){ var b=document.getElementById("install-bar"); if(b) b.classList.remove("show"); deferredPrompt=null; if(msg){ try{ toast(msg); }catch(e){} } }
-  function maybeShowInstall(){ var b=document.getElementById("install-bar"); if(!b) return; if(isStandalone()||installDismissed()) return; if(deferredPrompt||isIOS()) b.classList.add("show"); }
+  function inIframe(){ try{ return window.self!==window.top; }catch(e){ return true; } }
+  function maybeShowInstall(){ var b=document.getElementById("install-bar"); if(!b) return; if(isStandalone()||installDismissed()||inIframe()) return; b.classList.add("show"); }
   function setupInstall(){
     var bar=document.getElementById("install-bar"); if(!bar) return;
     if(isStandalone()||installDismissed()) return;
@@ -1048,10 +1049,10 @@
       bar.classList.add("show"); return;
     }
     btn.onclick=function(){
-      if(!deferredPrompt){ toast('Open your browser menu, then "Install app".'); return; }
-      deferredPrompt.prompt(); deferredPrompt.userChoice.then(function(){ hideInstall(); });
+      if(deferredPrompt){ deferredPrompt.prompt(); deferredPrompt.userChoice.then(function(){ hideInstall(); }); }
+      else { document.getElementById("ib-text").innerHTML='Install this app<small>Open your browser menu (⋮) and choose <b>“Install app”</b> or <b>“Add to Home screen”</b>.</small>'; }
     };
-    maybeShowInstall();
+    bar.classList.add("show");
   }
 
   /* ---------- Init ---------- */
