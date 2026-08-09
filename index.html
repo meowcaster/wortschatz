@@ -1080,19 +1080,59 @@
   function hideInstall(msg){ var b=document.getElementById("install-bar"); if(b) b.classList.remove("show"); deferredPrompt=null; if(msg){ try{ toast(msg); }catch(e){} } }
   function inIframe(){ try{ return window.self!==window.top; }catch(e){ return true; } }
   function maybeShowInstall(){ var b=document.getElementById("install-bar"); if(!b) return; if(isStandalone()||installDismissed()||inIframe()) return; b.classList.add("show"); }
+  function detectBrowser(){
+    var ua=navigator.userAgent||"", os="other", b="other";
+    if(/iphone|ipod/i.test(ua)) os="ios";
+    else if(/ipad/i.test(ua) || (/(macintosh|mac os x)/i.test(ua) && navigator.maxTouchPoints>1)) os="ipados";
+    else if(/android/i.test(ua)) os="android";
+    else if(/windows/i.test(ua)) os="windows";
+    else if(/(macintosh|mac os x)/i.test(ua)) os="mac";
+    else if(/linux/i.test(ua)) os="linux";
+    if(/edg(a|ios|)\//i.test(ua)) b="edge";
+    else if(/samsungbrowser/i.test(ua)) b="samsung";
+    else if(/opr\/|opera/i.test(ua)) b="opera";
+    else if(/firefox|fxios/i.test(ua)) b="firefox";
+    else if(/crios/i.test(ua)) b="chrome";
+    else if(/chrome|chromium/i.test(ua)) b="chrome";
+    else if(/safari/i.test(ua)) b="safari";
+    var osN={ios:"iPhone",ipados:"iPad",android:"Android",windows:"Windows",mac:"Mac",linux:"Linux",other:"your device"}[os];
+    var bN={edge:"Edge",samsung:"Samsung Internet",opera:"Opera",firefox:"Firefox",chrome:"Chrome",safari:"Safari",other:"your browser"}[b];
+    return { os:os, browser:b, label:bN+" on "+osN };
+  }
+  function installSteps(d){
+    function t(title,steps){ return 'Install — '+title+'<small>'+steps+'</small>'; }
+    var apple=(d.os==="ios"||d.os==="ipados"), dev=(d.os==="ipados"?"iPad":"iPhone");
+    if(apple){
+      if(d.browser==="safari") return t("Safari on "+dev,'Tap the <b>Share</b> button (the square with an ↑) at the bottom, scroll down, tap <b>Add to Home Screen</b>, then <b>Add</b>.');
+      if(d.browser==="chrome") return t("Chrome on "+dev,'Tap the <b>Share</b> icon near the top, then <b>Add to Home Screen</b>. (Safari gives the smoothest install.)');
+      return t((d.browser==="firefox"?"Firefox":d.browser==="edge"?"Edge":"your browser")+" on "+dev,'On '+dev+', installing works best in <b>Safari</b>. Open this page in Safari, then <b>Share</b> → <b>Add to Home Screen</b>.');
+    }
+    if(d.os==="android"){
+      if(d.browser==="chrome") return t("Chrome on Android",'Tap the <b>⋮</b> menu (top-right), then <b>Install app</b> (or <b>Add to Home screen</b>) → <b>Install</b>.');
+      if(d.browser==="edge") return t("Edge on Android",'Tap the <b>⋯</b> menu (bottom bar), then <b>Add to phone</b> → <b>Install</b>.');
+      if(d.browser==="samsung") return t("Samsung Internet",'Tap the <b>☰</b> menu, then <b>Add page to</b> → <b>Home screen</b> (or tap the download icon in the address bar).');
+      if(d.browser==="firefox") return t("Firefox on Android",'Tap the <b>⋮</b> menu, then <b>Install</b> (or <b>Add to Home screen</b>).');
+      if(d.browser==="opera") return t("Opera on Android",'Tap the Opera <b>menu</b>, then <b>Home screen</b> → <b>Add</b>.');
+      return t("your browser on Android",'Open the browser menu (⋮), then <b>Install app</b> or <b>Add to Home screen</b>.');
+    }
+    if(d.browser==="chrome") return t("Chrome on desktop",'Click the <b>install icon</b> (a small screen with a ↓) at the right end of the address bar. No icon? <b>⋮</b> menu → <b>Cast, save, and share</b> → <b>Install page as app…</b>.');
+    if(d.browser==="edge") return t("Edge on desktop",'Click the <b>install icon</b> at the right of the address bar, or <b>⋯</b> menu → <b>Apps</b> → <b>Install this site as an app</b>.');
+    if(d.browser==="firefox") return t("Firefox on desktop",'Firefox on desktop can’t install web apps. Use <b>Chrome</b> or <b>Edge</b> on this computer — or install it on your <b>phone</b>.');
+    if(d.browser==="safari" && d.os==="mac") return t("Safari on Mac",'In the menu bar choose <b>File</b> → <b>Add to Dock…</b> (Safari 17+). Or use Chrome / Edge.');
+    if(d.browser==="opera") return t("Opera on desktop",'Look for the <b>install</b> / <b>＋</b> icon in the address bar, or the Opera menu → <b>Install…</b>.');
+    return t("your browser",'Look for an <b>Install</b> option in the menu or address bar. Chrome and Edge support it best.');
+  }
   function setupInstall(){
     var bar=document.getElementById("install-bar"); if(!bar) return;
-    if(isStandalone()||installDismissed()) return;
+    if(isStandalone()||installDismissed()||inIframe()) return;
     var btn=document.getElementById("ib-install"), x=document.getElementById("ib-x"), sub=document.getElementById("ib-sub");
+    var det=detectBrowser();
+    if(sub) sub.innerHTML='Looks like <b>'+esc(det.label)+'</b> — tap Install for exact steps.';
     x.onclick=function(){ bar.classList.remove("show"); try{ localStorage.setItem("ws-install-dismissed","1"); }catch(e){} };
-    if(isIOS()){
-      if(sub) sub.textContent="Tap Install to see how to add it to your Home Screen.";
-      btn.onclick=function(){ document.getElementById("ib-text").innerHTML='Install on iPhone<small>Tap the <b>Share</b> button at the bottom of Safari, then <b>“Add to Home Screen”</b>.</small>'; btn.style.display="none"; };
-      bar.classList.add("show"); return;
-    }
     btn.onclick=function(){
-      if(deferredPrompt){ deferredPrompt.prompt(); deferredPrompt.userChoice.then(function(){ hideInstall(); }); }
-      else { document.getElementById("ib-text").innerHTML='Install this app<small>Open your browser menu (⋮) and choose <b>“Install app”</b> or <b>“Add to Home screen”</b>.</small>'; }
+      if(deferredPrompt){ deferredPrompt.prompt(); deferredPrompt.userChoice.then(function(){ hideInstall(); }); return; }
+      document.getElementById("ib-text").innerHTML=installSteps(det);
+      btn.style.display="none";
     };
     bar.classList.add("show");
   }
