@@ -87,6 +87,17 @@
   .tabs button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow);}
   .tabs button:hover:not([aria-selected="true"]){color:var(--ink);}
 
+  .install-bar{display:none;align-items:center;gap:12px;background:var(--accent-soft);
+    border:1px solid color-mix(in srgb,var(--accent) 35%,var(--line));border-radius:12px;
+    padding:11px 13px;margin-bottom:18px;}
+  .install-bar.show{display:flex;}
+  .install-bar .ib-emoji{font-size:20px;flex:none;}
+  .install-bar .ib-text{flex:1;min-width:0;font-size:13.5px;font-weight:700;color:var(--ink);}
+  .install-bar .ib-text small{display:block;font-weight:500;color:var(--muted);font-size:12px;margin-top:2px;}
+  .install-bar .btn{padding:9px 15px;font-size:13.5px;flex:none;}
+  .install-bar .ib-x{border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:18px;line-height:1;padding:4px 7px;border-radius:8px;flex:none;}
+  .install-bar .ib-x:hover{background:var(--surface-3);color:var(--ink);}
+
   .deckpick{display:flex;align-items:center;gap:9px;margin-bottom:14px;font-size:12.5px;color:var(--muted);font-weight:600;}
   .deckpick select{flex:1;padding:8px 11px;border:1px solid var(--line);border-radius:10px;
     background:var(--surface);color:var(--ink);font-family:var(--font-sans);font-size:13.5px;font-weight:600;}
@@ -259,6 +270,13 @@
     <button role="tab" aria-selected="false" data-tab="add">Add</button>
   </nav>
 
+  <div class="install-bar" id="install-bar">
+    <span class="ib-emoji">📲</span>
+    <div class="ib-text" id="ib-text">Install Wortschatz<small id="ib-sub">Add it to your home screen — works offline.</small></div>
+    <button class="btn" id="ib-install">Install</button>
+    <button class="ib-x" id="ib-x" aria-label="Dismiss">×</button>
+  </div>
+
   <!-- VOCAB -->
   <section id="view-study">
     <div class="deckpick">
@@ -373,6 +391,10 @@
 (function(){
   "use strict";
   var DAY=86400000, KEY2="wortschatz-de-v2", KEY1="wortschatz-de-v1";
+
+  var deferredPrompt=null;
+  window.addEventListener("beforeinstallprompt",function(e){ e.preventDefault(); deferredPrompt=e; maybeShowInstall(); });
+  window.addEventListener("appinstalled",function(){ hideInstall("Installed 🎉"); });
 
   var DECKS=[
     {id:"a1",name:"A1 · Basics"},
@@ -1009,6 +1031,29 @@
   var toastT;
   function toast(m){ var el=document.getElementById("toast"); el.textContent=m; el.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(function(){ el.classList.remove("show"); },2100); }
 
+  /* ---------- Install (PWA) ---------- */
+  function isStandalone(){ try{ return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone===true; }catch(e){ return false; } }
+  function isIOS(){ return /iphone|ipad|ipod/i.test(navigator.userAgent||""); }
+  function installDismissed(){ try{ return localStorage.getItem("ws-install-dismissed")==="1"; }catch(e){ return false; } }
+  function hideInstall(msg){ var b=document.getElementById("install-bar"); if(b) b.classList.remove("show"); deferredPrompt=null; if(msg){ try{ toast(msg); }catch(e){} } }
+  function maybeShowInstall(){ var b=document.getElementById("install-bar"); if(!b) return; if(isStandalone()||installDismissed()) return; if(deferredPrompt||isIOS()) b.classList.add("show"); }
+  function setupInstall(){
+    var bar=document.getElementById("install-bar"); if(!bar) return;
+    if(isStandalone()||installDismissed()) return;
+    var btn=document.getElementById("ib-install"), x=document.getElementById("ib-x"), sub=document.getElementById("ib-sub");
+    x.onclick=function(){ bar.classList.remove("show"); try{ localStorage.setItem("ws-install-dismissed","1"); }catch(e){} };
+    if(isIOS()){
+      if(sub) sub.textContent="Tap Install to see how to add it to your Home Screen.";
+      btn.onclick=function(){ document.getElementById("ib-text").innerHTML='Install on iPhone<small>Tap the <b>Share</b> button at the bottom of Safari, then <b>“Add to Home Screen”</b>.</small>'; btn.style.display="none"; };
+      bar.classList.add("show"); return;
+    }
+    btn.onclick=function(){
+      if(!deferredPrompt){ toast('Open your browser menu, then "Install app".'); return; }
+      deferredPrompt.prompt(); deferredPrompt.userChoice.then(function(){ hideInstall(); });
+    };
+    maybeShowInstall();
+  }
+
   /* ---------- Init ---------- */
   function init(){
     load(); refreshStats(); fillDeckFilter(); fillAddDeck();
@@ -1045,7 +1090,7 @@
       }
     });
 
-    setPos("noun"); setTab("study");
+    setPos("noun"); setTab("study"); setupInstall();
   }
   init();
 })();
