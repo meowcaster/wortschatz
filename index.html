@@ -6,6 +6,7 @@
 <title>Wortschatz — German Trainer</title>
 <meta name="description" content="Free spaced-repetition trainer for A1–C1 German: 250+ card deck, audio, and a verb-conjugation drill.">
 <link rel="manifest" href="./manifest.webmanifest">
+<meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#EFEEE8" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#18171A" media="(prefers-color-scheme: dark)">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png">
@@ -17,6 +18,7 @@
 <body>
 <style>
   :root{
+    color-scheme:light dark;
     --bg:#EFEEE8; --surface:#FBFAF5; --surface-2:#F4F2EA; --surface-3:#ECE9DF;
     --ink:#26221E; --muted:#6C665C; --faint:#948D80; --line:#DBD7CC;
     --accent:#6D4C7D; --accent-strong:#573C63; --accent-soft:rgba(109,76,125,.12);
@@ -772,10 +774,12 @@
     if(!window.fetch) return;
     fetch("./words.json").then(function(r){ return r.ok?r.json():null; }).then(function(rows){
       if(!rows||!rows.length) return;
-      var deckOf={}; for(var j=0;j<rows.length;j++){ deckOf[rows[j][3]]=rows[j][0]; }
+      var byDe={}; for(var j=0;j<rows.length;j++){ byDe[rows[j][3]]=rows[j]; }
       var LIB={top10k:1,topA:1,topB:1,topC:1}, have={}, changed=false;
       state.cards.forEach(function(c){
-        if(LIB[c.deck||""]){ have[c.de]=true; var nd=deckOf[c.de]; if(nd && c.deck!==nd){ c.deck=nd; changed=true; } }
+        if(LIB[c.deck||""]){ have[c.de]=true; var row=byDe[c.de];
+          if(row){ if(c.deck!==row[0]){ c.deck=row[0]; changed=true; }
+                   if(!c.exDe && row[6]){ c.exDe=row[6]; c.exEn=row[7]||""; changed=true; } } }
       });
       var added=0;
       for(var i=0;i<rows.length;i++){ var row=rows[i]; if(have[row[3]]) continue; have[row[3]]=true; state.cards.push(seedRowCard(row,i)); added++; }
