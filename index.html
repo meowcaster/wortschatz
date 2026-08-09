@@ -98,8 +98,10 @@
   .install-bar .ib-x{border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:18px;line-height:1;padding:4px 7px;border-radius:8px;flex:none;}
   .install-bar .ib-x:hover{background:var(--surface-3);color:var(--ink);}
 
-  .deckpick{display:flex;align-items:center;gap:9px;margin-bottom:14px;font-size:12.5px;color:var(--muted);font-weight:600;}
-  .deckpick select{flex:1;padding:8px 11px;border:1px solid var(--line);border-radius:10px;
+  .deckpick{display:flex;align-items:center;gap:9px;margin-bottom:14px;font-size:12.5px;color:var(--muted);font-weight:600;flex-wrap:wrap;}
+  .deckpick #deck-filter{flex:1;min-width:150px;}
+  .deckpick #new-per-day{width:64px;}
+  .deckpick select{padding:8px 11px;border:1px solid var(--line);border-radius:10px;
     background:var(--surface);color:var(--ink);font-family:var(--font-sans);font-size:13.5px;font-weight:600;}
   .deckpick select:focus-visible{outline:2px solid var(--accent);outline-offset:1px;}
 
@@ -282,6 +284,15 @@
     <div class="deckpick">
       <span>Deck</span>
       <select id="deck-filter"></select>
+      <span class="np">New/day</span>
+      <select id="new-per-day">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+        <option value="50">50</option>
+      </select>
     </div>
     <div id="study-live" class="hidden">
       <div class="sess-bar">
@@ -406,9 +417,11 @@
     {id:"reisen",name:"Reisen · Travel"},
     {id:"essen",name:"Essen · Food"},
     {id:"gesundheit",name:"Gesundheit · Health"},
+    {id:"top10k",name:"Top 12k · Frequency"},
     {id:"mine",name:"My cards"}
   ];
   var DECKNAME={}; DECKS.forEach(function(d){DECKNAME[d.id]=d.name;});
+  var DORDER={}; DECKS.forEach(function(d,i){DORDER[d.id]=i;});
 
   /* rows: [deck, pos, gender|null, de, plural|null, en, exDe, exEn] */
   var SEED=[
@@ -740,9 +753,28 @@
       }catch(e){}
     }
     mergeSeed();
+    if(typeof state.newPerDay!=="number") state.newPerDay=20;
+    if(typeof state.newToday!=="number") state.newToday=0;
+    if(!state.newDay) state.newDay=todayStr();
     save();
   }
   function save(){ try{ localStorage.setItem(KEY2, JSON.stringify(state)); }catch(e){} }
+
+  /* ---------- New-card gating + big frequency library ---------- */
+  function ensureNewDay(){ var t=todayStr(); if(state.newDay!==t){ state.newDay=t; state.newToday=0; } }
+  function isNew(c){ return (c.reps||0)===0 && !c.intro; }
+  function seqOf(c){ var m=/(\d+)/.exec(c.id||""); return m?parseInt(m[1],10):0; }
+  function seedRowCard(row,i){ return { id:"t"+i, deck:row[0], pos:row[1], gender:row[2], de:row[3], plural:row[4], en:row[5], exDe:row[6]||"", exEn:row[7]||"", ef:2.5, interval:0, reps:0, due:Date.now(), created:Date.now() }; }
+  function loadLibrary(){
+    if(!window.fetch) return;
+    fetch("./words.json").then(function(r){ return r.ok?r.json():null; }).then(function(rows){
+      if(!rows||!rows.length) return;
+      var have={}; state.cards.forEach(function(c){ if((c.deck||"")==="top10k") have[c.de]=true; });
+      var added=0;
+      for(var i=0;i<rows.length;i++){ var row=rows[i]; row[0]="top10k"; if(have[row[3]]) continue; have[row[3]]=true; state.cards.push(seedRowCard(row,i)); added++; }
+      if(added){ save(); refreshStats(); fillDeckFilter(); if(ui.tab==="study"&&!ui.current) studyRender(); }
+    }).catch(function(){});
+  }
 
   /* ---------- Audio (Web Speech API) ---------- */
   var voices=[], hasTTS=("speechSynthesis" in window);
@@ -785,13 +817,16 @@
   function esc(s){ return String(s).replace(/[&<>]/g,function(m){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[m];}); }
   function attr(s){ return esc(s).replace(/"/g,"&quot;"); }
   function spk(text,cls){ return '<button class="spk '+(cls||"")+'" data-say="'+attr(text)+'" aria-label="Play pronunciation">🔊</button>'; }
-  var POSLABEL={noun:"Noun",verb:"Verb",adj:"Adjective",conn:"Connector",other:"Phrase",q:"Question word"};
+  var POSLABEL={noun:"Noun",verb:"Verb",adj:"Adjective",adv:"Adverb",conn:"Connector",other:"Phrase",q:"Question word"};
 
   /* ---------- Stats ---------- */
   function refreshStats(){
-    var due=state.cards.filter(isDue).length;
-    var learned=state.cards.filter(function(c){return c.reps>0;}).length;
-    document.getElementById("s-due").textContent=due;
+    ensureNewDay();
+    var reviews=0, newPool=0, learned=0;
+    for(var i=0;i<state.cards.length;i++){ var c=state.cards[i];
+      if(isNew(c)) newPool++; else { if((c.reps||0)>0) learned++; if(isDue(c)) reviews++; } }
+    var newRem=Math.max(0,(state.newPerDay||20)-(state.newToday||0));
+    document.getElementById("s-due").textContent=reviews+Math.min(newRem,newPool);
     document.getElementById("s-learned").firstChild.textContent=learned;
     document.getElementById("s-total").textContent="/"+state.cards.length;
     document.getElementById("s-streak").firstChild.textContent=state.streak||0;
@@ -813,13 +848,16 @@
 
   /* ---------- Vocab study ---------- */
   function buildQueue(){
-    var pool=state.cards.filter(function(c){
-      if(ui.deckFilter!=="all" && (c.deck||"mine")!==ui.deckFilter) return false;
-      return ui.ahead ? true : isDue(c);
-    });
-    pool.sort(function(a,b){return a.due-b.due;});
-    if(ui.ahead) pool=pool.slice(0,20);
-    ui.queue=pool;
+    ensureNewDay();
+    var reviews=[], news=[], filt=ui.deckFilter!=="all";
+    for(var i=0;i<state.cards.length;i++){ var c=state.cards[i];
+      if(filt && (c.deck||"mine")!==ui.deckFilter) continue;
+      if(isNew(c)) news.push(c); else if(isDue(c)) reviews.push(c);
+    }
+    reviews.sort(function(a,b){return a.due-b.due;});
+    news.sort(function(a,b){ var da=DORDER[a.deck]==null?99:DORDER[a.deck], db=DORDER[b.deck]==null?99:DORDER[b.deck]; if(da!==db) return da-db; return seqOf(a)-seqOf(b); });
+    var cap=ui.ahead?news.length:Math.max(0,(state.newPerDay||20)-(state.newToday||0));
+    ui.queue=reviews.concat(news.slice(0,cap));
   }
   function studyRender(){
     var live=document.getElementById("study-live"), empty=document.getElementById("study-empty");
@@ -827,7 +865,7 @@
     if(!ui.current){ live.classList.add("hidden"); empty.classList.remove("hidden"); renderEmpty(empty); return; }
     live.classList.remove("hidden"); empty.classList.add("hidden"); ui.shown=false;
     var total=ui.queue.length+ui.doneToday;
-    document.getElementById("sess-count").textContent=ui.queue.length+" to review";
+    document.getElementById("sess-count").textContent=ui.queue.length+" to study";
     document.getElementById("sess-done").textContent=ui.doneToday+" done";
     document.getElementById("sess-fill").style.width=total?(ui.doneToday/total*100)+"%":"0%";
     renderFront(ui.current);
@@ -868,7 +906,10 @@
   }
   function grade(g){
     if(!ui.shown||!ui.current) return;
-    var c=ui.current, r=next(c,g); c.ef=r.ef; c.interval=r.interval; c.reps=r.reps; c.due=r.due;
+    var c=ui.current; ensureNewDay();
+    var wasNew=isNew(c);
+    var r=next(c,g); c.ef=r.ef; c.interval=r.interval; c.reps=r.reps; c.due=r.due;
+    if(wasNew){ c.intro=todayStr(); state.newToday=(state.newToday||0)+1; }
     var t=todayStr();
     if(state.lastDay!==t){ var y=new Date(Date.now()-DAY); var ys=y.getFullYear()+"-"+(y.getMonth()+1)+"-"+y.getDate();
       state.streak=(state.lastDay===ys)?(state.streak||0)+1:1; state.lastDay=t; }
@@ -941,6 +982,7 @@
     var cards=state.cards.slice().sort(function(a,b){return a.de.localeCompare(b.de,"de");});
     if(q) cards=cards.filter(function(c){return c.de.toLowerCase().indexOf(q)>=0||c.en.toLowerCase().indexOf(q)>=0;});
     if(!cards.length){ list.innerHTML='<p style="color:var(--muted);text-align:center;padding:30px 0">No cards match “'+esc(q)+'”.</p>'; return; }
+    var totalMatch=cards.length; cards=cards.slice(0,400);
     list.innerHTML=cards.map(function(c){
       var g=c.pos==="noun"?c.gender:"";
       var status=c.reps===0?'<span class="pill new">new</span>':(isDue(c)?'<span class="pill due">due</span>':'');
@@ -950,7 +992,7 @@
         '<div class="main"><div class="de">'+disp+status+'</div><div class="en">'+esc(c.en)+'</div></div>'+
         '<div class="meta">'+iv+'</div>'+spk(c.de,"sm")+
         '<button class="del" title="Delete card" aria-label="Delete card">×</button></div>';
-    }).join("");
+    }).join("") + (totalMatch>400?'<p style="color:var(--faint);text-align:center;padding:16px 0;font-size:12.5px">Showing first 400 of '+totalMatch+' matches — use search to narrow.</p>':'');
     Array.prototype.forEach.call(list.querySelectorAll(".del"),function(btn){
       btn.onclick=function(){
         var id=btn.parentNode.getAttribute("data-id"); var c=state.cards.filter(function(x){return x.id===id;})[0];
@@ -1069,6 +1111,8 @@
     document.getElementById("v-actions").onclick=function(e){ var b=e.target.closest("button[data-v]"); if(b) gradeVerb(b.getAttribute("data-v")); };
 
     document.getElementById("deck-filter").onchange=function(e){ ui.deckFilter=e.target.value; ui.ahead=false; studyRender(); };
+    var npd=document.getElementById("new-per-day");
+    if(npd){ npd.value=String(state.newPerDay||20); npd.onchange=function(e){ state.newPerDay=parseInt(e.target.value,10)||20; save(); refreshStats(); if(ui.tab==="study") studyRender(); }; }
     document.getElementById("deck-list").addEventListener("click",function(e){ var s=e.target.closest(".spk"); if(s){ speak(s.getAttribute("data-say")); } });
     document.getElementById("search").oninput=deckRender;
     Array.prototype.forEach.call(document.querySelectorAll("#pos-seg button"),function(b){ b.onclick=function(){ setPos(b.getAttribute("data-pos")); }; });
@@ -1091,7 +1135,7 @@
       }
     });
 
-    setPos("noun"); setTab("study"); setupInstall();
+    setPos("noun"); setTab("study"); setupInstall(); loadLibrary();
   }
   init();
 })();
