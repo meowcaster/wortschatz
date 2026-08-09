@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Wortschatz — German Trainer</title>
-<meta name="description" content="Free spaced-repetition trainer for B1–C1 German: 120+ card deck, audio, and a verb-conjugation drill.">
+<meta name="description" content="Free spaced-repetition trainer for A1–C1 German: 250+ card deck, audio, and a verb-conjugation drill.">
 <link rel="manifest" href="./manifest.webmanifest">
 <meta name="theme-color" content="#EFEEE8" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#18171A" media="(prefers-color-scheme: dark)">
@@ -381,6 +381,9 @@
     {id:"arbeit",name:"Arbeit · Work"},
     {id:"meinung",name:"Meinung · Opinions"},
     {id:"advanced",name:"B2–C1 Advanced"},
+    {id:"reisen",name:"Reisen · Travel"},
+    {id:"essen",name:"Essen · Food"},
+    {id:"gesundheit",name:"Gesundheit · Health"},
     {id:"mine",name:"My cards"}
   ];
   var DECKNAME={}; DECKS.forEach(function(d){DECKNAME[d.id]=d.name;});
@@ -594,7 +597,59 @@
     ["a2","adj",null,"schwierig",null,"difficult","Die Prüfung war sehr schwierig.","The exam was very difficult."],
     ["a2","conn",null,"weil",null,"because","Ich bleibe zu Hause, weil ich krank bin.","I'm staying home because I'm sick."],
     ["a2","conn",null,"wenn",null,"when / if","Wenn ich Zeit habe, rufe ich dich an.","When I have time, I'll call you."],
-    ["a2","conn",null,"dass",null,"that","Ich glaube, dass du recht hast.","I think that you're right."]
+    ["a2","conn",null,"dass",null,"that","Ich glaube, dass du recht hast.","I think that you're right."],
+
+    ["reisen","noun","der","Flughafen","¨","airport","Wir müssen früh zum Flughafen.","We have to go to the airport early."],
+    ["reisen","noun","das","Flugzeug","-e","airplane","Das Flugzeug landet um zehn Uhr.","The plane lands at ten o'clock."],
+    ["reisen","noun","der","Bahnhof","¨-e","train station","Der Bahnhof ist im Zentrum.","The train station is in the centre."],
+    ["reisen","noun","die","Fahrkarte","-n","ticket (travel)","Ich habe die Fahrkarte online gekauft.","I bought the ticket online."],
+    ["reisen","noun","der","Koffer","-","suitcase","Mein Koffer ist viel zu schwer.","My suitcase is far too heavy."],
+    ["reisen","noun","das","Gepäck","—","luggage","Wo kann ich mein Gepäck abgeben?","Where can I drop off my luggage?"],
+    ["reisen","noun","die","Unterkunft","¨-e","accommodation","Wir suchen eine günstige Unterkunft.","We're looking for cheap accommodation."],
+    ["reisen","noun","das","Ausland","—","abroad","Sie reist gern ins Ausland.","She likes travelling abroad."],
+    ["reisen","noun","die","Grenze","-n","border","Wir haben die Grenze überquert.","We crossed the border."],
+    ["reisen","noun","der","Ausweis","-e","ID card","Zeigen Sie bitte Ihren Ausweis.","Please show your ID."],
+    ["reisen","verb",null,"reisen",null,"to travel","Ich reise am liebsten mit dem Zug.","I most like travelling by train."],
+    ["reisen","verb",null,"buchen",null,"to book","Ich habe schon ein Hotel gebucht.","I've already booked a hotel."],
+    ["reisen","verb",null,"abfahren",null,"to depart","Der Zug fährt um neun Uhr ab.","The train departs at nine o'clock."],
+    ["reisen","verb",null,"ankommen",null,"to arrive","Wann kommen wir in Berlin an?","When do we arrive in Berlin?"],
+    ["reisen","verb",null,"umsteigen",null,"to change (trains)","In Köln müssen wir umsteigen.","We have to change trains in Cologne."],
+    ["reisen","verb",null,"sich verlaufen",null,"to get lost (on foot)","Wir haben uns in der Altstadt verlaufen.","We got lost in the old town."],
+
+    ["essen","noun","das","Gericht","-e","dish (meal)","Das ist mein Lieblingsgericht.","That's my favourite dish."],
+    ["essen","noun","die","Speisekarte","-n","menu","Können wir bitte die Speisekarte haben?","Can we have the menu, please?"],
+    ["essen","noun","die","Vorspeise","-n","starter / appetiser","Als Vorspeise nehme ich eine Suppe.","As a starter I'll have a soup."],
+    ["essen","noun","die","Nachspeise","-n","dessert","Zur Nachspeise gibt es Eis.","For dessert there's ice cream."],
+    ["essen","noun","das","Gemüse","—","vegetables","Ich esse jeden Tag Gemüse.","I eat vegetables every day."],
+    ["essen","noun","das","Obst","—","fruit","Obst ist gesund und lecker.","Fruit is healthy and tasty."],
+    ["essen","noun","das","Fleisch","—","meat","Ich esse kein Fleisch.","I don't eat meat."],
+    ["essen","noun","der","Geschmack","¨-er","taste / flavour","Der Kuchen hat einen tollen Geschmack.","The cake has a great flavour."],
+    ["essen","noun","die","Zutat","-en","ingredient","Welche Zutaten brauche ich dafür?","Which ingredients do I need for this?"],
+    ["essen","noun","der","Durst","—","thirst","Ich habe großen Durst.","I'm very thirsty."],
+    ["essen","noun","der","Hunger","—","hunger","Hast du schon Hunger?","Are you hungry yet?"],
+    ["essen","verb",null,"schmecken",null,"to taste (good)","Das Essen schmeckt mir sehr gut.","The food tastes very good to me."],
+    ["essen","verb",null,"bestellen",null,"to order","Ich möchte eine Pizza bestellen.","I'd like to order a pizza."],
+    ["essen","verb",null,"probieren",null,"to try / taste","Möchtest du mal probieren?","Would you like to have a taste?"],
+    ["essen","adj",null,"lecker",null,"delicious","Das war ein leckeres Essen.","That was a delicious meal."],
+    ["essen","adj",null,"satt",null,"full (not hungry)","Nein danke, ich bin schon satt.","No thanks, I'm already full."],
+
+    ["gesundheit","noun","der","Kopf","¨-e","head","Mein Kopf tut heute weh.","My head hurts today."],
+    ["gesundheit","noun","der","Bauch","¨-e","belly / stomach","Ich habe seit heute Morgen Bauchschmerzen.","I've had a stomach ache since this morning."],
+    ["gesundheit","noun","der","Hals","¨-e","neck / throat","Mein Hals tut beim Schlucken weh.","My throat hurts when I swallow."],
+    ["gesundheit","noun","das","Bein","-e","leg","Er hat sich das Bein gebrochen.","He broke his leg."],
+    ["gesundheit","noun","der","Arm","-e","arm","Ich kann meinen Arm kaum bewegen.","I can hardly move my arm."],
+    ["gesundheit","noun","die","Hand","¨-e","hand","Gib mir bitte deine Hand.","Please give me your hand."],
+    ["gesundheit","noun","das","Auge","-n","eye","Meine Augen sind heute sehr müde.","My eyes are very tired today."],
+    ["gesundheit","noun","der","Zahn","¨-e","tooth","Mein Zahn tut weh, ich muss zum Zahnarzt.","My tooth hurts, I have to go to the dentist."],
+    ["gesundheit","noun","der","Schmerz","-en","pain","Ich habe starke Schmerzen im Rücken.","I have severe pain in my back."],
+    ["gesundheit","noun","das","Fieber","—","fever","Das Kind hat hohes Fieber.","The child has a high fever."],
+    ["gesundheit","noun","die","Apotheke","-n","pharmacy","Die Apotheke ist gleich um die Ecke.","The pharmacy is just around the corner."],
+    ["gesundheit","noun","die","Medizin","—","medicine","Nimm bitte deine Medizin.","Please take your medicine."],
+    ["gesundheit","verb",null,"wehtun",null,"to hurt","Mein Rücken tut mir weh.","My back hurts."],
+    ["gesundheit","verb",null,"sich fühlen",null,"to feel","Ich fühle mich heute viel besser.","I feel much better today."],
+    ["gesundheit","verb",null,"sich erholen",null,"to recover / rest","Du musst dich jetzt gut erholen.","You need to rest and recover well now."],
+    ["gesundheit","adj",null,"gesund",null,"healthy","Viel Sport hält dich gesund.","Lots of exercise keeps you healthy."],
+    ["gesundheit","adj",null,"krank",null,"sick / ill","Ich bin seit gestern krank.","I've been sick since yesterday."]
   ];
 
   /* Conjugation verbs: praes = ich,du,er,wir,ihr,sie ; praet = ich/er (identical) */

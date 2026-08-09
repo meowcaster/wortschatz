@@ -1,6 +1,6 @@
 /* Wortschatz service worker — minimal, versioned app-shell cache.
    Bump VERSION when you change any file so installed phones pick up the update. */
-const VERSION = 'wortschatz-v1';
+const VERSION = 'wortschatz-v2';
 const ASSETS = [
   './',
   './index.html',
