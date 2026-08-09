@@ -84,8 +84,8 @@
   .tabs{display:flex;gap:4px;background:var(--surface-2);border:1px solid var(--line);
     border-radius:12px;padding:4px;margin-bottom:18px;}
   .tabs button{flex:1;border:0;background:transparent;color:var(--muted);
-    font-family:var(--font-sans);font-size:13.5px;font-weight:600;padding:9px 6px;
-    border-radius:9px;cursor:pointer;transition:background .15s,color .15s;letter-spacing:.2px;}
+    font-family:var(--font-sans);font-size:13px;font-weight:600;padding:9px 3px;
+    border-radius:9px;cursor:pointer;transition:background .15s,color .15s;letter-spacing:0;}
   .tabs button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow);}
   .tabs button:hover:not([aria-selected="true"]){color:var(--ink);}
 
@@ -244,6 +244,36 @@
     box-shadow:0 10px 30px -8px rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:50;max-width:90vw;text-align:center;}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
+  /* Grammar */
+  .gram-intro{background:var(--accent-soft);border:1px solid color-mix(in srgb,var(--accent) 30%,var(--line));
+    border-radius:12px;padding:13px 15px;margin-bottom:14px;font-size:14px;line-height:1.55;}
+  details.gram{background:var(--surface);border:1px solid var(--line);border-radius:13px;box-shadow:var(--shadow);margin-bottom:10px;overflow:hidden;}
+  details.gram>summary{cursor:pointer;list-style:none;padding:14px 16px;font-family:var(--font-display);
+    font-size:16px;font-weight:600;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+  details.gram>summary::-webkit-details-marker{display:none;}
+  details.gram>summary::after{content:"＋";color:var(--accent);font-size:18px;flex:none;}
+  details.gram[open]>summary::after{content:"－";}
+  details.gram[open]>summary{border-bottom:1px solid var(--line);}
+  details.gram>summary:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;border-radius:13px;}
+  .gram-body{padding:14px 16px 16px;font-size:14px;line-height:1.6;}
+  .gram-body p{margin:0 0 11px;}
+  .gram-list{margin:0 0 11px;padding-left:18px;display:flex;flex-direction:column;gap:9px;}
+  .gram-body .eg{font-family:var(--font-display);}
+  .gram-body p.eg,.gram-body .eg.big{display:block;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:10px 13px;font-size:15px;margin:0 0 11px;}
+  .gram-body .eg.big{text-align:center;letter-spacing:.3px;}
+  .gram-body .tr{color:var(--muted);font-family:var(--font-sans);font-size:12.5px;}
+  .gram-body .der{color:var(--der);font-weight:700;} .gram-body .die{color:var(--die);font-weight:700;} .gram-body .das{color:var(--das);font-weight:700;}
+  .gram-body .tip{background:color-mix(in srgb,var(--good) 13%,transparent);border:1px solid color-mix(in srgb,var(--good) 32%,var(--line));border-radius:10px;padding:10px 13px;font-size:13.5px;}
+  .gram-body .note{color:var(--muted);font-size:13px;}
+  .tbl{overflow-x:auto;margin:0 0 12px;}
+  .gram-body table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;font-family:var(--font-display);}
+  .gram-body th,.gram-body td{border:1px solid var(--line);padding:7px 9px;text-align:center;font-size:14.5px;}
+  .gram-body thead th,.gram-body tbody th{background:var(--surface-2);font-weight:600;}
+  .gram-body tbody th{text-align:left;font-family:var(--font-sans);font-size:12px;color:var(--muted);}
+  .gram-body th.m,.gram-body td.m{color:var(--der);} .gram-body th.f,.gram-body td.f{color:var(--die);}
+  .gram-body th.n,.gram-body td.n{color:var(--das);} .gram-body th.p,.gram-body td.p{color:var(--accent);}
+  .gram-foot{color:var(--muted);font-size:13px;text-align:center;padding:14px 6px 0;line-height:1.6;}
+
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;}}
   @media (max-width:480px){
     .grades{grid-template-columns:repeat(2,1fr);}
@@ -270,6 +300,7 @@
   <nav class="tabs" role="tablist">
     <button role="tab" aria-selected="true" data-tab="study">Vocab</button>
     <button role="tab" aria-selected="false" data-tab="verbs">Verbs</button>
+    <button role="tab" aria-selected="false" data-tab="grammar">Grammar</button>
     <button role="tab" aria-selected="false" data-tab="deck">Deck</button>
     <button role="tab" aria-selected="false" data-tab="add">Add</button>
   </nav>
@@ -319,6 +350,122 @@
     <div class="flashcard" id="verbcard" tabindex="0" role="button" aria-label="Verb card, activate to reveal the conjugation"></div>
     <div id="v-actions" class="actions2 hidden"></div>
     <div class="flip-hint" id="v-hint"><kbd>Space</kbd> or tap to reveal</div>
+  </section>
+
+  <!-- GRAMMAR -->
+  <section id="view-grammar" class="hidden">
+    <div class="gram-intro"><b>German grammar, in plain English.</b> It looks scary, but it's mostly a few patterns that repeat. Tap a topic to open it — the colours match the vocab (der = blue, die = red, das = green). Start at the top.</div>
+
+    <details class="gram" open>
+      <summary><span>The 4 cases — the whole game</span></summary>
+      <div class="gram-body">
+        <p>German changes the little words (<i>the, a, my</i>) depending on the noun's <b>job</b> in the sentence. Four jobs = four cases:</p>
+        <ul class="gram-list">
+          <li><b>Nominativ</b> — the <b>subject</b> (who does it): <span class="eg"><span class="der">Der</span> Hund schläft.</span></li>
+          <li><b>Akkusativ</b> — the <b>direct object</b> (what's acted on): <span class="eg">Ich sehe <span class="der">den</span> Hund.</span></li>
+          <li><b>Dativ</b> — the <b>indirect object</b> (to / for whom): <span class="eg">Ich gebe <span class="der">dem</span> Hund Wasser.</span></li>
+          <li><b>Genitiv</b> — <b>possession</b> (whose / "of"): <span class="eg">das Halsband <span class="der">des</span> Hundes.</span></li>
+        </ul>
+        <p class="eg big"><span class="der">Der</span> Mann gibt <span class="das">dem</span> Kind <span class="der">den</span> Ball.<br><span class="tr">The man (subject) gives the child (to whom) the ball (what).</span></p>
+        <div class="tbl"><table>
+          <thead><tr><th></th><th class="m">der · m</th><th class="f">die · f</th><th class="n">das · n</th><th class="p">die · pl</th></tr></thead>
+          <tbody>
+            <tr><th>Nom.</th><td class="m">der</td><td class="f">die</td><td class="n">das</td><td class="p">die</td></tr>
+            <tr><th>Akk.</th><td class="m"><b>den</b></td><td class="f">die</td><td class="n">das</td><td class="p">die</td></tr>
+            <tr><th>Dat.</th><td class="m">dem</td><td class="f">der</td><td class="n">dem</td><td class="p">den</td></tr>
+            <tr><th>Gen.</th><td class="m">des</td><td class="f">der</td><td class="n">des</td><td class="p">der</td></tr>
+          </tbody>
+        </table></div>
+        <p class="tip">💡 The relief: <b>only masculine really changes</b> (der → den in the accusative). Feminine and neuter barely move — learn the masculine column and you're most of the way there.</p>
+        <p class="note">Extras: Dativ plural adds <b>-n</b> to the noun (den Kinder<b>n</b>); Genitiv masc/neut adds <b>-s / -es</b> (des Mann<b>es</b>).</p>
+      </div>
+    </details>
+
+    <details class="gram">
+      <summary><span>ein / kein / mein (the "ein-words")</span></summary>
+      <div class="gram-body">
+        <p><b>ein, kein</b> and the possessives (<b>mein, dein, sein, ihr, unser, euer</b>) all take the <b>same endings</b>:</p>
+        <div class="tbl"><table>
+          <thead><tr><th></th><th class="m">masc</th><th class="f">fem</th><th class="n">neut</th><th class="p">plural (kein)</th></tr></thead>
+          <tbody>
+            <tr><th>Nom.</th><td class="m">ein</td><td class="f">eine</td><td class="n">ein</td><td class="p">keine</td></tr>
+            <tr><th>Akk.</th><td class="m"><b>einen</b></td><td class="f">eine</td><td class="n">ein</td><td class="p">keine</td></tr>
+            <tr><th>Dat.</th><td class="m">einem</td><td class="f">einer</td><td class="n">einem</td><td class="p">keinen</td></tr>
+            <tr><th>Gen.</th><td class="m">eines</td><td class="f">einer</td><td class="n">eines</td><td class="p">keiner</td></tr>
+          </tbody>
+        </table></div>
+        <p class="eg">Ich habe <span class="der">einen</span> Bruder und <span class="die">eine</span> Schwester.</p>
+      </div>
+    </details>
+
+    <details class="gram">
+      <summary><span>Which case do I use?</span></summary>
+      <div class="gram-body">
+        <ul class="gram-list">
+          <li><b>Nominativ</b> — the subject; and after <b>sein, werden, bleiben</b> <span class="eg">(Er ist <span class="der">ein</span> Lehrer.)</span></li>
+          <li><b>Akkusativ</b> — the direct object; and after <b>durch, für, gegen, ohne, um, bis</b>.</li>
+          <li><b>Dativ</b> — the indirect object; after <b>aus, bei, mit, nach, seit, von, zu, gegenüber</b>; and after dative verbs <b>helfen, danken, gehören, gefallen, passen, antworten</b>.</li>
+          <li><b>Genitiv</b> — possession; after <b>während, wegen, trotz, (an)statt</b>.</li>
+        </ul>
+        <p class="tip">💡 Memorise those two preposition lists — they decide the case automatically, every single time.</p>
+      </div>
+    </details>
+
+    <details class="gram">
+      <summary><span>The movement trick (two-way prepositions)</span></summary>
+      <div class="gram-body">
+        <p>These 9 take <b>Akkusativ for movement</b> (Wohin? — where <i>to</i>) and <b>Dativ for a location</b> (Wo? — where):</p>
+        <p class="eg big">an · auf · hinter · in · neben · über · unter · vor · zwischen</p>
+        <p class="eg">Ich gehe <span class="die">in die</span> Schule. <span class="tr">(moving → Akkusativ)</span><br>Ich bin <span class="die">in der</span> Schule. <span class="tr">(staying → Dativ)</span></p>
+        <p class="tip">💡 <b>Moving = Akkusativ, chilling = Dativ.</b></p>
+      </div>
+    </details>
+
+    <details class="gram">
+      <summary><span>Word order — where the verb goes</span></summary>
+      <div class="gram-body">
+        <ul class="gram-list">
+          <li><b>Main clause: the verb is always in position 2.</b><br><span class="eg">Ich <b>gehe</b> heute ins Kino. = Heute <b>gehe</b> ich ins Kino.</span><br><span class="tr">Put anything first — the verb stays #2 and the subject hops behind it.</span></li>
+          <li><b>Subordinate clause: the verb jumps to the END</b> (after weil, dass, wenn, obwohl, als…):<br><span class="eg">Ich bleibe zu Hause, weil ich krank <b>bin</b>.</span></li>
+          <li><b>Two verbs = a bracket:</b> conjugated verb #2, the other one at the end.<br><span class="eg">Ich <b>habe</b> gestern Pizza <b>gegessen</b>. · Ich <b>will</b> schwimmen <b>gehen</b>.</span></li>
+        </ul>
+        <p class="tip">💡 Middle-of-sentence order = <b>TeKaMoLo</b>: <b>Te</b>mporal (when) → <b>Ka</b>usal (why) → <b>Mo</b>dal (how) → <b>Lo</b>kal (where).<br><span class="eg">Ich fahre <b>morgen</b> <b>mit dem Bus</b> <b>zur Arbeit</b>.</span></p>
+      </div>
+    </details>
+
+    <details class="gram">
+      <summary><span>Past tense: Perfekt vs Präteritum</span></summary>
+      <div class="gram-body">
+        <ul class="gram-list">
+          <li><b>Perfekt</b> (haben / sein + participle) = the <b>spoken, everyday past</b>.<br><span class="eg">Ich <b>habe</b> gegessen. · Ich <b>bin</b> gegangen.</span></li>
+          <li><b>Präteritum</b> = the <b>written past</b> (books, news) — but always used in speech for <b>sein, haben,</b> and modals.<br><span class="eg">Ich <b>war</b>, ich <b>hatte</b>, ich <b>konnte</b>.</span></li>
+        </ul>
+        <p class="tip">💡 <b>haben or sein?</b> Use <b>sein</b> for movement (gehen, kommen, fahren) and change of state (aufwachen, sterben), plus <i>sein / bleiben</i>. Everything else uses <b>haben</b>.</p>
+      </div>
+    </details>
+
+    <details class="gram">
+      <summary><span>Konjunktiv II — "would / could / polite"</span></summary>
+      <div class="gram-body">
+        <p>For wishes, hypotheticals, and being polite. The easy universal form is <b>würde + infinitive</b>; common verbs have a shorter own form:</p>
+        <ul class="gram-list">
+          <li><b>würde</b> — would · <b>hätte</b> — would have · <b>wäre</b> — would be</li>
+          <li><b>könnte</b> — could · <b>möchte</b> — would like · <b>müsste / sollte</b> — would have to / should</li>
+        </ul>
+        <p class="eg">Ich <b>hätte</b> gern einen Kaffee. <span class="tr">(polite: I'd like a coffee)</span><br>Wenn ich Zeit <b>hätte</b>, <b>würde</b> ich dir helfen. <span class="tr">(If I had time, I'd help you)</span></p>
+      </div>
+    </details>
+
+    <details class="gram">
+      <summary><span>Separable verbs</span></summary>
+      <div class="gram-body">
+        <p>Some verbs split in a sentence — the prefix flies to the <b>end</b>:</p>
+        <p class="eg">auf|stehen → Ich <b>stehe</b> um 7 Uhr <b>auf</b>.<br>ein|kaufen → Wir <b>kaufen</b> im Supermarkt <b>ein</b>.</p>
+        <p class="note">Common separable prefixes: an, auf, aus, ein, mit, nach, vor, zu, ab, zurück. In the Perfekt the <b>-ge-</b> slots into the middle: <b>auf</b>ge<b>standen</b>.</p>
+      </div>
+    </details>
+
+    <p class="gram-foot">This is the 20% of grammar that clears up 80% of the confusion. The rest sinks in on its own through the words and examples you're studying — you don't have to "master" it, just start recognising the patterns. 💪</p>
   </section>
 
   <!-- DECK -->
@@ -1042,6 +1189,7 @@
     Array.prototype.forEach.call(document.querySelectorAll(".tabs button"),function(b){ b.setAttribute("aria-selected",b.getAttribute("data-tab")===t?"true":"false"); });
     document.getElementById("view-study").classList.toggle("hidden",t!=="study");
     document.getElementById("view-verbs").classList.toggle("hidden",t!=="verbs");
+    document.getElementById("view-grammar").classList.toggle("hidden",t!=="grammar");
     document.getElementById("view-deck").classList.toggle("hidden",t!=="deck");
     document.getElementById("view-add").classList.toggle("hidden",t!=="add");
     if(t==="study"){ ui.ahead=false; studyRender(); }
