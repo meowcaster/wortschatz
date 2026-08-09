@@ -417,6 +417,9 @@
     {id:"reisen",name:"Reisen · Travel"},
     {id:"essen",name:"Essen · Food"},
     {id:"gesundheit",name:"Gesundheit · Health"},
+    {id:"topA",name:"A · most frequent"},
+    {id:"topB",name:"B · common"},
+    {id:"topC",name:"C · advanced"},
     {id:"top10k",name:"Top 12k · Frequency"},
     {id:"mine",name:"My cards"}
   ];
@@ -769,10 +772,14 @@
     if(!window.fetch) return;
     fetch("./words.json").then(function(r){ return r.ok?r.json():null; }).then(function(rows){
       if(!rows||!rows.length) return;
-      var have={}; state.cards.forEach(function(c){ if((c.deck||"")==="top10k") have[c.de]=true; });
+      var deckOf={}; for(var j=0;j<rows.length;j++){ deckOf[rows[j][3]]=rows[j][0]; }
+      var LIB={top10k:1,topA:1,topB:1,topC:1}, have={}, changed=false;
+      state.cards.forEach(function(c){
+        if(LIB[c.deck||""]){ have[c.de]=true; var nd=deckOf[c.de]; if(nd && c.deck!==nd){ c.deck=nd; changed=true; } }
+      });
       var added=0;
-      for(var i=0;i<rows.length;i++){ var row=rows[i]; row[0]="top10k"; if(have[row[3]]) continue; have[row[3]]=true; state.cards.push(seedRowCard(row,i)); added++; }
-      if(added){ save(); refreshStats(); fillDeckFilter(); if(ui.tab==="study"&&!ui.current) studyRender(); }
+      for(var i=0;i<rows.length;i++){ var row=rows[i]; if(have[row[3]]) continue; have[row[3]]=true; state.cards.push(seedRowCard(row,i)); added++; }
+      if(added||changed){ save(); refreshStats(); fillDeckFilter(); if(ui.tab==="study"&&!ui.current) studyRender(); }
     }).catch(function(){});
   }
 
