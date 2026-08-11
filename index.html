@@ -64,6 +64,13 @@
 
   .top{display:flex;flex-direction:column;gap:18px;margin-bottom:20px;}
   .brand{display:flex;align-items:center;gap:14px;}
+  .lang-select{margin-left:auto;align-self:center;padding:7px 9px;border:1px solid var(--line);border-radius:9px;
+    background:var(--surface);color:var(--ink);font-family:var(--font-sans);font-size:12.5px;font-weight:600;cursor:pointer;}
+  .lang-select:focus-visible{outline:2px solid var(--accent);outline-offset:1px;}
+  [dir="rtl"] .lang-select{margin-left:0;margin-right:auto;}
+  /* Keep German (Latin) content left-to-right even when the interface is RTL */
+  .word,.answer .form,.prompt-line,.genderhint,.example .de,.gram-body .eg,kbd{direction:ltr;unicode-bidi:isolate;}
+  [dir="rtl"] .stat,[dir="rtl"] .cardrow,[dir="rtl"] .example{text-align:right;}
   .logo{width:44px;height:44px;flex:none;border-radius:12px;background:var(--accent);
     color:#fff;display:grid;place-items:center;font-family:var(--font-display);
     font-size:24px;font-weight:600;box-shadow:var(--shadow);}
@@ -287,22 +294,29 @@
       <div class="logo">ß</div>
       <div>
         <h1>Wortschatz</h1>
-        <p class="tag">Spaced-repetition trainer · B1–C1 German</p>
+        <p class="tag" data-i18n="app.tag">Spaced-repetition trainer · A1–C1 German</p>
       </div>
+      <select id="lang-select" class="lang-select" aria-label="Interface language">
+        <option value="en">🇬🇧 English</option>
+        <option value="ar">🇪🇬 العربية</option>
+        <option value="es">🇪🇸 Español</option>
+        <option value="fr">🇫🇷 Français</option>
+        <option value="tr">🇹🇷 Türkçe</option>
+      </select>
     </div>
     <div class="stats">
-      <div class="stat due"><div class="n" id="s-due">0</div><div class="l">Due now</div></div>
-      <div class="stat"><div class="n" id="s-learned">0<small id="s-total">/0</small></div><div class="l">Learned</div></div>
-      <div class="stat"><div class="n" id="s-streak">0<small>d</small></div><div class="l">Streak</div></div>
+      <div class="stat due"><div class="n" id="s-due">0</div><div class="l" data-i18n="stat.due">Due now</div></div>
+      <div class="stat"><div class="n" id="s-learned">0<small id="s-total">/0</small></div><div class="l" data-i18n="stat.learned">Learned</div></div>
+      <div class="stat"><div class="n" id="s-streak">0<small>d</small></div><div class="l" data-i18n="stat.streak">Streak</div></div>
     </div>
   </header>
 
   <nav class="tabs" role="tablist">
-    <button role="tab" aria-selected="true" data-tab="study">Vocab</button>
-    <button role="tab" aria-selected="false" data-tab="verbs">Verbs</button>
-    <button role="tab" aria-selected="false" data-tab="grammar">Grammar</button>
-    <button role="tab" aria-selected="false" data-tab="deck">Deck</button>
-    <button role="tab" aria-selected="false" data-tab="add">Add</button>
+    <button role="tab" aria-selected="true" data-tab="study" data-i18n="tab.study">Vocab</button>
+    <button role="tab" aria-selected="false" data-tab="verbs" data-i18n="tab.verbs">Verbs</button>
+    <button role="tab" aria-selected="false" data-tab="grammar" data-i18n="tab.grammar">Grammar</button>
+    <button role="tab" aria-selected="false" data-tab="deck" data-i18n="tab.deck">Deck</button>
+    <button role="tab" aria-selected="false" data-tab="add" data-i18n="tab.add">Add</button>
   </nav>
 
   <div class="install-bar" id="install-bar">
@@ -315,9 +329,9 @@
   <!-- VOCAB -->
   <section id="view-study">
     <div class="deckpick">
-      <span>Deck</span>
+      <span data-i18n="dp.deck">Deck</span>
       <select id="deck-filter"></select>
-      <span class="np">New/day</span>
+      <span class="np" data-i18n="dp.new">New/day</span>
       <select id="new-per-day">
         <option value="5">5</option>
         <option value="10">10</option>
@@ -335,7 +349,7 @@
       </div>
       <div class="flashcard" id="flashcard" tabindex="0" role="button" aria-label="Flashcard, activate to reveal answer"></div>
       <div id="grades" class="grades hidden"></div>
-      <div class="flip-hint" id="flip-hint"><kbd>Space</kbd> or tap to reveal</div>
+      <div class="flip-hint" id="flip-hint"><kbd>Space</kbd> <span data-i18n="flip.hint">or tap to reveal</span></div>
     </div>
     <div id="study-empty" class="empty hidden"></div>
   </section>
@@ -343,13 +357,13 @@
   <!-- VERBS -->
   <section id="view-verbs" class="hidden">
     <div class="sess-bar">
-      <span id="v-count">Conjugation drill</span>
+      <span id="v-count" data-i18n="verbs.title">Conjugation drill</span>
       <span class="track"><i id="v-fill" style="width:0%"></i></span>
       <span id="v-done">0 done</span>
     </div>
     <div class="flashcard" id="verbcard" tabindex="0" role="button" aria-label="Verb card, activate to reveal the conjugation"></div>
     <div id="v-actions" class="actions2 hidden"></div>
-    <div class="flip-hint" id="v-hint"><kbd>Space</kbd> or tap to reveal</div>
+    <div class="flip-hint" id="v-hint"><kbd>Space</kbd> <span data-i18n="flip.hint">or tap to reveal</span></div>
   </section>
 
   <!-- GRAMMAR -->
@@ -471,7 +485,7 @@
   <!-- DECK -->
   <section id="view-deck" class="hidden">
     <div class="toolrow">
-      <div class="search"><span class="ic">⌕</span><input id="search" type="text" placeholder="Search your deck…" autocomplete="off"></div>
+      <div class="search"><span class="ic">⌕</span><input id="search" type="text" data-i18n-ph="search.ph" placeholder="Search your deck…" autocomplete="off"></div>
     </div>
     <div id="deck-list"></div>
   </section>
@@ -480,18 +494,18 @@
   <section id="view-add" class="hidden">
     <form class="add" id="add-form" autocomplete="off">
       <div class="field">
-        <label>Part of speech</label>
+        <label data-i18n="add.pos">Part of speech</label>
         <div class="seg" id="pos-seg">
-          <button type="button" data-pos="noun" aria-pressed="true">Noun</button>
-          <button type="button" data-pos="verb" aria-pressed="false">Verb</button>
-          <button type="button" data-pos="adj" aria-pressed="false">Adjective</button>
-          <button type="button" data-pos="conn" aria-pressed="false">Connector</button>
-          <button type="button" data-pos="other" aria-pressed="false">Other</button>
+          <button type="button" data-pos="noun" aria-pressed="true" data-i18n="posbtn.noun">Noun</button>
+          <button type="button" data-pos="verb" aria-pressed="false" data-i18n="posbtn.verb">Verb</button>
+          <button type="button" data-pos="adj" aria-pressed="false" data-i18n="posbtn.adj">Adjective</button>
+          <button type="button" data-pos="conn" aria-pressed="false" data-i18n="posbtn.conn">Connector</button>
+          <button type="button" data-pos="other" aria-pressed="false" data-i18n="posbtn.other">Other</button>
         </div>
       </div>
       <div class="row2" id="noun-fields">
         <div class="field">
-          <label>Gender (article)</label>
+          <label data-i18n="add.gender">Gender (article)</label>
           <select id="f-gender">
             <option value="der">der (m)</option>
             <option value="die">die (f)</option>
@@ -499,43 +513,43 @@
           </select>
         </div>
         <div class="field">
-          <label>Plural <span style="text-transform:none;font-weight:500;color:var(--faint)">(optional)</span></label>
+          <label><span data-i18n="add.plural">Plural</span> <span style="text-transform:none;font-weight:500;color:var(--faint)" data-i18n="add.opt">(optional)</span></label>
           <input id="f-plural" placeholder="-en, ¨-e, —">
         </div>
       </div>
       <div class="field">
-        <label id="lbl-de">German noun</label>
+        <label id="lbl-de" data-i18n="add.de">German noun</label>
         <input id="f-de" placeholder="Erfahrung" required>
       </div>
       <div class="field">
-        <label>English meaning</label>
+        <label data-i18n="add.en">English meaning</label>
         <input id="f-en" placeholder="experience" required>
       </div>
       <div class="row2">
         <div class="field">
-          <label>Example (German) <span style="text-transform:none;font-weight:500;color:var(--faint)">opt.</span></label>
+          <label><span data-i18n="add.exde">Example (German)</span> <span style="text-transform:none;font-weight:500;color:var(--faint)" data-i18n="add.opt">opt.</span></label>
           <input id="f-exde" placeholder="Ich habe viel Erfahrung.">
         </div>
         <div class="field">
-          <label>Add to deck</label>
+          <label data-i18n="add.deck">Add to deck</label>
           <select id="f-deck"></select>
         </div>
       </div>
       <div class="field">
-        <label>Example translation <span style="text-transform:none;font-weight:500;color:var(--faint)">opt.</span></label>
+        <label><span data-i18n="add.exen">Example translation</span> <span style="text-transform:none;font-weight:500;color:var(--faint)" data-i18n="add.opt">opt.</span></label>
         <input id="f-exen" placeholder="I have a lot of experience.">
       </div>
-      <button class="btn" type="submit">Add to deck</button>
+      <button class="btn" type="submit" data-i18n="add.submit">Add to deck</button>
     </form>
   </section>
 
   <footer>
     <div class="footrow">
-      <button class="btn ghost" id="btn-export">↧ Export deck</button>
-      <button class="btn ghost" id="btn-import">↥ Import</button>
+      <button class="btn ghost" id="btn-export" data-i18n="foot.export">↧ Export deck</button>
+      <button class="btn ghost" id="btn-import" data-i18n="foot.import">↥ Import</button>
       <input type="file" id="file-import" accept=".json,application/json" class="hidden">
-      <button class="btn ghost" id="btn-restore">Restore starter deck</button>
-      <button class="btn ghost" id="btn-reset" style="margin-left:auto;color:var(--bad)">Reset progress</button>
+      <button class="btn ghost" id="btn-restore" data-i18n="foot.restore">Restore starter deck</button>
+      <button class="btn ghost" id="btn-reset" style="margin-left:auto;color:var(--bad)" data-i18n="foot.reset">Reset progress</button>
     </div>
     <p class="footnote">
       Shortcuts: <kbd>Space</kbd> reveal · <kbd>1</kbd>–<kbd>4</kbd> grade. 🔊 speaks German (uses your device's voices).
@@ -574,6 +588,137 @@
   ];
   var DECKNAME={}; DECKS.forEach(function(d){DECKNAME[d.id]=d.name;});
   var DORDER={}; DECKS.forEach(function(d,i){DORDER[d.id]=i;});
+
+  /* ---------- i18n (interface languages) ---------- */
+  var LANG="en", WORDT={}, GRAMMAR_EN="", RTL_LANGS={ar:1};
+  var I18N={ en:{
+    "app.tag":"Spaced-repetition trainer · A1–C1 German",
+    "tab.study":"Vocab","tab.verbs":"Verbs","tab.grammar":"Grammar","tab.deck":"Deck","tab.add":"Add",
+    "stat.due":"Due now","stat.learned":"Learned","stat.streak":"Streak",
+    "dp.deck":"Deck","dp.new":"New/day",
+    "sess.study":"to study","sess.done":"done","verbs.title":"Conjugation drill",
+    "flip.hint":"or tap to reveal",
+    "grade.again":"Again","grade.hard":"Hard","grade.good":"Good","grade.easy":"Easy",
+    "search.ph":"Search your deck…",
+    "add.pos":"Part of speech","add.gender":"Gender (article)","add.plural":"Plural","add.opt":"optional",
+    "add.de":"German word","add.en":"English meaning","add.exde":"Example (German)","add.exen":"Example translation","add.deck":"Add to deck","add.submit":"Add to deck",
+    "posbtn.noun":"Noun","posbtn.verb":"Verb","posbtn.adj":"Adjective","posbtn.conn":"Connector","posbtn.other":"Other",
+    "pos.noun":"Noun","pos.verb":"Verb","pos.adj":"Adjective","pos.adv":"Adverb","pos.conn":"Connector","pos.other":"Phrase","pos.q":"Question word",
+    "g.der":"masculine","g.die":"feminine","g.das":"neuter","g.pl":"plural",
+    "foot.export":"↧ Export deck","foot.import":"↥ Import","foot.restore":"Restore starter deck","foot.reset":"Reset progress",
+    "install.title":"Install Wortschatz","install.sub":"Add it to your home screen — works offline.",
+    "empty.done":"All caught up!","empty.none":"Nothing due","empty.reviewedOne":"You reviewed 1 card today.","empty.reviewedN":"You reviewed %n cards today.","empty.comeback":"Come back later, or get ahead now.","empty.ahead":"Study ahead","empty.add":"Add a card","empty.next":"Next card is due",
+    "pill.new":"new","pill.due":"due","meta.unseen":"unseen","meta.due":"due","meta.in":"in","meta.noplural":"no plural",
+    "deck.showing":"Showing first 400 of %n matches — use search to narrow.","deck.nomatch":"No cards match",
+    "verb.again":"Practice again","verb.got":"Got it ✓","verb.conjugate":"Verb · conjugate",
+    "deck.a1":"A1 · Basics","deck.a2":"A2 · Everyday","deck.core":"Core B1–B2","deck.arbeit":"Arbeit · Work","deck.meinung":"Meinung · Opinions","deck.advanced":"B2–C1 Advanced","deck.reisen":"Reisen · Travel","deck.essen":"Essen · Food","deck.gesundheit":"Gesundheit · Health","deck.topA":"A · most frequent","deck.topB":"B · common","deck.topC":"C · advanced","deck.top10k":"Top 12k · Frequency","deck.mine":"My cards","deck.all":"All decks"
+  } };
+  I18N.ar={
+    "app.tag":"مدرّب مفردات بالتكرار المتباعد · ألماني A1–C1",
+    "tab.study":"مفردات","tab.verbs":"أفعال","tab.grammar":"قواعد","tab.deck":"المجموعة","tab.add":"إضافة",
+    "stat.due":"مستحقة الآن","stat.learned":"محفوظة","stat.streak":"التتابع",
+    "dp.deck":"المجموعة","dp.new":"جديدة/يوم",
+    "sess.study":"للدراسة","sess.done":"تمّت","verbs.title":"تمرين التصريف",
+    "flip.hint":"أو انقر للكشف",
+    "grade.again":"من جديد","grade.hard":"صعبة","grade.good":"جيدة","grade.easy":"سهلة",
+    "search.ph":"ابحث في مجموعتك…",
+    "add.pos":"نوع الكلمة","add.gender":"الجنس (أداة التعريف)","add.plural":"الجمع","add.opt":"اختياري",
+    "add.de":"الكلمة الألمانية","add.en":"المعنى","add.exde":"مثال (بالألمانية)","add.exen":"ترجمة المثال","add.deck":"أضِف إلى مجموعة","add.submit":"أضِف إلى المجموعة",
+    "posbtn.noun":"اسم","posbtn.verb":"فعل","posbtn.adj":"صفة","posbtn.conn":"أداة ربط","posbtn.other":"أخرى",
+    "pos.noun":"اسم","pos.verb":"فعل","pos.adj":"صفة","pos.adv":"ظرف","pos.conn":"أداة ربط","pos.other":"عبارة","pos.q":"أداة استفهام",
+    "g.der":"مذكّر","g.die":"مؤنّث","g.das":"محايد","g.pl":"جمع",
+    "foot.export":"↧ تصدير","foot.import":"↥ استيراد","foot.restore":"استعادة المجموعة الأصلية","foot.reset":"إعادة ضبط التقدّم",
+    "install.title":"ثبّت Wortschatz","install.sub":"أضِفه إلى الشاشة الرئيسية — يعمل دون إنترنت.",
+    "empty.done":"أحسنت! انتهيت","empty.none":"لا شيء مستحق","empty.reviewedOne":"راجعت بطاقة واحدة اليوم.","empty.reviewedN":"راجعت %n بطاقة اليوم.","empty.comeback":"عُد لاحقًا، أو تقدّم الآن.","empty.ahead":"ادرس مقدّمًا","empty.add":"أضف بطاقة","empty.next":"البطاقة التالية مستحقة",
+    "pill.new":"جديدة","pill.due":"مستحقة","meta.unseen":"لم تُرَ","meta.due":"مستحقة","meta.in":"بعد","meta.noplural":"لا جمع",
+    "deck.showing":"عرض أول 400 من %n — استخدم البحث للتضييق.","deck.nomatch":"لا بطاقات تطابق",
+    "verb.again":"تدرّب ثانية","verb.got":"عرفتها ✓","verb.conjugate":"فعل · صرّفه",
+    "deck.a1":"A1 · أساسيات","deck.a2":"A2 · يوميات","deck.core":"أساسي B1–B2","deck.arbeit":"Arbeit · العمل","deck.meinung":"Meinung · الآراء","deck.advanced":"متقدّم B2–C1","deck.reisen":"Reisen · السفر","deck.essen":"Essen · الطعام","deck.gesundheit":"Gesundheit · الصحة","deck.topA":"A · الأكثر شيوعًا","deck.topB":"B · شائعة","deck.topC":"C · متقدّمة","deck.top10k":"أكثر 12 ألف تكرارًا","deck.mine":"بطاقاتي","deck.all":"كل المجموعات"
+  };
+  I18N.es={
+    "app.tag":"Entrenador de vocabulario con repetición espaciada · Alemán A1–C1",
+    "tab.study":"Vocabulario","tab.verbs":"Verbos","tab.grammar":"Gramática","tab.deck":"Mazo","tab.add":"Añadir",
+    "stat.due":"Pendientes","stat.learned":"Aprendidas","stat.streak":"Racha",
+    "dp.deck":"Mazo","dp.new":"Nuevas/día",
+    "sess.study":"por estudiar","sess.done":"hechas","verbs.title":"Ejercicio de conjugación",
+    "flip.hint":"o toca para revelar",
+    "grade.again":"Otra vez","grade.hard":"Difícil","grade.good":"Bien","grade.easy":"Fácil",
+    "search.ph":"Busca en tu mazo…",
+    "add.pos":"Categoría","add.gender":"Género (artículo)","add.plural":"Plural","add.opt":"opcional",
+    "add.de":"Palabra alemana","add.en":"Significado","add.exde":"Ejemplo (alemán)","add.exen":"Traducción del ejemplo","add.deck":"Añadir al mazo","add.submit":"Añadir al mazo",
+    "posbtn.noun":"Sustantivo","posbtn.verb":"Verbo","posbtn.adj":"Adjetivo","posbtn.conn":"Conector","posbtn.other":"Otro",
+    "pos.noun":"Sustantivo","pos.verb":"Verbo","pos.adj":"Adjetivo","pos.adv":"Adverbio","pos.conn":"Conector","pos.other":"Frase","pos.q":"Interrogativo",
+    "g.der":"masculino","g.die":"femenino","g.das":"neutro","g.pl":"plural",
+    "foot.export":"↧ Exportar","foot.import":"↥ Importar","foot.restore":"Restaurar mazo inicial","foot.reset":"Reiniciar progreso",
+    "install.title":"Instalar Wortschatz","install.sub":"Añádelo a tu pantalla de inicio — funciona sin conexión.",
+    "empty.done":"¡Todo al día!","empty.none":"Nada pendiente","empty.reviewedOne":"Repasaste 1 tarjeta hoy.","empty.reviewedN":"Repasaste %n tarjetas hoy.","empty.comeback":"Vuelve más tarde o adelanta ahora.","empty.ahead":"Estudiar por adelantado","empty.add":"Añadir una tarjeta","empty.next":"La próxima tarjeta vence",
+    "pill.new":"nueva","pill.due":"pendiente","meta.unseen":"sin ver","meta.due":"pendiente","meta.in":"en","meta.noplural":"sin plural",
+    "deck.showing":"Mostrando las primeras 400 de %n — usa la búsqueda para acotar.","deck.nomatch":"Ninguna tarjeta coincide con",
+    "verb.again":"Practicar otra vez","verb.got":"La sé ✓","verb.conjugate":"Verbo · conjuga",
+    "deck.a1":"A1 · Básico","deck.a2":"A2 · Cotidiano","deck.core":"Esencial B1–B2","deck.arbeit":"Arbeit · Trabajo","deck.meinung":"Meinung · Opiniones","deck.advanced":"Avanzado B2–C1","deck.reisen":"Reisen · Viajes","deck.essen":"Essen · Comida","deck.gesundheit":"Gesundheit · Salud","deck.topA":"A · más frecuentes","deck.topB":"B · comunes","deck.topC":"C · avanzadas","deck.top10k":"Top 12k · Frecuencia","deck.mine":"Mis tarjetas","deck.all":"Todos los mazos"
+  };
+  I18N.fr={
+    "app.tag":"Entraîneur de vocabulaire à répétition espacée · Allemand A1–C1",
+    "tab.study":"Vocabulaire","tab.verbs":"Verbes","tab.grammar":"Grammaire","tab.deck":"Paquet","tab.add":"Ajouter",
+    "stat.due":"À réviser","stat.learned":"Apprises","stat.streak":"Série",
+    "dp.deck":"Paquet","dp.new":"Nouv./jour",
+    "sess.study":"à étudier","sess.done":"faites","verbs.title":"Exercice de conjugaison",
+    "flip.hint":"ou touchez pour révéler",
+    "grade.again":"Encore","grade.hard":"Difficile","grade.good":"Bien","grade.easy":"Facile",
+    "search.ph":"Rechercher dans votre paquet…",
+    "add.pos":"Nature","add.gender":"Genre (article)","add.plural":"Pluriel","add.opt":"facultatif",
+    "add.de":"Mot allemand","add.en":"Signification","add.exde":"Exemple (allemand)","add.exen":"Traduction de l’exemple","add.deck":"Ajouter au paquet","add.submit":"Ajouter au paquet",
+    "posbtn.noun":"Nom","posbtn.verb":"Verbe","posbtn.adj":"Adjectif","posbtn.conn":"Connecteur","posbtn.other":"Autre",
+    "pos.noun":"Nom","pos.verb":"Verbe","pos.adj":"Adjectif","pos.adv":"Adverbe","pos.conn":"Connecteur","pos.other":"Expression","pos.q":"Mot interrogatif",
+    "g.der":"masculin","g.die":"féminin","g.das":"neutre","g.pl":"pluriel",
+    "foot.export":"↧ Exporter","foot.import":"↥ Importer","foot.restore":"Restaurer le paquet initial","foot.reset":"Réinitialiser la progression",
+    "install.title":"Installer Wortschatz","install.sub":"Ajoutez-le à votre écran d’accueil — fonctionne hors ligne.",
+    "empty.done":"Tout est à jour !","empty.none":"Rien à réviser","empty.reviewedOne":"Vous avez révisé 1 carte aujourd’hui.","empty.reviewedN":"Vous avez révisé %n cartes aujourd’hui.","empty.comeback":"Revenez plus tard, ou prenez de l’avance.","empty.ahead":"Étudier en avance","empty.add":"Ajouter une carte","empty.next":"Prochaine carte prévue",
+    "pill.new":"nouvelle","pill.due":"à réviser","meta.unseen":"jamais vue","meta.due":"à réviser","meta.in":"dans","meta.noplural":"pas de pluriel",
+    "deck.showing":"Affichage des 400 premières sur %n — affinez avec la recherche.","deck.nomatch":"Aucune carte ne correspond à",
+    "verb.again":"S’entraîner encore","verb.got":"Je sais ✓","verb.conjugate":"Verbe · conjuguez",
+    "deck.a1":"A1 · Bases","deck.a2":"A2 · Quotidien","deck.core":"Essentiel B1–B2","deck.arbeit":"Arbeit · Travail","deck.meinung":"Meinung · Opinions","deck.advanced":"Avancé B2–C1","deck.reisen":"Reisen · Voyages","deck.essen":"Essen · Nourriture","deck.gesundheit":"Gesundheit · Santé","deck.topA":"A · plus fréquents","deck.topB":"B · courants","deck.topC":"C · avancés","deck.top10k":"Top 12k · Fréquence","deck.mine":"Mes cartes","deck.all":"Tous les paquets"
+  };
+  I18N.tr={
+    "app.tag":"Aralıklı tekrarla kelime eğitmeni · Almanca A1–C1",
+    "tab.study":"Kelimeler","tab.verbs":"Fiiller","tab.grammar":"Dilbilgisi","tab.deck":"Deste","tab.add":"Ekle",
+    "stat.due":"Zamanı gelen","stat.learned":"Öğrenilen","stat.streak":"Seri",
+    "dp.deck":"Deste","dp.new":"Yeni/gün",
+    "sess.study":"çalışılacak","sess.done":"bitti","verbs.title":"Çekim alıştırması",
+    "flip.hint":"veya dokunup göster",
+    "grade.again":"Tekrar","grade.hard":"Zor","grade.good":"İyi","grade.easy":"Kolay",
+    "search.ph":"Destende ara…",
+    "add.pos":"Sözcük türü","add.gender":"Cinsiyet (artikel)","add.plural":"Çoğul","add.opt":"isteğe bağlı",
+    "add.de":"Almanca sözcük","add.en":"Anlamı","add.exde":"Örnek (Almanca)","add.exen":"Örnek çevirisi","add.deck":"Desteye ekle","add.submit":"Desteye ekle",
+    "posbtn.noun":"İsim","posbtn.verb":"Fiil","posbtn.adj":"Sıfat","posbtn.conn":"Bağlaç","posbtn.other":"Diğer",
+    "pos.noun":"İsim","pos.verb":"Fiil","pos.adj":"Sıfat","pos.adv":"Zarf","pos.conn":"Bağlaç","pos.other":"İfade","pos.q":"Soru sözcüğü",
+    "g.der":"eril","g.die":"dişil","g.das":"nötr","g.pl":"çoğul",
+    "foot.export":"↧ Dışa aktar","foot.import":"↥ İçe aktar","foot.restore":"Başlangıç destesini geri yükle","foot.reset":"İlerlemeyi sıfırla",
+    "install.title":"Wortschatz’ı yükle","install.sub":"Ana ekranına ekle — çevrimdışı çalışır.",
+    "empty.done":"Hepsi tamam!","empty.none":"Zamanı gelen yok","empty.reviewedOne":"Bugün 1 kart tekrar ettin.","empty.reviewedN":"Bugün %n kart tekrar ettin.","empty.comeback":"Sonra tekrar gel ya da önden çalış.","empty.ahead":"Önden çalış","empty.add":"Kart ekle","empty.next":"Sonraki kartın zamanı",
+    "pill.new":"yeni","pill.due":"zamanı","meta.unseen":"görülmedi","meta.due":"zamanı","meta.in":"","meta.noplural":"çoğulu yok",
+    "deck.showing":"%n eşleşmeden ilk 400 gösteriliyor — daraltmak için arayın.","deck.nomatch":"Eşleşen kart yok:",
+    "verb.again":"Tekrar çalış","verb.got":"Biliyorum ✓","verb.conjugate":"Fiil · çek",
+    "deck.a1":"A1 · Temel","deck.a2":"A2 · Günlük","deck.core":"Çekirdek B1–B2","deck.arbeit":"Arbeit · İş","deck.meinung":"Meinung · Görüşler","deck.advanced":"İleri B2–C1","deck.reisen":"Reisen · Seyahat","deck.essen":"Essen · Yemek","deck.gesundheit":"Gesundheit · Sağlık","deck.topA":"A · en sık","deck.topB":"B · yaygın","deck.topC":"C · ileri","deck.top10k":"En sık 12k","deck.mine":"Kartlarım","deck.all":"Tüm desteler"
+  };
+  function t(k){ var d=I18N[LANG]; if(d&&d[k]!=null) return d[k]; return (I18N.en[k]!=null?I18N.en[k]:k); }
+  function tn(k,n){ return t(k).replace("%n",n); }
+  function isRTL(){ return !!RTL_LANGS[LANG]; }
+  function deckName(id){ return t("deck."+id); }
+  function meaning(c){ if(LANG!=="en"&&WORDT[c.de]&&WORDT[c.de][0]) return WORDT[c.de][0]; return c.en; }
+  function exampleT(c){ if(LANG!=="en"&&WORDT[c.de]&&WORDT[c.de][1]) return WORDT[c.de][1]; return c.exEn||""; }
+  function applyStaticI18n(){
+    var i,els=document.querySelectorAll("[data-i18n]"); for(i=0;i<els.length;i++){ els[i].textContent=t(els[i].getAttribute("data-i18n")); }
+    els=document.querySelectorAll("[data-i18n-ph]"); for(i=0;i<els.length;i++){ els[i].setAttribute("placeholder",t(els[i].getAttribute("data-i18n-ph"))); }
+  }
+  function applyDir(){ document.documentElement.setAttribute("dir",isRTL()?"rtl":"ltr"); document.documentElement.setAttribute("lang",LANG); }
+  function renderGrammar(){ var el=document.getElementById("grammar-content"); if(!el) return; var g=I18N[LANG]&&I18N[LANG].grammar; el.innerHTML=g||GRAMMAR_EN; }
+  function rerenderAll(){ applyStaticI18n(); refreshStats(); fillDeckFilter(); fillAddDeck(); renderGrammar(); if(ui.tab==="study") studyRender(); else if(ui.tab==="verbs"){ ui.verb=null; nextVerb(); } else if(ui.tab==="deck") deckRender(); }
+  function loadWordT(cb){
+    if(LANG==="en"||inIframe()||!window.fetch){ WORDT={}; if(cb)cb(); return; }
+    fetch("./words-"+LANG+".json").then(function(r){ return r.ok?r.json():{}; }).then(function(j){ WORDT=j||{}; if(cb)cb(); }).catch(function(){ WORDT={}; if(cb)cb(); });
+  }
+  function setLang(code){ LANG=code||"en"; try{ localStorage.setItem("ws-lang",LANG); }catch(e){} applyDir(); loadWordT(function(){ rerenderAll(); }); }
 
   /* rows: [deck, pos, gender|null, de, plural|null, en, exDe, exEn] */
   var SEED=[
@@ -995,14 +1140,14 @@
   function fillDeckFilter(){
     var sel=document.getElementById("deck-filter");
     var present={}; state.cards.forEach(function(c){present[c.deck||"mine"]=true;});
-    var opts='<option value="all">All decks</option>';
-    DECKS.forEach(function(d){ if(present[d.id]){ var n=state.cards.filter(function(c){return c.deck===d.id;}).length; opts+='<option value="'+d.id+'">'+esc(d.name)+' ('+n+')</option>'; } });
+    var opts='<option value="all">'+esc(t("deck.all"))+'</option>';
+    DECKS.forEach(function(d){ if(present[d.id]){ var n=state.cards.filter(function(c){return c.deck===d.id;}).length; opts+='<option value="'+d.id+'">'+esc(deckName(d.id))+' ('+n+')</option>'; } });
     sel.innerHTML=opts;
     sel.value=ui.deckFilter;
   }
   function fillAddDeck(){
     var sel=document.getElementById("f-deck");
-    sel.innerHTML=DECKS.map(function(d){return '<option value="'+d.id+'"'+(d.id==="mine"?" selected":"")+'>'+esc(d.name)+'</option>';}).join("");
+    sel.innerHTML=DECKS.map(function(d){return '<option value="'+d.id+'"'+(d.id==="mine"?" selected":"")+'>'+esc(deckName(d.id))+'</option>';}).join("");
   }
 
   /* ---------- Vocab study ---------- */
@@ -1024,8 +1169,8 @@
     if(!ui.current){ live.classList.add("hidden"); empty.classList.remove("hidden"); renderEmpty(empty); return; }
     live.classList.remove("hidden"); empty.classList.add("hidden"); ui.shown=false;
     var total=ui.queue.length+ui.doneToday;
-    document.getElementById("sess-count").textContent=ui.queue.length+" to study";
-    document.getElementById("sess-done").textContent=ui.doneToday+" done";
+    document.getElementById("sess-count").textContent=ui.queue.length+" "+t("sess.study");
+    document.getElementById("sess-done").textContent=ui.doneToday+" "+t("sess.done");
     document.getElementById("sess-fill").style.width=total?(ui.doneToday/total*100)+"%":"0%";
     renderFront(ui.current);
     document.getElementById("grades").classList.add("hidden");
@@ -1033,7 +1178,7 @@
   }
   function renderFront(c){
     var fc=document.getElementById("flashcard"), h="";
-    h+='<div class="pos-kicker"><span>'+(POSLABEL[c.pos]||"")+'</span><span class="deckchip">'+esc(DECKNAME[c.deck]||"My cards")+'</span></div>';
+    h+='<div class="pos-kicker"><span>'+esc(t("pos."+c.pos))+'</span><span class="deckchip">'+esc(deckName(c.deck))+'</span></div>';
     h+='<div class="word">'+esc(c.de)+'</div>';
     h+='<div class="center-audio">'+spk(c.de)+'</div>';
     if(c.pos==="noun"){ h+='<div class="genderhint"><span class="q"><span>der</span><span>die</span><span>das</span></span></div>'; }
@@ -1042,17 +1187,17 @@
   }
   function renderBack(c){
     var fc=document.getElementById("flashcard"), h="";
-    h+='<div class="pos-kicker"><span>'+(POSLABEL[c.pos]||"")+'</span><span class="deckchip">'+esc(DECKNAME[c.deck]||"My cards")+'</span></div>';
+    h+='<div class="pos-kicker"><span>'+esc(t("pos."+c.pos))+'</span><span class="deckchip">'+esc(deckName(c.deck))+'</span></div>';
     if(c.pos==="noun"){
-      var art=c.gender==="pl"?"die":c.gender, gl=GENDERLABEL[c.gender]||"";
-      var plu=c.plural?(c.plural==="—"?"no plural":"pl. "+esc(c.plural)):"";
+      var art=c.gender==="pl"?"die":c.gender, gl=t("g."+c.gender);
+      var plu=c.plural?(c.plural==="—"?t("meta.noplural"):"pl. "+esc(c.plural)):"";
       h+='<div class="word"><span class="article '+c.gender+'">'+art+'</span> '+esc(c.de)+'<span class="plural">'+gl+(plu?' · '+plu:'')+'</span></div>';
     } else { h+='<div class="word">'+esc(c.de)+'</div>'; }
     h+='<div class="center-audio">'+spk((c.pos==="noun"&&c.gender?(c.gender==="pl"?"die":c.gender)+" ":"")+c.de)+'</div>';
-    h+='<div class="reveal"><div class="meaning">'+esc(c.en)+'</div>';
-    if(c.exDe){
+    h+='<div class="reveal"><div class="meaning">'+esc(meaning(c))+'</div>';
+    if(c.exDe){ var exT=exampleT(c);
       h+='<div class="example"><div class="ex-main"><div class="de">'+esc(c.exDe)+'</div>'+
-         (c.exEn?'<div class="en">'+esc(c.exEn)+'</div>':'')+'</div>'+spk(c.exDe,"sm")+'</div>';
+         (exT?'<div class="en">'+esc(exT)+'</div>':'')+'</div>'+spk(c.exDe,"sm")+'</div>';
     }
     h+='</div>';
     fc.innerHTML=h;
@@ -1060,8 +1205,8 @@
   function reveal(){
     if(ui.shown||!ui.current) return; ui.shown=true; renderBack(ui.current);
     var g=document.getElementById("grades");
-    var grades=[["again","Again"],["hard","Hard"],["good","Good"],["easy","Easy"]];
-    g.innerHTML=grades.map(function(x){ var p=next(ui.current,x[0]); return '<button class="grade" data-g="'+x[0]+'"><span class="g">'+x[1]+'</span><span class="iv">'+p.label+'</span></button>'; }).join("");
+    var grades=["again","hard","good","easy"];
+    g.innerHTML=grades.map(function(x){ var p=next(ui.current,x); return '<button class="grade" data-g="'+x+'"><span class="g">'+esc(t("grade."+x))+'</span><span class="iv">'+p.label+'</span></button>'; }).join("");
     g.classList.remove("hidden"); document.getElementById("flip-hint").classList.add("hidden");
   }
   function grade(g){
@@ -1078,13 +1223,12 @@
   }
   function renderEmpty(el){
     var up=state.cards.filter(function(c){return !isDue(c);}).sort(function(a,b){return a.due-b.due;})[0];
-    var when=up?"Next card is due "+relTime(up.due):"";
-    var filt = ui.deckFilter!=="all" ? " in "+esc(DECKNAME[ui.deckFilter]) : "";
-    el.innerHTML='<div class="em">✓</div><h2>'+(ui.doneToday?"Alles erledigt!":"Nichts fällig"+filt)+'</h2>'+
-      '<p>'+(ui.doneToday?"You reviewed "+ui.doneToday+" card"+(ui.doneToday>1?"s":"")+" today. ":"")+(when?when+". ":"")+'Come back later, or get ahead now.</p>'+
+    var when=up?t("empty.next")+" "+relTime(up.due):"";
+    el.innerHTML='<div class="em">✓</div><h2>'+esc(ui.doneToday?t("empty.done"):t("empty.none"))+'</h2>'+
+      '<p>'+esc((ui.doneToday?(ui.doneToday===1?t("empty.reviewedOne"):tn("empty.reviewedN",ui.doneToday))+" ":"")+(when?when+". ":"")+t("empty.comeback"))+'</p>'+
       '<div style="display:flex;gap:9px;margin-top:8px;flex-wrap:wrap;justify-content:center">'+
-      '<button class="btn" id="btn-ahead">Study ahead</button>'+
-      '<button class="btn ghost" id="btn-goadd">Add a card</button></div>';
+      '<button class="btn" id="btn-ahead">'+esc(t("empty.ahead"))+'</button>'+
+      '<button class="btn ghost" id="btn-goadd">'+esc(t("empty.add"))+'</button></div>';
     document.getElementById("btn-ahead").onclick=function(){ ui.ahead=true; studyRender(); };
     document.getElementById("btn-goadd").onclick=function(){ setTab("add"); };
   }
@@ -1109,14 +1253,14 @@
     ui.vPrompt=pickPrompt(); ui.vShown=false;
     document.getElementById("v-done").textContent=ui.vDone+" done";
     document.getElementById("v-fill").style.width=Math.min(100,ui.vDone*4)+"%";
-    document.getElementById("v-count").textContent="Conjugation drill";
+    document.getElementById("v-count").textContent=t("verbs.title");
     renderVerbFront();
     document.getElementById("v-actions").classList.add("hidden");
     document.getElementById("v-hint").classList.remove("hidden");
   }
   function renderVerbFront(){
     var v=ui.verb, pr=ui.vPrompt, fc=document.getElementById("verbcard"), h="";
-    h+='<div class="pos-kicker"><span>Verb · conjugate</span><span class="deckchip">'+esc(v.aux)+' · Partizip II</span></div>';
+    h+='<div class="pos-kicker"><span>'+esc(t("verb.conjugate"))+'</span><span class="deckchip">'+esc(v.aux)+' · Partizip II</span></div>';
     h+='<div class="word" style="margin:22px 0 6px">'+esc(v.inf)+'</div>';
     h+='<div style="text-align:center;color:var(--muted);font-size:14px;margin-bottom:6px">'+esc(v.en)+'</div>';
     h+='<div class="prompt-line"><span class="pp"><span class="person">'+esc(PLABEL[pr.person])+'</span><span class="tense">'+esc(pr.tense)+'</span></span></div>';
@@ -1130,7 +1274,7 @@
        '<div class="sub">Perfekt: '+esc((v.aux==="sein"?"ist":"hat")+" "+v.pp)+'  ·  Prät.: '+esc("er "+v.praet)+'</div></div>';
     fc.innerHTML=h;
     var a=document.getElementById("v-actions");
-    a.innerHTML='<button class="btn ghost" data-v="again">Nochmal üben</button><button class="btn" data-v="good">Konnte ich ✓</button>';
+    a.innerHTML='<button class="btn ghost" data-v="again">'+esc(t("verb.again"))+'</button><button class="btn" data-v="good">'+esc(t("verb.got"))+'</button>';
     a.classList.remove("hidden"); document.getElementById("v-hint").classList.add("hidden");
   }
   function gradeVerb(g){ if(!ui.vShown) return; if(g==="good") ui.vDone++; nextVerb(); }
@@ -1141,18 +1285,18 @@
     var list=document.getElementById("deck-list");
     var cards=state.cards.slice().sort(function(a,b){return a.de.localeCompare(b.de,"de");});
     if(q) cards=cards.filter(function(c){return c.de.toLowerCase().indexOf(q)>=0||c.en.toLowerCase().indexOf(q)>=0;});
-    if(!cards.length){ list.innerHTML='<p style="color:var(--muted);text-align:center;padding:30px 0">No cards match “'+esc(q)+'”.</p>'; return; }
+    if(!cards.length){ list.innerHTML='<p style="color:var(--muted);text-align:center;padding:30px 0">'+esc(t("deck.nomatch"))+' “'+esc(q)+'”.</p>'; return; }
     var totalMatch=cards.length; cards=cards.slice(0,400);
     list.innerHTML=cards.map(function(c){
       var g=c.pos==="noun"?c.gender:"";
-      var status=c.reps===0?'<span class="pill new">new</span>':(isDue(c)?'<span class="pill due">due</span>':'');
-      var iv=c.reps===0?"unseen":(isDue(c)?"due":"in "+fmtDays(Math.round((c.due-Date.now())/DAY)||1));
+      var status=c.reps===0?'<span class="pill new">'+esc(t("pill.new"))+'</span>':(isDue(c)?'<span class="pill due">'+esc(t("pill.due"))+'</span>':'');
+      var iv=c.reps===0?t("meta.unseen"):(isDue(c)?t("meta.due"):t("meta.in")+" "+fmtDays(Math.round((c.due-Date.now())/DAY)||1));
       var disp=c.pos==="noun"&&c.gender?'<span class="article '+c.gender+'">'+(c.gender==="pl"?"die":c.gender)+'</span> '+esc(c.de):esc(c.de);
       return '<div class="cardrow" data-id="'+c.id+'"><div class="bar '+g+'"></div>'+
-        '<div class="main"><div class="de">'+disp+status+'</div><div class="en">'+esc(c.en)+'</div></div>'+
+        '<div class="main"><div class="de">'+disp+status+'</div><div class="en">'+esc(meaning(c))+'</div></div>'+
         '<div class="meta">'+iv+'</div>'+spk(c.de,"sm")+
         '<button class="del" title="Delete card" aria-label="Delete card">×</button></div>';
-    }).join("") + (totalMatch>400?'<p style="color:var(--faint);text-align:center;padding:16px 0;font-size:12.5px">Showing first 400 of '+totalMatch+' matches — use search to narrow.</p>':'');
+    }).join("") + (totalMatch>400?'<p style="color:var(--faint);text-align:center;padding:16px 0;font-size:12.5px">'+esc(tn("deck.showing",totalMatch))+'</p>':'');
     Array.prototype.forEach.call(list.querySelectorAll(".del"),function(btn){
       btn.onclick=function(){
         var id=btn.parentNode.getAttribute("data-id"); var c=state.cards.filter(function(x){return x.id===id;})[0];
@@ -1166,8 +1310,7 @@
     ui.pos=p;
     Array.prototype.forEach.call(document.querySelectorAll("#pos-seg button"),function(b){ b.setAttribute("aria-pressed",b.getAttribute("data-pos")===p?"true":"false"); });
     document.getElementById("noun-fields").style.display=p==="noun"?"grid":"none";
-    var lbls={noun:"German noun",verb:"German verb (infinitive)",adj:"German adjective",conn:"Connector / phrase",other:"German word / phrase"};
-    document.getElementById("lbl-de").textContent=lbls[p];
+    document.getElementById("lbl-de").textContent=t("add.de");
   }
   function addCard(e){
     e.preventDefault();
@@ -1337,6 +1480,11 @@
     });
 
     setPos("noun"); setTab("study"); setupInstall(); loadLibrary();
+    var savedLang="en"; try{ savedLang=localStorage.getItem("ws-lang")||"en"; }catch(e){}
+    if(!I18N[savedLang]) savedLang="en";
+    var lsel=document.getElementById("lang-select");
+    if(lsel){ lsel.value=savedLang; lsel.onchange=function(e){ setLang(e.target.value); }; }
+    if(savedLang!=="en"){ setLang(savedLang); } else { applyDir(); applyStaticI18n(); }
   }
   init();
 })();
