@@ -281,6 +281,16 @@
   .gram-body th.n,.gram-body td.n{color:var(--das);} .gram-body th.p,.gram-body td.p{color:var(--accent);}
   .gram-foot{color:var(--muted);font-size:13px;text-align:center;padding:14px 6px 0;line-height:1.6;}
 
+  .account{background:var(--surface);border:1px solid var(--line);border-radius:13px;box-shadow:var(--shadow);padding:14px 15px;margin-bottom:16px;}
+  .acc-title{font-family:var(--font-display);font-weight:600;font-size:15.5px;margin-bottom:11px;}
+  .acc-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:9px;}
+  .account input{flex:1;min-width:140px;padding:9px 11px;border:1px solid var(--line);border-radius:9px;background:var(--surface-2);color:var(--ink);font-family:var(--font-sans);font-size:14px;}
+  .account input:focus-visible{outline:2px solid var(--accent);outline-offset:0;border-color:var(--accent);}
+  .acc-btns{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+  .account .btn{padding:9px 15px;font-size:13.5px;}
+  .acc-msg{font-size:12.5px;color:var(--muted);}
+  .acc-who-line{font-size:13.5px;margin-bottom:10px;line-height:1.5;}
+
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;}}
   @media (max-width:480px){
     .grades{grid-template-columns:repeat(2,1fr);}
@@ -544,6 +554,28 @@
   </section>
 
   <footer>
+    <div class="account" id="account" hidden>
+      <div class="acc-title">☁️ Sync across devices</div>
+      <div id="acc-out">
+        <div class="acc-row">
+          <input id="acc-email" type="email" placeholder="Email" autocomplete="email">
+          <input id="acc-pass" type="password" placeholder="Password (6+ characters)" autocomplete="current-password">
+        </div>
+        <div class="acc-btns">
+          <button class="btn" id="acc-login">Sign in</button>
+          <button class="btn ghost" id="acc-signup">Create account</button>
+          <span class="acc-msg" id="acc-msg"></span>
+        </div>
+      </div>
+      <div id="acc-in" hidden>
+        <div class="acc-who-line">Signed in as <b id="acc-who"></b> — your progress syncs across devices.</div>
+        <div class="acc-btns">
+          <button class="btn ghost" id="acc-sync">Sync now</button>
+          <button class="btn ghost" id="acc-logout">Sign out</button>
+          <span class="acc-msg" id="acc-status"></span>
+        </div>
+      </div>
+    </div>
     <div class="footrow">
       <button class="btn ghost" id="btn-export" data-i18n="foot.export">↧ Export deck</button>
       <button class="btn ghost" id="btn-import" data-i18n="foot.import">↥ Import</button>
@@ -1055,7 +1087,78 @@
     if(!state.newDay) state.newDay=todayStr();
     save();
   }
-  function save(){ try{ localStorage.setItem(KEY2, JSON.stringify(state)); }catch(e){} }
+  function save(){ try{ localStorage.setItem(KEY2, JSON.stringify(state)); }catch(e){} schedulePush(); }
+
+  /* ---------- Cross-device sync (Vercel backend, same-origin /api) ---------- */
+  var SYNC={ token:null, email:null, available:false, pushT:null, localUpdatedAt:0 };
+  function syncHeaders(){ var h={"Content-Type":"application/json"}; if(SYNC.token) h["Authorization"]="Bearer "+SYNC.token; return h; }
+  function loadAuth(){ try{ SYNC.token=localStorage.getItem("ws-token")||null; SYNC.email=localStorage.getItem("ws-email")||null; }catch(e){} }
+  function saveAuth(){ try{ if(SYNC.token){ localStorage.setItem("ws-token",SYNC.token); localStorage.setItem("ws-email",SYNC.email||""); } else { localStorage.removeItem("ws-token"); localStorage.removeItem("ws-email"); } }catch(e){} }
+  function accMsg(m){ var e=document.getElementById("acc-msg"); if(e) e.textContent=m||""; }
+  function accStatus(m){ var e=document.getElementById("acc-status"); if(e) e.textContent=m||""; }
+  function buildSave(){
+    var progress={}, mine=[];
+    for(var i=0;i<state.cards.length;i++){ var c=state.cards[i];
+      if((c.reps||0)>0 || c.intro){ progress[c.id]=[c.ef||2.5,c.interval||0,c.reps||0,c.due||0,c.intro||0,c.seen||0]; }
+      if((c.deck||"")==="mine") mine.push(c);
+    }
+    return { v:1, updatedAt:Date.now(), streak:state.streak||0, lastDay:state.lastDay||null, newPerDay:state.newPerDay||20, newToday:state.newToday||0, newDay:state.newDay||null, progress:progress, mine:mine };
+  }
+  function applySave(rem){
+    if(!rem) return false;
+    var byId={}; state.cards.forEach(function(c){ byId[c.id]=c; });
+    var changed=false, p=rem.progress||{};
+    for(var id in p){ var v=p[id], c=byId[id]; if(!c) continue;
+      if((v[5]||0) >= (c.seen||0)){ c.ef=v[0]; c.interval=v[1]; c.reps=v[2]; c.due=v[3]; if(v[4]) c.intro=v[4]; c.seen=v[5]||0; changed=true; }
+    }
+    (rem.mine||[]).forEach(function(rc){ if(!byId[rc.id]){ state.cards.push(rc); byId[rc.id]=rc; changed=true; } });
+    if((rem.updatedAt||0) >= (SYNC.localUpdatedAt||0)){
+      if(rem.newPerDay) state.newPerDay=rem.newPerDay;
+      if(rem.lastDay) state.lastDay=rem.lastDay;
+      if(rem.newDay){ state.newDay=rem.newDay; state.newToday=rem.newToday||0; }
+      changed=true;
+    }
+    state.streak=Math.max(state.streak||0, rem.streak||0);
+    return changed;
+  }
+  function pullCloud(cb){
+    if(!SYNC.token){ if(cb)cb(); return; }
+    fetch("/api/sync",{headers:syncHeaders()}).then(function(r){ if(r.status===401){ signOut(true); throw 0; } return r.json(); })
+      .then(function(j){ if(applySave(j.data)){ save(); refreshStats(); fillDeckFilter(); if(ui.tab==="study"&&!ui.current) studyRender(); }
+        SYNC.localUpdatedAt=(j.data&&j.data.updatedAt)||Date.now(); accStatus("Up to date"); if(cb)cb(); })
+      .catch(function(){ if(cb)cb(); });
+  }
+  function pushCloud(){
+    if(!SYNC.token) return;
+    fetch("/api/sync",{method:"POST",headers:syncHeaders(),body:JSON.stringify({data:buildSave()})})
+      .then(function(r){ if(r.status===401){ signOut(true); return; } accStatus("Synced ✓"); })
+      .catch(function(){ accStatus("Offline — will sync later"); });
+  }
+  function schedulePush(){ try{ if(!SYNC.token) return; }catch(e){ return; } clearTimeout(SYNC.pushT); SYNC.pushT=setTimeout(pushCloud,2500); }
+  function detectSync(cb){
+    if(inIframe()||!window.fetch){ SYNC.available=false; if(cb)cb(); return; }
+    fetch("/api/sync").then(function(r){ SYNC.available=(r.status===401||r.status===200); if(cb)cb(); }).catch(function(){ SYNC.available=false; if(cb)cb(); });
+  }
+  function renderAccount(){
+    var box=document.getElementById("account"); if(!box) return;
+    if(!SYNC.available){ box.setAttribute("hidden",""); return; }
+    box.removeAttribute("hidden");
+    var signed=!!SYNC.token, o=document.getElementById("acc-out"), i=document.getElementById("acc-in");
+    if(signed){ o.setAttribute("hidden",""); i.removeAttribute("hidden"); document.getElementById("acc-who").textContent=SYNC.email||"Signed in"; }
+    else { i.setAttribute("hidden",""); o.removeAttribute("hidden"); }
+  }
+  function authRequest(path){
+    var email=(document.getElementById("acc-email").value||"").trim(), pass=document.getElementById("acc-pass").value||"";
+    if(!email||!pass){ accMsg("Enter your email and password."); return; }
+    accMsg("…");
+    fetch("/api/"+path,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:email,password:pass})})
+      .then(function(r){ return r.json().then(function(j){ return {ok:r.ok,j:j}; }); })
+      .then(function(res){ if(!res.ok){ accMsg(res.j.error||"Something went wrong."); return; }
+        SYNC.token=res.j.token; SYNC.email=res.j.email; saveAuth(); accMsg(""); renderAccount();
+        pullCloud(function(){ pushCloud(); }); })
+      .catch(function(){ accMsg("Network error. Are you online?"); });
+  }
+  function signOut(silent){ SYNC.token=null; SYNC.email=null; saveAuth(); renderAccount(); if(!silent) accStatus("Signed out"); }
 
   /* ---------- New-card gating + big frequency library ---------- */
   function ensureNewDay(){ var t=todayStr(); if(state.newDay!==t){ state.newDay=t; state.newToday=0; } }
@@ -1213,7 +1316,7 @@
     if(!ui.shown||!ui.current) return;
     var c=ui.current; ensureNewDay();
     var wasNew=isNew(c);
-    var r=next(c,g); c.ef=r.ef; c.interval=r.interval; c.reps=r.reps; c.due=r.due;
+    var r=next(c,g); c.ef=r.ef; c.interval=r.interval; c.reps=r.reps; c.due=r.due; c.seen=Date.now();
     if(wasNew){ c.intro=todayStr(); state.newToday=(state.newToday||0)+1; }
     var t=todayStr();
     if(state.lastDay!==t){ var y=new Date(Date.now()-DAY); var ys=y.getFullYear()+"-"+(y.getMonth()+1)+"-"+y.getDate();
@@ -1485,6 +1588,15 @@
     var lsel=document.getElementById("lang-select");
     if(lsel){ lsel.value=savedLang; lsel.onchange=function(e){ setLang(e.target.value); }; }
     if(savedLang!=="en"){ setLang(savedLang); } else { applyDir(); applyStaticI18n(); }
+
+    loadAuth();
+    detectSync(function(){ renderAccount(); if(SYNC.token) pullCloud(); });
+    var accEl=function(id){ return document.getElementById(id); };
+    if(accEl("acc-login")) accEl("acc-login").onclick=function(){ authRequest("login"); };
+    if(accEl("acc-signup")) accEl("acc-signup").onclick=function(){ authRequest("signup"); };
+    if(accEl("acc-sync")) accEl("acc-sync").onclick=function(){ accStatus("Syncing…"); pullCloud(function(){ pushCloud(); }); };
+    if(accEl("acc-logout")) accEl("acc-logout").onclick=function(){ signOut(); };
+    window.addEventListener("online", function(){ if(SYNC.token) pullCloud(function(){ pushCloud(); }); });
   }
   init();
 })();

@@ -1,7 +1,7 @@
 /* Wortschatz service worker — network-first for the page, cache-first for static assets.
    Network-first means new words/features appear as soon as you're online; the cache is the
    offline fallback. Bump VERSION whenever you change files so installed apps refresh cleanly. */
-const VERSION = 'wortschatz-v11';
+const VERSION = 'wortschatz-v12';
 const ASSETS = [
   './',
   './index.html',
@@ -29,6 +29,7 @@ self.addEventListener('activate', (e) => {
 self.addEventListener('fetch', (e) => {
   const req = e.request;
   if (req.method !== 'GET') return;
+  try { if (new URL(req.url).pathname.indexOf('/api/') === 0) return; } catch (_) {}
   const accept = req.headers.get('accept') || '';
   const isPage = req.mode === 'navigate' || accept.includes('text/html');
 
