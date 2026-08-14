@@ -1136,7 +1136,7 @@
   function save(){ try{ localStorage.setItem(KEY2, JSON.stringify(state)); }catch(e){} schedulePush(); }
 
   /* ---------- Cross-device sync (Vercel backend, same-origin /api) ---------- */
-  var SYNC={ token:null, email:null, available:false, pushT:null, localUpdatedAt:0 };
+  var SYNC={ token:null, email:null, available:false, ready:false, pushT:null, localUpdatedAt:0 };
   function syncHeaders(){ var h={"Content-Type":"application/json"}; if(SYNC.token) h["Authorization"]="Bearer "+SYNC.token; return h; }
   function loadAuth(){ try{ SYNC.token=localStorage.getItem("ws-token")||null; SYNC.email=localStorage.getItem("ws-email")||null; }catch(e){} }
   function saveAuth(){ try{ if(SYNC.token){ localStorage.setItem("ws-token",SYNC.token); localStorage.setItem("ws-email",SYNC.email||""); } else { localStorage.removeItem("ws-token"); localStorage.removeItem("ws-email"); } }catch(e){} }
@@ -1180,7 +1180,7 @@
       .then(function(r){ if(r.status===401){ signOut(true); return; } accStatus("Synced ✓"); })
       .catch(function(){ accStatus("Offline — will sync later"); });
   }
-  function schedulePush(){ try{ if(!SYNC.token) return; }catch(e){ return; } clearTimeout(SYNC.pushT); SYNC.pushT=setTimeout(pushCloud,2500); }
+  function schedulePush(){ try{ if(!SYNC.token||!SYNC.ready) return; }catch(e){ return; } clearTimeout(SYNC.pushT); SYNC.pushT=setTimeout(pushCloud,2500); }
   function detectSync(cb){
     if(inIframe()||!window.fetch){ SYNC.available=false; if(cb)cb(); return; }
     fetch("/api/sync").then(function(r){ SYNC.available=(r.status===401||r.status===200); if(cb)cb(); }).catch(function(){ SYNC.available=false; if(cb)cb(); });
@@ -1200,21 +1200,21 @@
     fetch("/api/"+path,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:email,password:pass})})
       .then(function(r){ return r.json().then(function(j){ return {ok:r.ok,j:j}; }); })
       .then(function(res){ if(!res.ok){ accMsg(res.j.error||"Something went wrong."); return; }
-        SYNC.token=res.j.token; SYNC.email=res.j.email; saveAuth(); accMsg(""); renderAccount();
-        pullCloud(function(){ pushCloud(); }); })
+        SYNC.token=res.j.token; SYNC.email=res.j.email; saveAuth(); accMsg(""); renderAccount(); SYNC.ready=false;
+        loadLibrary(function(){ pullCloud(function(){ SYNC.ready=true; pushCloud(); }); }); })
       .catch(function(){ accMsg("Network error. Are you online?"); });
   }
-  function signOut(silent){ SYNC.token=null; SYNC.email=null; saveAuth(); renderAccount(); if(!silent) accStatus("Signed out"); }
+  function signOut(silent){ SYNC.token=null; SYNC.email=null; SYNC.ready=false; saveAuth(); renderAccount(); if(!silent) accStatus("Signed out"); }
 
   /* ---------- New-card gating + big frequency library ---------- */
   function ensureNewDay(){ var t=todayStr(); if(state.newDay!==t){ state.newDay=t; state.newToday=0; } }
   function isNew(c){ return (c.reps||0)===0 && !c.intro; }
   function seqOf(c){ var m=/(\d+)/.exec(c.id||""); return m?parseInt(m[1],10):0; }
   function seedRowCard(row,i){ return { id:"t"+i, deck:row[0], pos:row[1], gender:row[2], de:row[3], plural:row[4], en:row[5], exDe:row[6]||"", exEn:row[7]||"", ef:2.5, interval:0, reps:0, due:Date.now(), created:Date.now() }; }
-  function loadLibrary(){
-    if(!window.fetch) return;
+  function loadLibrary(cb){
+    if(!window.fetch){ if(cb)cb(); return; }
     fetch("./words.json").then(function(r){ return r.ok?r.json():null; }).then(function(rows){
-      if(!rows||!rows.length) return;
+      if(!rows||!rows.length){ if(cb)cb(); return; }
       var byDe={}; for(var j=0;j<rows.length;j++){ byDe[rows[j][3]]=rows[j]; }
       var LIB={top10k:1,topA:1,topB:1,topC:1}, have={}, changed=false;
       state.cards.forEach(function(c){
@@ -1225,7 +1225,8 @@
       var added=0;
       for(var i=0;i<rows.length;i++){ var row=rows[i]; if(have[row[3]]) continue; have[row[3]]=true; state.cards.push(seedRowCard(row,i)); added++; }
       if(added||changed){ save(); refreshStats(); fillDeckFilter(); if(ui.tab==="study"&&!ui.current) studyRender(); }
-    }).catch(function(){});
+      if(cb)cb();
+    }).catch(function(){ if(cb)cb(); });
   }
 
   /* ---------- Audio (Web Speech API) ---------- */
@@ -1628,7 +1629,7 @@
       }
     });
 
-    setPos("noun"); setTab("study"); setupInstall(); loadLibrary();
+    setPos("noun"); setTab("study"); setupInstall();
     var savedLang="en"; try{ savedLang=localStorage.getItem("ws-lang")||"en"; }catch(e){}
     if(!I18N[savedLang]) savedLang="en";
     var lsel=document.getElementById("lang-select");
@@ -1636,7 +1637,7 @@
     if(savedLang!=="en"){ setLang(savedLang); } else { applyDir(); applyStaticI18n(); }
 
     loadAuth();
-    detectSync(function(){ renderAccount(); if(SYNC.token) pullCloud(); });
+    loadLibrary(function(){ detectSync(function(){ renderAccount(); if(SYNC.token){ pullCloud(function(){ SYNC.ready=true; }); } else { SYNC.ready=true; } }); });
     var accEl=function(id){ return document.getElementById(id); };
     if(accEl("acc-login")) accEl("acc-login").onclick=function(){ authRequest("login"); };
     if(accEl("acc-signup")) accEl("acc-signup").onclick=function(){ authRequest("signup"); };
