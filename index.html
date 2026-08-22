@@ -559,15 +559,17 @@
     <div class="account" id="account" hidden>
       <div class="acc-title">☁️ Sync across devices</div>
       <div id="acc-out">
+        <form id="acc-form" autocomplete="on">
         <div class="acc-row">
-          <input id="acc-email" type="email" placeholder="Email" autocomplete="email">
-          <input id="acc-pass" type="password" placeholder="Password (6+ characters)" autocomplete="current-password">
+          <input id="acc-email" name="username" type="email" placeholder="Email" autocomplete="username" required>
+          <input id="acc-pass" name="password" type="password" placeholder="Password (6+ characters)" autocomplete="current-password" required>
         </div>
         <div class="acc-btns">
-          <button class="btn" id="acc-login">Sign in</button>
-          <button class="btn ghost" id="acc-signup">Create account</button>
+          <button class="btn" type="submit" id="acc-login">Sign in</button>
+          <button class="btn ghost" type="button" id="acc-signup">Create account</button>
           <span class="acc-msg" id="acc-msg"></span>
         </div>
+        </form>
       </div>
       <div id="acc-in" hidden>
         <div class="acc-who-line">Signed in as <b id="acc-who"></b> — your progress syncs across devices.</div>
@@ -590,6 +592,7 @@
       Everything saves in this browser only — nothing leaves your device. Export regularly to back up.
       <br>On your phone: open this page in the browser → Share → <b>Add to Home Screen</b> to run it like an app.
     </p>
+    <div id="app-ver" style="text-align:center;font-size:11px;color:var(--faint);margin-top:6px">Wortschatz v15</div>
   </footer>
 </main>
 
@@ -1639,7 +1642,7 @@
     loadAuth();
     loadLibrary(function(){ detectSync(function(){ renderAccount(); if(SYNC.token){ pullCloud(function(){ SYNC.ready=true; }); } else { SYNC.ready=true; } }); });
     var accEl=function(id){ return document.getElementById(id); };
-    if(accEl("acc-login")) accEl("acc-login").onclick=function(){ authRequest("login"); };
+    if(accEl("acc-form")) accEl("acc-form").onsubmit=function(e){ e.preventDefault(); authRequest("login"); };
     if(accEl("acc-signup")) accEl("acc-signup").onclick=function(){ authRequest("signup"); };
     if(accEl("acc-sync")) accEl("acc-sync").onclick=function(){ accStatus("Syncing…"); pullCloud(function(){ pushCloud(); }); };
     if(accEl("acc-logout")) accEl("acc-logout").onclick=function(){ signOut(); };
