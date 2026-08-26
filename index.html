@@ -69,7 +69,8 @@
   .lang-select:focus-visible{outline:2px solid var(--accent);outline-offset:1px;}
   [dir="rtl"] .lang-select{margin-left:0;margin-right:auto;}
   /* Keep German (Latin) content left-to-right even when the interface is RTL */
-  .word,.answer .form,.prompt-line,.genderhint,.example .de,.gram-body .eg,kbd{direction:ltr;unicode-bidi:isolate;}
+  .word,.answer .form,.prompt-line,.genderhint,.example .de,.gram-body .eg,kbd,.dict-word,.dict-ex .de,.dict-pos,.dict-defs{direction:ltr;unicode-bidi:isolate;}
+  [dir="rtl"] .dict-defs{text-align:left;}
   [dir="rtl"] .stat,[dir="rtl"] .cardrow,[dir="rtl"] .example{text-align:right;}
   .logo{width:44px;height:44px;flex:none;border-radius:12px;background:var(--accent);
     color:#fff;display:grid;place-items:center;font-family:var(--font-display);
@@ -89,9 +90,11 @@
   .stat.due .n{color:var(--accent);}
 
   .tabs{display:flex;gap:4px;background:var(--surface-2);border:1px solid var(--line);
-    border-radius:12px;padding:4px;margin-bottom:18px;}
-  .tabs button{flex:1;border:0;background:transparent;color:var(--muted);
-    font-family:var(--font-sans);font-size:13px;font-weight:600;padding:9px 3px;
+    border-radius:12px;padding:4px;margin-bottom:18px;overflow-x:auto;-webkit-overflow-scrolling:touch;
+    scrollbar-width:none;}
+  .tabs::-webkit-scrollbar{display:none;}
+  .tabs button{flex:1 0 auto;white-space:nowrap;border:0;background:transparent;color:var(--muted);
+    font-family:var(--font-sans);font-size:13px;font-weight:600;padding:9px 10px;
     border-radius:9px;cursor:pointer;transition:background .15s,color .15s;letter-spacing:0;}
   .tabs button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow);}
   .tabs button:hover:not([aria-selected="true"]){color:var(--ink);}
@@ -291,6 +294,25 @@
   .acc-msg{font-size:12.5px;color:var(--muted);}
   .acc-who-line{font-size:13.5px;margin-bottom:10px;line-height:1.5;}
 
+  #view-dict .btn{padding:10px 16px;font-size:14px;flex:none;}
+  .dict-hint{color:var(--muted);text-align:center;padding:34px 14px;font-size:14.5px;line-height:1.6;}
+  .dict-sec{font-size:11px;text-transform:uppercase;letter-spacing:.09em;font-weight:700;color:var(--faint);margin:16px 2px 9px;}
+  .dict-sec:first-child{margin-top:2px;}
+  .dict-entry{background:var(--surface);border:1px solid var(--line);border-radius:13px;box-shadow:var(--shadow);padding:13px 15px;margin-bottom:9px;}
+  .dict-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
+  .dict-word{font-family:var(--font-display);font-size:18px;font-weight:600;line-height:1.3;}
+  .dict-word .article{font-style:italic;}
+  .dict-word .article.der{color:var(--der);} .dict-word .article.die{color:var(--die);} .dict-word .article.das{color:var(--das);} .dict-word .article.pl{color:var(--accent);}
+  .dict-g{font-family:var(--font-mono);font-size:11px;color:var(--faint);margin-left:8px;white-space:nowrap;}
+  .dict-mean{font-size:15px;margin-top:5px;color:var(--ink);}
+  .dict-ex{font-family:var(--font-display);font-size:14px;color:var(--muted);margin-top:8px;line-height:1.5;}
+  .dict-ex .tr2{color:var(--faint);}
+  .dict-pos{font-size:11px;text-transform:uppercase;letter-spacing:.07em;font-weight:700;color:var(--accent);margin-bottom:5px;}
+  .dict-defs{margin:0;padding-left:20px;font-size:14.5px;line-height:1.55;}
+  .dict-defs li{margin-bottom:4px;}
+  .dict-loading{color:var(--faint);text-align:center;padding:16px;font-size:22px;letter-spacing:3px;}
+  .dict-note{color:var(--muted);text-align:center;padding:16px;font-size:13.5px;}
+
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;}}
   @media (max-width:480px){
     .grades{grid-template-columns:repeat(2,1fr);}
@@ -327,6 +349,7 @@
     <button role="tab" aria-selected="true" data-tab="study" data-i18n="tab.study">Vocab</button>
     <button role="tab" aria-selected="false" data-tab="verbs" data-i18n="tab.verbs">Verbs</button>
     <button role="tab" aria-selected="false" data-tab="grammar" data-i18n="tab.grammar">Grammar</button>
+    <button role="tab" aria-selected="false" data-tab="dict" data-i18n="tab.dict">Dict</button>
     <button role="tab" aria-selected="false" data-tab="deck" data-i18n="tab.deck">Deck</button>
     <button role="tab" aria-selected="false" data-tab="add" data-i18n="tab.add">Add</button>
   </nav>
@@ -494,6 +517,15 @@
     <p class="gram-foot">This is the 20% of grammar that clears up 80% of the confusion. The rest sinks in on its own through the words and examples you're studying — you don't have to "master" it, just start recognising the patterns. 💪</p>
   </section>
 
+  <!-- DICT -->
+  <section id="view-dict" class="hidden">
+    <form id="dict-form" class="toolrow">
+      <div class="search"><span class="ic">⌕</span><input id="dict-input" type="search" data-i18n-ph="dict.ph" placeholder="Look up any German word…" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
+      <button class="btn" id="dict-go" type="submit" data-i18n="dict.go">Search</button>
+    </form>
+    <div id="dict-results"></div>
+  </section>
+
   <!-- DECK -->
   <section id="view-deck" class="hidden">
     <div class="toolrow">
@@ -592,7 +624,7 @@
       Everything saves in this browser only — nothing leaves your device. Export regularly to back up.
       <br>On your phone: open this page in the browser → Share → <b>Add to Home Screen</b> to run it like an app.
     </p>
-    <div id="app-ver" style="text-align:center;font-size:11px;color:var(--faint);margin-top:6px">Wortschatz v15</div>
+    <div id="app-ver" style="text-align:center;font-size:11px;color:var(--faint);margin-top:6px">Wortschatz v16</div>
   </footer>
 </main>
 
@@ -648,7 +680,8 @@
     "pill.new":"new","pill.due":"due","meta.unseen":"unseen","meta.due":"due","meta.in":"in","meta.noplural":"no plural",
     "deck.showing":"Showing first 400 of %n matches — use search to narrow.","deck.nomatch":"No cards match",
     "verb.again":"Practice again","verb.got":"Got it ✓","verb.conjugate":"Verb · conjugate",
-    "deck.a1":"A1 · Basics","deck.a2":"A2 · Everyday","deck.core":"Core B1–B2","deck.arbeit":"Arbeit · Work","deck.meinung":"Meinung · Opinions","deck.advanced":"B2–C1 Advanced","deck.reisen":"Reisen · Travel","deck.essen":"Essen · Food","deck.gesundheit":"Gesundheit · Health","deck.topA":"A · most frequent","deck.topB":"B · common","deck.topC":"C · advanced","deck.top10k":"Top 12k · Frequency","deck.mine":"My cards","deck.all":"All decks"
+    "deck.a1":"A1 · Basics","deck.a2":"A2 · Everyday","deck.core":"Core B1–B2","deck.arbeit":"Arbeit · Work","deck.meinung":"Meinung · Opinions","deck.advanced":"B2–C1 Advanced","deck.reisen":"Reisen · Travel","deck.essen":"Essen · Food","deck.gesundheit":"Gesundheit · Health","deck.topA":"A · most frequent","deck.topB":"B · common","deck.topC":"C · advanced","deck.top10k":"Top 12k · Frequency","deck.mine":"My cards","deck.all":"All decks",
+    "tab.dict":"Dict","dict.ph":"Look up any German word…","dict.go":"Search","dict.local":"In your decks","dict.wik":"Full dictionary (Wiktionary · English)","dict.none":"No dictionary entry found.","dict.offline":"Couldn't reach the dictionary — check your connection.","dict.hint":"Type any German word and press Search — it looks in your decks first, then the full Wiktionary."
   } };
   I18N.ar={
     "app.tag":"مدرّب مفردات بالتكرار المتباعد · ألماني A1–C1",
@@ -670,7 +703,8 @@
     "pill.new":"جديدة","pill.due":"مستحقة","meta.unseen":"لم تُرَ","meta.due":"مستحقة","meta.in":"بعد","meta.noplural":"لا جمع",
     "deck.showing":"عرض أول 400 من %n — استخدم البحث للتضييق.","deck.nomatch":"لا بطاقات تطابق",
     "verb.again":"تدرّب ثانية","verb.got":"عرفتها ✓","verb.conjugate":"فعل · صرّفه",
-    "deck.a1":"A1 · أساسيات","deck.a2":"A2 · يوميات","deck.core":"أساسي B1–B2","deck.arbeit":"Arbeit · العمل","deck.meinung":"Meinung · الآراء","deck.advanced":"متقدّم B2–C1","deck.reisen":"Reisen · السفر","deck.essen":"Essen · الطعام","deck.gesundheit":"Gesundheit · الصحة","deck.topA":"A · الأكثر شيوعًا","deck.topB":"B · شائعة","deck.topC":"C · متقدّمة","deck.top10k":"أكثر 12 ألف تكرارًا","deck.mine":"بطاقاتي","deck.all":"كل المجموعات"
+    "deck.a1":"A1 · أساسيات","deck.a2":"A2 · يوميات","deck.core":"أساسي B1–B2","deck.arbeit":"Arbeit · العمل","deck.meinung":"Meinung · الآراء","deck.advanced":"متقدّم B2–C1","deck.reisen":"Reisen · السفر","deck.essen":"Essen · الطعام","deck.gesundheit":"Gesundheit · الصحة","deck.topA":"A · الأكثر شيوعًا","deck.topB":"B · شائعة","deck.topC":"C · متقدّمة","deck.top10k":"أكثر 12 ألف تكرارًا","deck.mine":"بطاقاتي","deck.all":"كل المجموعات",
+    "tab.dict":"قاموس","dict.ph":"ابحث عن أي كلمة ألمانية…","dict.go":"بحث","dict.local":"في مجموعاتك","dict.wik":"القاموس الكامل (ويكاموس · بالإنجليزية)","dict.none":"لا يوجد مدخل في القاموس.","dict.offline":"تعذّر الوصول إلى القاموس — تحقّق من اتصالك.","dict.hint":"اكتب أي كلمة ألمانية واضغط بحث — يبحث في مجموعاتك أولًا ثم في ويكاموس الكامل."
   };
   I18N.es={
     "app.tag":"Entrenador de vocabulario con repetición espaciada · Alemán A1–C1",
@@ -692,7 +726,8 @@
     "pill.new":"nueva","pill.due":"pendiente","meta.unseen":"sin ver","meta.due":"pendiente","meta.in":"en","meta.noplural":"sin plural",
     "deck.showing":"Mostrando las primeras 400 de %n — usa la búsqueda para acotar.","deck.nomatch":"Ninguna tarjeta coincide con",
     "verb.again":"Practicar otra vez","verb.got":"La sé ✓","verb.conjugate":"Verbo · conjuga",
-    "deck.a1":"A1 · Básico","deck.a2":"A2 · Cotidiano","deck.core":"Esencial B1–B2","deck.arbeit":"Arbeit · Trabajo","deck.meinung":"Meinung · Opiniones","deck.advanced":"Avanzado B2–C1","deck.reisen":"Reisen · Viajes","deck.essen":"Essen · Comida","deck.gesundheit":"Gesundheit · Salud","deck.topA":"A · más frecuentes","deck.topB":"B · comunes","deck.topC":"C · avanzadas","deck.top10k":"Top 12k · Frecuencia","deck.mine":"Mis tarjetas","deck.all":"Todos los mazos"
+    "deck.a1":"A1 · Básico","deck.a2":"A2 · Cotidiano","deck.core":"Esencial B1–B2","deck.arbeit":"Arbeit · Trabajo","deck.meinung":"Meinung · Opiniones","deck.advanced":"Avanzado B2–C1","deck.reisen":"Reisen · Viajes","deck.essen":"Essen · Comida","deck.gesundheit":"Gesundheit · Salud","deck.topA":"A · más frecuentes","deck.topB":"B · comunes","deck.topC":"C · avanzadas","deck.top10k":"Top 12k · Frecuencia","deck.mine":"Mis tarjetas","deck.all":"Todos los mazos",
+    "tab.dict":"Dicc.","dict.ph":"Busca cualquier palabra alemana…","dict.go":"Buscar","dict.local":"En tus mazos","dict.wik":"Diccionario completo (Wiktionary · en inglés)","dict.none":"No se encontró ninguna entrada.","dict.offline":"No se pudo acceder al diccionario — revisa tu conexión.","dict.hint":"Escribe cualquier palabra alemana y pulsa Buscar — mira primero en tus mazos y luego en todo Wiktionary."
   };
   I18N.fr={
     "app.tag":"Entraîneur de vocabulaire à répétition espacée · Allemand A1–C1",
@@ -714,7 +749,8 @@
     "pill.new":"nouvelle","pill.due":"à réviser","meta.unseen":"jamais vue","meta.due":"à réviser","meta.in":"dans","meta.noplural":"pas de pluriel",
     "deck.showing":"Affichage des 400 premières sur %n — affinez avec la recherche.","deck.nomatch":"Aucune carte ne correspond à",
     "verb.again":"S’entraîner encore","verb.got":"Je sais ✓","verb.conjugate":"Verbe · conjuguez",
-    "deck.a1":"A1 · Bases","deck.a2":"A2 · Quotidien","deck.core":"Essentiel B1–B2","deck.arbeit":"Arbeit · Travail","deck.meinung":"Meinung · Opinions","deck.advanced":"Avancé B2–C1","deck.reisen":"Reisen · Voyages","deck.essen":"Essen · Nourriture","deck.gesundheit":"Gesundheit · Santé","deck.topA":"A · plus fréquents","deck.topB":"B · courants","deck.topC":"C · avancés","deck.top10k":"Top 12k · Fréquence","deck.mine":"Mes cartes","deck.all":"Tous les paquets"
+    "deck.a1":"A1 · Bases","deck.a2":"A2 · Quotidien","deck.core":"Essentiel B1–B2","deck.arbeit":"Arbeit · Travail","deck.meinung":"Meinung · Opinions","deck.advanced":"Avancé B2–C1","deck.reisen":"Reisen · Voyages","deck.essen":"Essen · Nourriture","deck.gesundheit":"Gesundheit · Santé","deck.topA":"A · plus fréquents","deck.topB":"B · courants","deck.topC":"C · avancés","deck.top10k":"Top 12k · Fréquence","deck.mine":"Mes cartes","deck.all":"Tous les paquets",
+    "tab.dict":"Dico","dict.ph":"Cherchez n'importe quel mot allemand…","dict.go":"Chercher","dict.local":"Dans vos paquets","dict.wik":"Dictionnaire complet (Wiktionnaire · en anglais)","dict.none":"Aucune entrée trouvée.","dict.offline":"Impossible d'accéder au dictionnaire — vérifiez votre connexion.","dict.hint":"Tapez n'importe quel mot allemand et appuyez sur Chercher — il regarde d'abord dans vos paquets, puis dans tout le Wiktionnaire."
   };
   I18N.tr={
     "app.tag":"Aralıklı tekrarla kelime eğitmeni · Almanca A1–C1",
@@ -736,7 +772,8 @@
     "pill.new":"yeni","pill.due":"zamanı","meta.unseen":"görülmedi","meta.due":"zamanı","meta.in":"","meta.noplural":"çoğulu yok",
     "deck.showing":"%n eşleşmeden ilk 400 gösteriliyor — daraltmak için arayın.","deck.nomatch":"Eşleşen kart yok:",
     "verb.again":"Tekrar çalış","verb.got":"Biliyorum ✓","verb.conjugate":"Fiil · çek",
-    "deck.a1":"A1 · Temel","deck.a2":"A2 · Günlük","deck.core":"Çekirdek B1–B2","deck.arbeit":"Arbeit · İş","deck.meinung":"Meinung · Görüşler","deck.advanced":"İleri B2–C1","deck.reisen":"Reisen · Seyahat","deck.essen":"Essen · Yemek","deck.gesundheit":"Gesundheit · Sağlık","deck.topA":"A · en sık","deck.topB":"B · yaygın","deck.topC":"C · ileri","deck.top10k":"En sık 12k","deck.mine":"Kartlarım","deck.all":"Tüm desteler"
+    "deck.a1":"A1 · Temel","deck.a2":"A2 · Günlük","deck.core":"Çekirdek B1–B2","deck.arbeit":"Arbeit · İş","deck.meinung":"Meinung · Görüşler","deck.advanced":"İleri B2–C1","deck.reisen":"Reisen · Seyahat","deck.essen":"Essen · Yemek","deck.gesundheit":"Gesundheit · Sağlık","deck.topA":"A · en sık","deck.topB":"B · yaygın","deck.topC":"C · ileri","deck.top10k":"En sık 12k","deck.mine":"Kartlarım","deck.all":"Tüm desteler",
+    "tab.dict":"Sözlük","dict.ph":"Herhangi bir Almanca kelimeyi ara…","dict.go":"Ara","dict.local":"Destelerinde","dict.wik":"Tam sözlük (Wiktionary · İngilizce)","dict.none":"Sözlük kaydı bulunamadı.","dict.offline":"Sözlüğe ulaşılamadı — bağlantını kontrol et.","dict.hint":"Herhangi bir Almanca kelime yazıp Ara'ya bas — önce destelerine, sonra tüm Wiktionary'ye bakar."
   };
   I18N.ru={
     "app.tag":"Тренажёр словарного запаса с интервальным повторением · Немецкий A1–C1",
@@ -758,7 +795,8 @@
     "pill.new":"новая","pill.due":"пора","meta.unseen":"не изучено","meta.due":"пора","meta.in":"через","meta.noplural":"нет мн. ч.",
     "deck.showing":"Показаны первые 400 из %n — уточните поиском.","deck.nomatch":"Нет карточек по запросу",
     "verb.again":"Ещё раз","verb.got":"Знаю ✓","verb.conjugate":"Глагол · спрягите",
-    "deck.a1":"A1 · Основы","deck.a2":"A2 · Повседневное","deck.core":"База B1–B2","deck.arbeit":"Arbeit · Работа","deck.meinung":"Meinung · Мнения","deck.advanced":"Продвинутый B2–C1","deck.reisen":"Reisen · Путешествия","deck.essen":"Essen · Еда","deck.gesundheit":"Gesundheit · Здоровье","deck.topA":"A · самые частые","deck.topB":"B · частые","deck.topC":"C · продвинутые","deck.top10k":"Топ-12k · Частота","deck.mine":"Мои карточки","deck.all":"Все колоды"
+    "deck.a1":"A1 · Основы","deck.a2":"A2 · Повседневное","deck.core":"База B1–B2","deck.arbeit":"Arbeit · Работа","deck.meinung":"Meinung · Мнения","deck.advanced":"Продвинутый B2–C1","deck.reisen":"Reisen · Путешествия","deck.essen":"Essen · Еда","deck.gesundheit":"Gesundheit · Здоровье","deck.topA":"A · самые частые","deck.topB":"B · частые","deck.topC":"C · продвинутые","deck.top10k":"Топ-12k · Частота","deck.mine":"Мои карточки","deck.all":"Все колоды",
+    "tab.dict":"Словарь","dict.ph":"Найдите любое немецкое слово…","dict.go":"Искать","dict.local":"В ваших колодах","dict.wik":"Полный словарь (Викисловарь · на английском)","dict.none":"Статья в словаре не найдена.","dict.offline":"Не удалось получить доступ к словарю — проверьте соединение.","dict.hint":"Введите любое немецкое слово и нажмите «Искать» — сначала ищет в ваших колодах, затем во всём Викисловаре."
   };
   I18N.pt={
     "app.tag":"Treinador de vocabulário com repetição espaçada · Alemão A1–C1",
@@ -780,7 +818,8 @@
     "pill.new":"novo","pill.due":"a revisar","meta.unseen":"não visto","meta.due":"a revisar","meta.in":"em","meta.noplural":"sem plural",
     "deck.showing":"Mostrando os primeiros 400 de %n — use a busca para refinar.","deck.nomatch":"Nenhum cartão corresponde a",
     "verb.again":"Praticar de novo","verb.got":"Eu sei ✓","verb.conjugate":"Verbo · conjugue",
-    "deck.a1":"A1 · Básico","deck.a2":"A2 · Cotidiano","deck.core":"Essencial B1–B2","deck.arbeit":"Arbeit · Trabalho","deck.meinung":"Meinung · Opiniões","deck.advanced":"Avançado B2–C1","deck.reisen":"Reisen · Viagens","deck.essen":"Essen · Comida","deck.gesundheit":"Gesundheit · Saúde","deck.topA":"A · mais frequentes","deck.topB":"B · comuns","deck.topC":"C · avançadas","deck.top10k":"Top 12k · Frequência","deck.mine":"Meus cartões","deck.all":"Todos os baralhos"
+    "deck.a1":"A1 · Básico","deck.a2":"A2 · Cotidiano","deck.core":"Essencial B1–B2","deck.arbeit":"Arbeit · Trabalho","deck.meinung":"Meinung · Opiniões","deck.advanced":"Avançado B2–C1","deck.reisen":"Reisen · Viagens","deck.essen":"Essen · Comida","deck.gesundheit":"Gesundheit · Saúde","deck.topA":"A · mais frequentes","deck.topB":"B · comuns","deck.topC":"C · avançadas","deck.top10k":"Top 12k · Frequência","deck.mine":"Meus cartões","deck.all":"Todos os baralhos",
+    "tab.dict":"Dic.","dict.ph":"Procure qualquer palavra alemã…","dict.go":"Buscar","dict.local":"Nos seus baralhos","dict.wik":"Dicionário completo (Wiktionary · em inglês)","dict.none":"Nenhuma entrada encontrada.","dict.offline":"Não foi possível acessar o dicionário — verifique sua conexão.","dict.hint":"Digite qualquer palavra alemã e toque em Buscar — procura primeiro nos seus baralhos e depois em todo o Wiktionary."
   };
   function t(k){ var d=I18N[LANG]; if(d&&d[k]!=null) return d[k]; return (I18N.en[k]!=null?I18N.en[k]:k); }
   function tn(k,n){ return t(k).replace("%n",n); }
@@ -1458,6 +1497,70 @@
     });
   }
 
+  /* ---------- Dictionary ---------- */
+  function dictHint(){
+    var r=document.getElementById("dict-results");
+    if(r && !r.getAttribute("data-active")) r.innerHTML='<div class="dict-hint">'+esc(t("dict.hint"))+'</div>';
+  }
+  function dictEntry(c){
+    var head;
+    if(c.pos==="noun"&&c.gender){
+      var art=c.gender==="pl"?"die":c.gender;
+      var plu=(c.plural&&c.plural!=="—")?" · pl. "+esc(c.plural):"";
+      head='<span class="article '+c.gender+'">'+art+'</span> '+esc(c.de)+'<span class="dict-g">'+esc(t("g."+c.gender))+plu+'</span>';
+    } else head=esc(c.de);
+    var say=(c.pos==="noun"&&c.gender?(c.gender==="pl"?"die":c.gender)+" ":"")+c.de;
+    var ex="";
+    if(c.exDe){ var exT=exampleT(c);
+      ex='<div class="dict-ex"><span class="de">'+esc(c.exDe)+'</span>'+(exT?'<span class="tr2"> — '+esc(exT)+'</span>':'')+'</div>';
+    }
+    return '<div class="dict-entry"><div class="dict-head"><span class="dict-word">'+head+'</span>'+spk(say,"sm")+'</div>'+
+      '<div class="dict-mean">'+esc(meaning(c))+'</div>'+ex+'</div>';
+  }
+  function dictSearch(){
+    var el=document.getElementById("dict-input"), r=document.getElementById("dict-results");
+    if(!el||!r) return;
+    var q=(el.value||"").trim();
+    if(!q){ r.removeAttribute("data-active"); dictHint(); return; }
+    r.setAttribute("data-active","1");
+    var ql=q.toLowerCase(), exact=[], starts=[];
+    for(var i=0;i<state.cards.length;i++){ var c=state.cards[i], d=c.de.toLowerCase();
+      if(d===ql) exact.push(c); else if(d.indexOf(ql)===0) starts.push(c);
+    }
+    var local=exact.concat(starts).slice(0,8), html="";
+    if(local.length) html+='<div class="dict-sec">'+esc(t("dict.local"))+'</div>'+local.map(dictEntry).join("");
+    html+='<div class="dict-sec">'+esc(t("dict.wik"))+'</div><div id="dict-wik" class="dict-loading">···</div>';
+    r.innerHTML=html;
+    fetchWik(q);
+  }
+  function fetchWik(q){
+    var cap=q.charAt(0).toUpperCase()+q.slice(1);
+    var tries=(cap!==q)?[cap,q]:[q];
+    (function go(i){
+      var el=document.getElementById("dict-wik");
+      if(!el) return;
+      if(i>=tries.length){ el.className="dict-note"; el.textContent=t("dict.none"); return; }
+      fetch("https://en.wiktionary.org/api/rest_v1/page/definition/"+encodeURIComponent(tries[i]))
+        .then(function(res){ return res.ok?res.json():null; })
+        .then(function(d){
+          var el=document.getElementById("dict-wik"); if(!el) return;
+          var de=d&&d.de;
+          if(!de||!de.length){ go(i+1); return; }
+          var h="";
+          de.forEach(function(grp){
+            var defs="";
+            (grp.definitions||[]).slice(0,8).forEach(function(dfn){
+              var txt=(dfn.definition||"").replace(/<[^>]+>/g,"").replace(/\s+/g," ").trim();
+              if(txt) defs+='<li>'+esc(txt)+'</li>';
+            });
+            if(defs) h+='<div class="dict-entry"><div class="dict-pos">'+esc(grp.partOfSpeech||"")+'</div><ol class="dict-defs">'+defs+'</ol></div>';
+          });
+          if(h){ el.className=""; el.innerHTML=h; } else { el.className="dict-note"; el.textContent=t("dict.none"); }
+        })
+        .catch(function(){ var el=document.getElementById("dict-wik"); if(el){ el.className="dict-note"; el.textContent=t("dict.offline"); } });
+    })(0);
+  }
+
   /* ---------- Add ---------- */
   function setPos(p){
     ui.pos=p;
@@ -1486,10 +1589,12 @@
     document.getElementById("view-study").classList.toggle("hidden",t!=="study");
     document.getElementById("view-verbs").classList.toggle("hidden",t!=="verbs");
     document.getElementById("view-grammar").classList.toggle("hidden",t!=="grammar");
+    document.getElementById("view-dict").classList.toggle("hidden",t!=="dict");
     document.getElementById("view-deck").classList.toggle("hidden",t!=="deck");
     document.getElementById("view-add").classList.toggle("hidden",t!=="add");
     if(t==="study"){ ui.ahead=false; studyRender(); }
     if(t==="verbs"){ if(!ui.verb) nextVerb(); }
+    if(t==="dict") dictHint();
     if(t==="deck") deckRender();
   }
 
@@ -1612,6 +1717,9 @@
     if(npd){ npd.value=String(state.newPerDay||20); npd.onchange=function(e){ state.newPerDay=parseInt(e.target.value,10)||20; save(); refreshStats(); if(ui.tab==="study") studyRender(); }; }
     document.getElementById("deck-list").addEventListener("click",function(e){ var s=e.target.closest(".spk"); if(s){ speak(s.getAttribute("data-say")); } });
     document.getElementById("search").oninput=deckRender;
+    document.getElementById("dict-results").addEventListener("click",function(e){ var s=e.target.closest(".spk"); if(s){ speak(s.getAttribute("data-say")); } });
+    document.getElementById("dict-form").onsubmit=function(e){ e.preventDefault(); dictSearch(); };
+    document.getElementById("dict-input").addEventListener("search",dictSearch);
     Array.prototype.forEach.call(document.querySelectorAll("#pos-seg button"),function(b){ b.onclick=function(){ setPos(b.getAttribute("data-pos")); }; });
     document.getElementById("add-form").onsubmit=addCard;
     document.getElementById("btn-export").onclick=exportDeck;
