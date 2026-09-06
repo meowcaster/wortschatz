@@ -160,6 +160,25 @@
   .spk:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
   .spk.sm{width:32px;height:32px;font-size:14px;}
 
+  .modeseg{display:inline-flex;gap:4px;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:3px;margin-bottom:14px;}
+  .modeseg button{border:0;background:transparent;color:var(--muted);font-family:var(--font-sans);font-size:12.5px;font-weight:600;padding:6px 15px;border-radius:7px;cursor:pointer;transition:background .15s,color .15s;}
+  .modeseg button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow);}
+  .sp-clue{font-family:var(--font-display);font-size:clamp(21px,5vw,29px);font-weight:600;text-align:center;margin:auto 0 2px;line-height:1.22;}
+  .sp-sub{text-align:center;font-size:12.5px;color:var(--faint);margin-top:4px;}
+  .sp-inwrap{display:flex;gap:8px;align-items:center;margin-top:16px;}
+  #sp-input{flex:1;min-width:0;padding:12px 14px;border:1px solid var(--line);border-radius:11px;background:var(--surface-2);color:var(--ink);font-family:var(--font-display);font-size:19px;text-align:center;direction:ltr;}
+  #sp-input:focus-visible{outline:2px solid var(--accent);outline-offset:0;border-color:var(--accent);}
+  .sp-mic{width:47px;height:47px;flex:none;border:1px solid var(--line);background:var(--surface);color:var(--accent);border-radius:11px;cursor:pointer;font-size:20px;line-height:1;}
+  .sp-mic:hover{background:var(--accent-soft);}
+  .sp-mic.rec{background:var(--bad);color:#fff;border-color:var(--bad);animation:sp-pulse 1s infinite;}
+  @keyframes sp-pulse{50%{opacity:.5;}}
+  .sp-check{width:100%;margin-top:12px;}
+  .sp-res{font-weight:700;font-size:15.5px;text-align:center;}
+  .sp-res.ok{color:var(--good);} .sp-res.warn{color:var(--warn);} .sp-res.bad{color:var(--bad);}
+  .sp-diff{text-align:center;font-family:var(--font-display);font-size:22px;letter-spacing:2px;direction:ltr;unicode-bidi:isolate;}
+  .sp-diff-label{font-family:var(--font-sans);font-size:11.5px;color:var(--muted);letter-spacing:0;display:block;margin-bottom:3px;}
+  .sp-ok{color:var(--good);} .sp-bad{color:var(--bad);text-decoration:line-through;} .sp-miss{color:var(--faint);opacity:.45;}
+
   .grades{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:16px;}
   .grade{border:1px solid var(--line);background:var(--surface);border-radius:12px;
     padding:11px 6px 9px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;
@@ -375,6 +394,10 @@
         <option value="30">30</option>
         <option value="50">50</option>
       </select>
+    </div>
+    <div class="modeseg" id="study-mode" role="tablist">
+      <button type="button" data-mode="flash" aria-selected="true" data-i18n="spell.flash">Cards</button>
+      <button type="button" data-mode="spell" aria-selected="false" data-i18n="spell.spell">✏️ Spell</button>
     </div>
     <div id="study-live" class="hidden">
       <div class="sess-bar">
@@ -624,7 +647,7 @@
       Everything saves in this browser only — nothing leaves your device. Export regularly to back up.
       <br>On your phone: open this page in the browser → Share → <b>Add to Home Screen</b> to run it like an app.
     </p>
-    <div id="app-ver" style="text-align:center;font-size:11px;color:var(--faint);margin-top:6px">Wortschatz v16</div>
+    <div id="app-ver" style="text-align:center;font-size:11px;color:var(--faint);margin-top:6px">Wortschatz v17</div>
   </footer>
 </main>
 
@@ -681,6 +704,7 @@
     "deck.showing":"Showing first 400 of %n matches — use search to narrow.","deck.nomatch":"No cards match",
     "verb.again":"Practice again","verb.got":"Got it ✓","verb.conjugate":"Verb · conjugate",
     "deck.a1":"A1 · Basics","deck.a2":"A2 · Everyday","deck.core":"Core B1–B2","deck.arbeit":"Arbeit · Work","deck.meinung":"Meinung · Opinions","deck.advanced":"B2–C1 Advanced","deck.reisen":"Reisen · Travel","deck.essen":"Essen · Food","deck.gesundheit":"Gesundheit · Health","deck.topA":"A · most frequent","deck.topB":"B · common","deck.topC":"C · advanced","deck.top10k":"Top 12k · Frequency","deck.mine":"My cards","deck.all":"All decks",
+    "spell.flash":"Cards","spell.spell":"Spell","spell.hint":"Listen and type the German word","spell.ph":"Type what you hear…","spell.check":"Check","spell.ok":"Correct!","spell.cap":"Right — but nouns take a capital letter","spell.no":"Not quite","spell.you":"You wrote","spell.speak":"Speak the word",
     "tab.dict":"Dict","dict.ph":"Look up any German word…","dict.go":"Search","dict.local":"In your decks","dict.wik":"Full dictionary (Wiktionary · English)","dict.none":"No dictionary entry found.","dict.offline":"Couldn't reach the dictionary — check your connection.","dict.hint":"Type any German word and press Search — it looks in your decks first, then the full Wiktionary."
   } };
   I18N.ar={
@@ -704,6 +728,7 @@
     "deck.showing":"عرض أول 400 من %n — استخدم البحث للتضييق.","deck.nomatch":"لا بطاقات تطابق",
     "verb.again":"تدرّب ثانية","verb.got":"عرفتها ✓","verb.conjugate":"فعل · صرّفه",
     "deck.a1":"A1 · أساسيات","deck.a2":"A2 · يوميات","deck.core":"أساسي B1–B2","deck.arbeit":"Arbeit · العمل","deck.meinung":"Meinung · الآراء","deck.advanced":"متقدّم B2–C1","deck.reisen":"Reisen · السفر","deck.essen":"Essen · الطعام","deck.gesundheit":"Gesundheit · الصحة","deck.topA":"A · الأكثر شيوعًا","deck.topB":"B · شائعة","deck.topC":"C · متقدّمة","deck.top10k":"أكثر 12 ألف تكرارًا","deck.mine":"بطاقاتي","deck.all":"كل المجموعات",
+    "spell.flash":"بطاقات","spell.spell":"إملاء","spell.hint":"استمع واكتب الكلمة الألمانية","spell.ph":"اكتب ما تسمعه…","spell.check":"تحقّق","spell.ok":"صحيح!","spell.cap":"صحيح — لكن الأسماء تبدأ بحرف كبير","spell.no":"ليس تمامًا","spell.you":"كتبتَ","spell.speak":"انطق الكلمة",
     "tab.dict":"قاموس","dict.ph":"ابحث عن أي كلمة ألمانية…","dict.go":"بحث","dict.local":"في مجموعاتك","dict.wik":"القاموس الكامل (ويكاموس · بالإنجليزية)","dict.none":"لا يوجد مدخل في القاموس.","dict.offline":"تعذّر الوصول إلى القاموس — تحقّق من اتصالك.","dict.hint":"اكتب أي كلمة ألمانية واضغط بحث — يبحث في مجموعاتك أولًا ثم في ويكاموس الكامل."
   };
   I18N.es={
@@ -727,6 +752,7 @@
     "deck.showing":"Mostrando las primeras 400 de %n — usa la búsqueda para acotar.","deck.nomatch":"Ninguna tarjeta coincide con",
     "verb.again":"Practicar otra vez","verb.got":"La sé ✓","verb.conjugate":"Verbo · conjuga",
     "deck.a1":"A1 · Básico","deck.a2":"A2 · Cotidiano","deck.core":"Esencial B1–B2","deck.arbeit":"Arbeit · Trabajo","deck.meinung":"Meinung · Opiniones","deck.advanced":"Avanzado B2–C1","deck.reisen":"Reisen · Viajes","deck.essen":"Essen · Comida","deck.gesundheit":"Gesundheit · Salud","deck.topA":"A · más frecuentes","deck.topB":"B · comunes","deck.topC":"C · avanzadas","deck.top10k":"Top 12k · Frecuencia","deck.mine":"Mis tarjetas","deck.all":"Todos los mazos",
+    "spell.flash":"Tarjetas","spell.spell":"Deletrear","spell.hint":"Escucha y escribe la palabra alemana","spell.ph":"Escribe lo que oyes…","spell.check":"Comprobar","spell.ok":"¡Correcto!","spell.cap":"Bien, pero los sustantivos van con mayúscula","spell.no":"Casi","spell.you":"Escribiste","spell.speak":"Di la palabra",
     "tab.dict":"Dicc.","dict.ph":"Busca cualquier palabra alemana…","dict.go":"Buscar","dict.local":"En tus mazos","dict.wik":"Diccionario completo (Wiktionary · en inglés)","dict.none":"No se encontró ninguna entrada.","dict.offline":"No se pudo acceder al diccionario — revisa tu conexión.","dict.hint":"Escribe cualquier palabra alemana y pulsa Buscar — mira primero en tus mazos y luego en todo Wiktionary."
   };
   I18N.fr={
@@ -750,6 +776,7 @@
     "deck.showing":"Affichage des 400 premières sur %n — affinez avec la recherche.","deck.nomatch":"Aucune carte ne correspond à",
     "verb.again":"S’entraîner encore","verb.got":"Je sais ✓","verb.conjugate":"Verbe · conjuguez",
     "deck.a1":"A1 · Bases","deck.a2":"A2 · Quotidien","deck.core":"Essentiel B1–B2","deck.arbeit":"Arbeit · Travail","deck.meinung":"Meinung · Opinions","deck.advanced":"Avancé B2–C1","deck.reisen":"Reisen · Voyages","deck.essen":"Essen · Nourriture","deck.gesundheit":"Gesundheit · Santé","deck.topA":"A · plus fréquents","deck.topB":"B · courants","deck.topC":"C · avancés","deck.top10k":"Top 12k · Fréquence","deck.mine":"Mes cartes","deck.all":"Tous les paquets",
+    "spell.flash":"Cartes","spell.spell":"Épeler","spell.hint":"Écoutez et tapez le mot allemand","spell.ph":"Tapez ce que vous entendez…","spell.check":"Vérifier","spell.ok":"Correct !","spell.cap":"Bien — mais les noms prennent une majuscule","spell.no":"Presque","spell.you":"Vous avez écrit","spell.speak":"Dites le mot",
     "tab.dict":"Dico","dict.ph":"Cherchez n'importe quel mot allemand…","dict.go":"Chercher","dict.local":"Dans vos paquets","dict.wik":"Dictionnaire complet (Wiktionnaire · en anglais)","dict.none":"Aucune entrée trouvée.","dict.offline":"Impossible d'accéder au dictionnaire — vérifiez votre connexion.","dict.hint":"Tapez n'importe quel mot allemand et appuyez sur Chercher — il regarde d'abord dans vos paquets, puis dans tout le Wiktionnaire."
   };
   I18N.tr={
@@ -773,6 +800,7 @@
     "deck.showing":"%n eşleşmeden ilk 400 gösteriliyor — daraltmak için arayın.","deck.nomatch":"Eşleşen kart yok:",
     "verb.again":"Tekrar çalış","verb.got":"Biliyorum ✓","verb.conjugate":"Fiil · çek",
     "deck.a1":"A1 · Temel","deck.a2":"A2 · Günlük","deck.core":"Çekirdek B1–B2","deck.arbeit":"Arbeit · İş","deck.meinung":"Meinung · Görüşler","deck.advanced":"İleri B2–C1","deck.reisen":"Reisen · Seyahat","deck.essen":"Essen · Yemek","deck.gesundheit":"Gesundheit · Sağlık","deck.topA":"A · en sık","deck.topB":"B · yaygın","deck.topC":"C · ileri","deck.top10k":"En sık 12k","deck.mine":"Kartlarım","deck.all":"Tüm desteler",
+    "spell.flash":"Kartlar","spell.spell":"Yaz","spell.hint":"Dinle ve Almanca kelimeyi yaz","spell.ph":"Duyduğunu yaz…","spell.check":"Kontrol et","spell.ok":"Doğru!","spell.cap":"Doğru — ama isimler büyük harfle başlar","spell.no":"Pek değil","spell.you":"Yazdığın","spell.speak":"Kelimeyi söyle",
     "tab.dict":"Sözlük","dict.ph":"Herhangi bir Almanca kelimeyi ara…","dict.go":"Ara","dict.local":"Destelerinde","dict.wik":"Tam sözlük (Wiktionary · İngilizce)","dict.none":"Sözlük kaydı bulunamadı.","dict.offline":"Sözlüğe ulaşılamadı — bağlantını kontrol et.","dict.hint":"Herhangi bir Almanca kelime yazıp Ara'ya bas — önce destelerine, sonra tüm Wiktionary'ye bakar."
   };
   I18N.ru={
@@ -796,6 +824,7 @@
     "deck.showing":"Показаны первые 400 из %n — уточните поиском.","deck.nomatch":"Нет карточек по запросу",
     "verb.again":"Ещё раз","verb.got":"Знаю ✓","verb.conjugate":"Глагол · спрягите",
     "deck.a1":"A1 · Основы","deck.a2":"A2 · Повседневное","deck.core":"База B1–B2","deck.arbeit":"Arbeit · Работа","deck.meinung":"Meinung · Мнения","deck.advanced":"Продвинутый B2–C1","deck.reisen":"Reisen · Путешествия","deck.essen":"Essen · Еда","deck.gesundheit":"Gesundheit · Здоровье","deck.topA":"A · самые частые","deck.topB":"B · частые","deck.topC":"C · продвинутые","deck.top10k":"Топ-12k · Частота","deck.mine":"Мои карточки","deck.all":"Все колоды",
+    "spell.flash":"Карточки","spell.spell":"Диктант","spell.hint":"Послушайте и напишите немецкое слово","spell.ph":"Напишите, что слышите…","spell.check":"Проверить","spell.ok":"Верно!","spell.cap":"Верно — но существительные пишутся с заглавной","spell.no":"Не совсем","spell.you":"Вы написали","spell.speak":"Произнесите слово",
     "tab.dict":"Словарь","dict.ph":"Найдите любое немецкое слово…","dict.go":"Искать","dict.local":"В ваших колодах","dict.wik":"Полный словарь (Викисловарь · на английском)","dict.none":"Статья в словаре не найдена.","dict.offline":"Не удалось получить доступ к словарю — проверьте соединение.","dict.hint":"Введите любое немецкое слово и нажмите «Искать» — сначала ищет в ваших колодах, затем во всём Викисловаре."
   };
   I18N.pt={
@@ -819,6 +848,7 @@
     "deck.showing":"Mostrando os primeiros 400 de %n — use a busca para refinar.","deck.nomatch":"Nenhum cartão corresponde a",
     "verb.again":"Praticar de novo","verb.got":"Eu sei ✓","verb.conjugate":"Verbo · conjugue",
     "deck.a1":"A1 · Básico","deck.a2":"A2 · Cotidiano","deck.core":"Essencial B1–B2","deck.arbeit":"Arbeit · Trabalho","deck.meinung":"Meinung · Opiniões","deck.advanced":"Avançado B2–C1","deck.reisen":"Reisen · Viagens","deck.essen":"Essen · Comida","deck.gesundheit":"Gesundheit · Saúde","deck.topA":"A · mais frequentes","deck.topB":"B · comuns","deck.topC":"C · avançadas","deck.top10k":"Top 12k · Frequência","deck.mine":"Meus cartões","deck.all":"Todos os baralhos",
+    "spell.flash":"Cartões","spell.spell":"Soletrar","spell.hint":"Ouça e digite a palavra alemã","spell.ph":"Digite o que ouvir…","spell.check":"Verificar","spell.ok":"Correto!","spell.cap":"Certo — mas substantivos começam com maiúscula","spell.no":"Quase","spell.you":"Você escreveu","spell.speak":"Diga a palavra",
     "tab.dict":"Dic.","dict.ph":"Procure qualquer palavra alemã…","dict.go":"Buscar","dict.local":"Nos seus baralhos","dict.wik":"Dicionário completo (Wiktionary · em inglês)","dict.none":"Nenhuma entrada encontrada.","dict.offline":"Não foi possível acessar o dicionário — verifique sua conexão.","dict.hint":"Digite qualquer palavra alemã e toque em Buscar — procura primeiro nos seus baralhos e depois em todo o Wiktionary."
   };
   function t(k){ var d=I18N[LANG]; if(d&&d[k]!=null) return d[k]; return (I18N.en[k]!=null?I18N.en[k]:k); }
@@ -1139,7 +1169,10 @@
   function buildSeed(){ return SEED.map(seedCard); }
 
   var state, ui={ tab:"study", pos:"noun", deckFilter:"all", queue:[], current:null, shown:false, doneToday:0, ahead:false,
-                  verb:null, vPrompt:null, vShown:false, vDone:0 };
+                  verb:null, vPrompt:null, vShown:false, vDone:0, mode:"flash", spellAttempt:"" };
+  try{ var _m=localStorage.getItem("ws-study-mode"); if(_m==="spell"||_m==="flash") ui.mode=_m; }catch(e){}
+  var SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+  var SPEECH_OK = !!SpeechRec;
 
   /* ---------- Persistence + migration ---------- */
   // Add any starter cards not already present (by deck+word) — lets existing
@@ -1287,6 +1320,39 @@
       speechSynthesis.speak(u);
     }catch(e){}
   }
+  function sayStr(c){ return (c.pos==="noun"&&c.gender?(c.gender==="pl"?"die":c.gender)+" ":"")+c.de; }
+  var _rec=null;
+  function startRec(){
+    if(!SPEECH_OK) return;
+    var mic=document.getElementById("sp-mic");
+    if(_rec){ try{ _rec.stop(); }catch(e){} _rec=null; if(mic) mic.classList.remove("rec"); return; }
+    try{
+      _rec=new SpeechRec(); _rec.lang="de-DE"; _rec.interimResults=false; _rec.maxAlternatives=1;
+      if(mic) mic.classList.add("rec");
+      _rec.onresult=function(e){ try{ var txt=e.results[0][0].transcript||""; var i=document.getElementById("sp-input"); if(i){ i.value=txt.trim(); i.focus(); } }catch(_){} };
+      _rec.onerror=function(){};
+      _rec.onend=function(){ _rec=null; var m=document.getElementById("sp-mic"); if(m) m.classList.remove("rec"); };
+      _rec.start();
+    }catch(e){ _rec=null; if(mic) mic.classList.remove("rec"); }
+  }
+  function spellDiffHTML(a,correct){
+    var al=a.toLowerCase(), cl=correct.toLowerCase(), n=Math.max(a.length,correct.length), out="";
+    for(var i=0;i<n;i++){
+      var ac=a[i], cc=correct[i];
+      if(ac==null){ out+='<span class="sp-miss">'+esc(cc||"")+'</span>'; }
+      else if(cc!=null && al[i]===cl[i]){ out+='<span class="sp-ok">'+esc(ac)+'</span>'; }
+      else { out+='<span class="sp-bad">'+esc(ac)+'</span>'; }
+    }
+    return out;
+  }
+  function spellResultHTML(c){
+    var a=(ui.spellAttempt||"").trim(), correct=c.de;
+    var ci=a.toLowerCase()===correct.toLowerCase(), exact=a===correct;
+    var cls=ci?(exact?"ok":"warn"):"bad", msg=ci?(exact?t("spell.ok"):t("spell.cap")):t("spell.no");
+    var diff=a?spellDiffHTML(a,correct):'<span class="sp-miss">—</span>';
+    return '<div class="sp-res '+cls+'">'+(ci?"✓":"✗")+' '+esc(msg)+'</div>'+
+      '<div class="sp-diff"><span class="sp-diff-label">'+esc(t("spell.you"))+'</span>'+diff+'</div>';
+  }
 
   /* ---------- Dates / scheduling ---------- */
   function endOfToday(){ var d=new Date(); d.setHours(23,59,59,999); return d.getTime(); }
@@ -1371,6 +1437,22 @@
   function renderFront(c){
     var fc=document.getElementById("flashcard"), h="";
     h+='<div class="pos-kicker"><span>'+esc(t("pos."+c.pos))+'</span><span class="deckchip">'+esc(deckName(c.deck))+'</span></div>';
+    if(ui.mode==="spell"){
+      ui.spellAttempt="";
+      h+='<div class="sp-clue">'+esc(meaning(c))+'</div>';
+      h+='<div class="sp-sub">'+esc(t("spell.hint"))+'</div>';
+      h+='<div class="center-audio">'+spk(sayStr(c))+'</div>';
+      h+='<div class="sp-inwrap"><input id="sp-input" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="'+attr(t("spell.ph"))+'">'+
+         (SPEECH_OK?'<button type="button" class="sp-mic" id="sp-mic" aria-label="'+attr(t("spell.speak"))+'">🎤</button>':'')+'</div>';
+      h+='<button type="button" class="btn sp-check" id="sp-check">'+esc(t("spell.check"))+'</button>';
+      fc.innerHTML=h;
+      var inp=document.getElementById("sp-input");
+      document.getElementById("sp-check").onclick=function(){ reveal(); };
+      inp.addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); reveal(); } });
+      if(SPEECH_OK){ document.getElementById("sp-mic").onclick=startRec; }
+      setTimeout(function(){ try{ inp.focus(); }catch(e){} speak(sayStr(c)); },140);
+      return;
+    }
     h+='<div class="word">'+esc(c.de)+'</div>';
     h+='<div class="center-audio">'+spk(c.de)+'</div>';
     if(c.pos==="noun"){ h+='<div class="genderhint"><span class="q"><span>der</span><span>die</span><span>das</span></span></div>'; }
@@ -1386,7 +1468,7 @@
       h+='<div class="word"><span class="article '+c.gender+'">'+art+'</span> '+esc(c.de)+'<span class="plural">'+gl+(plu?' · '+plu:'')+'</span></div>';
     } else { h+='<div class="word">'+esc(c.de)+'</div>'; }
     h+='<div class="center-audio">'+spk((c.pos==="noun"&&c.gender?(c.gender==="pl"?"die":c.gender)+" ":"")+c.de)+'</div>';
-    h+='<div class="reveal"><div class="meaning">'+esc(meaning(c))+'</div>';
+    h+='<div class="reveal">'+(ui.mode==="spell"?spellResultHTML(c):'')+'<div class="meaning">'+esc(meaning(c))+'</div>';
     if(c.exDe){ var exT=exampleT(c);
       h+='<div class="example"><div class="ex-main"><div class="de">'+esc(c.exDe)+'</div>'+
          (exT?'<div class="en">'+esc(exT)+'</div>':'')+'</div>'+spk(c.exDe,"sm")+'</div>';
@@ -1395,7 +1477,9 @@
     fc.innerHTML=h;
   }
   function reveal(){
-    if(ui.shown||!ui.current) return; ui.shown=true; renderBack(ui.current);
+    if(ui.shown||!ui.current) return;
+    if(ui.mode==="spell"){ var i=document.getElementById("sp-input"); ui.spellAttempt=i?i.value:""; if(_rec){ try{_rec.stop();}catch(e){} } }
+    ui.shown=true; renderBack(ui.current);
     var g=document.getElementById("grades");
     var grades=["again","hard","good","easy"];
     g.innerHTML=grades.map(function(x){ var p=next(ui.current,x); return '<button class="grade" data-g="'+x+'"><span class="g">'+esc(t("grade."+x))+'</span><span class="iv">'+p.label+'</span></button>'; }).join("");
@@ -1705,8 +1789,13 @@
     Array.prototype.forEach.call(document.querySelectorAll(".tabs button"),function(b){ b.onclick=function(){ setTab(b.getAttribute("data-tab")); }; });
 
     var fc=document.getElementById("flashcard");
-    fc.onclick=function(e){ var s=e.target.closest(".spk"); if(s){ e.stopPropagation(); speak(s.getAttribute("data-say")); return; } if(!ui.shown) reveal(); };
+    fc.onclick=function(e){ var s=e.target.closest(".spk"); if(s){ e.stopPropagation(); speak(s.getAttribute("data-say")); return; }
+      if(ui.mode==="spell") return; if(!ui.shown) reveal(); };
     document.getElementById("grades").onclick=function(e){ var b=e.target.closest(".grade"); if(b) grade(b.getAttribute("data-g")); };
+    document.getElementById("study-mode").onclick=function(e){ var b=e.target.closest("button[data-mode]"); if(!b) return;
+      var m=b.getAttribute("data-mode"); if(m===ui.mode) return; ui.mode=m; try{ localStorage.setItem("ws-study-mode",m); }catch(_){}
+      Array.prototype.forEach.call(this.children,function(x){ x.setAttribute("aria-selected", x.getAttribute("data-mode")===m?"true":"false"); });
+      ui.shown=false; if(ui.tab==="study") studyRender(); };
 
     var vc=document.getElementById("verbcard");
     vc.onclick=function(e){ var s=e.target.closest(".spk"); if(s){ e.stopPropagation(); speak(s.getAttribute("data-say")); return; } if(!ui.vShown) revealVerb(); };
@@ -1732,7 +1821,7 @@
       var tag=(e.target.tagName||"").toLowerCase();
       if(tag==="input"||tag==="textarea"||tag==="select") return;
       if(ui.tab==="study"){
-        if((e.key===" "||e.key==="Enter")&&!ui.shown&&ui.current){ e.preventDefault(); reveal(); return; }
+        if((e.key===" "||e.key==="Enter")&&!ui.shown&&ui.current&&ui.mode!=="spell"){ e.preventDefault(); reveal(); return; }
         if(ui.shown){ var m={"1":"again","2":"hard","3":"good","4":"easy"}; if(m[e.key]){ e.preventDefault(); grade(m[e.key]); } }
       } else if(ui.tab==="verbs"){
         if((e.key===" "||e.key==="Enter")&&!ui.vShown){ e.preventDefault(); revealVerb(); return; }
@@ -1740,6 +1829,7 @@
       }
     });
 
+    (function(){ var sm=document.getElementById("study-mode"); if(sm) Array.prototype.forEach.call(sm.children,function(x){ x.setAttribute("aria-selected", x.getAttribute("data-mode")===ui.mode?"true":"false"); }); })();
     setPos("noun"); setTab("study"); setupInstall();
     var savedLang="en"; try{ savedLang=localStorage.getItem("ws-lang")||"en"; }catch(e){}
     if(!I18N[savedLang]) savedLang="en";
