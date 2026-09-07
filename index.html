@@ -179,6 +179,63 @@
   .sp-diff-label{font-family:var(--font-sans);font-size:11.5px;color:var(--muted);letter-spacing:0;display:block;margin-bottom:3px;}
   .sp-ok{color:var(--good);} .sp-bad{color:var(--bad);text-decoration:line-through;} .sp-miss{color:var(--faint);opacity:.45;}
 
+  .ghud{display:flex;align-items:center;gap:11px;width:100%;background:var(--surface);border:1px solid var(--line);
+    border-radius:14px;box-shadow:var(--shadow);padding:9px 13px;margin-bottom:14px;cursor:pointer;position:relative;
+    font-family:var(--font-sans);text-align:left;}
+  .ghud:active{transform:scale(.995);}
+  .gh-lvl{flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;
+    background:var(--accent-soft);border:2px solid var(--accent);color:var(--accent-strong);font-weight:800;font-size:15px;}
+  .gh-mid{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px;}
+  .gh-rank{font-family:var(--font-display);font-size:15px;font-weight:600;color:var(--ink);}
+  .gh-bar{height:8px;border-radius:99px;background:var(--surface-3);overflow:hidden;}
+  .gh-fill{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-strong));border-radius:99px;transition:width .4s ease;}
+  .gh-streak{flex:none;font-size:15px;font-weight:800;color:var(--warn);display:flex;align-items:center;gap:2px;}
+  .gh-ring{flex:none;position:relative;width:36px;height:36px;display:grid;place-items:center;}
+  .gh-ring svg{position:absolute;inset:0;transform:rotate(-90deg);}
+  .gh-track{fill:none;stroke:var(--surface-3);stroke-width:4;}
+  .gh-arc{fill:none;stroke:var(--good);stroke-width:4;stroke-linecap:round;transition:stroke-dashoffset .5s ease;}
+  .gh-ringtxt{font-size:11px;font-weight:800;color:var(--muted);font-family:var(--font-mono);}
+  .gh-ring.done .gh-ringtxt{color:var(--good);font-size:14px;}
+  .gh-pop{position:absolute;right:14px;top:-7px;background:var(--good);color:#fff;font-weight:800;font-size:12px;
+    padding:2px 9px;border-radius:99px;pointer-events:none;animation:gh-rise 1.1s ease forwards;}
+  @keyframes gh-rise{0%{opacity:0;transform:translateY(6px);}15%{opacity:1;}100%{opacity:0;transform:translateY(-16px);}}
+  [dir="rtl"] .ghud{text-align:right;} [dir="rtl"] .gh-pop{right:auto;left:14px;}
+
+  .pm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;justify-content:center;z-index:60;}
+  @media(min-width:560px){ .pm-overlay{align-items:center;} }
+  .pm-sheet{background:var(--bg);border:1px solid var(--line);border-radius:20px 20px 0 0;width:100%;max-width:540px;
+    max-height:88vh;overflow-y:auto;padding:22px 18px 30px;position:relative;box-shadow:0 -8px 40px rgba(0,0,0,.28);}
+  @media(min-width:560px){ .pm-sheet{border-radius:20px;} }
+  .pm-close{position:absolute;top:12px;right:14px;border:0;background:var(--surface-2);color:var(--muted);
+    width:34px;height:34px;border-radius:50%;font-size:15px;cursor:pointer;z-index:1;}
+  [dir="rtl"] .pm-close{right:auto;left:14px;}
+  .pm-head{display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center;margin:4px 0 18px;}
+  .pm-ringbig{position:relative;width:118px;height:118px;display:grid;place-items:center;margin-bottom:4px;}
+  .pm-ringbig svg{position:absolute;inset:0;transform:rotate(-90deg);}
+  .pm-ringbig .tk{fill:none;stroke:var(--surface-3);stroke-width:8;}
+  .pm-ringbig .ar{fill:none;stroke:var(--accent);stroke-width:8;stroke-linecap:round;}
+  .pm-lvlbig{font-family:var(--font-display);font-size:34px;font-weight:800;color:var(--accent-strong);line-height:1;}
+  .pm-lvllabel{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--faint);font-weight:700;}
+  .pm-rank{font-family:var(--font-display);font-size:23px;font-weight:700;}
+  .pm-xp{font-size:12.5px;color:var(--muted);font-family:var(--font-mono);}
+  .pm-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:20px;}
+  .pm-stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:11px 6px;text-align:center;}
+  .pm-stat b{display:block;font-size:21px;font-weight:800;font-family:var(--font-display);}
+  .pm-stat span{font-size:10.5px;color:var(--muted);}
+  .pm-goal{margin-bottom:20px;}
+  .pm-goal .lbl{font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:var(--muted);margin-bottom:8px;}
+  .pm-goalseg{display:flex;gap:6px;}
+  .pm-goalseg button{flex:1;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:9px 4px;
+    font-family:var(--font-sans);font-size:14px;font-weight:700;color:var(--muted);cursor:pointer;}
+  .pm-goalseg button[aria-pressed=true]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-strong);}
+  .pm-sec{font-size:11.5px;text-transform:uppercase;letter-spacing:.09em;font-weight:700;color:var(--muted);margin:0 2px 11px;}
+  .pm-badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(86px,1fr));gap:10px;}
+  .pm-badge{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:12px 6px;text-align:center;opacity:.42;filter:grayscale(1);}
+  .pm-badge.got{opacity:1;filter:none;border-color:color-mix(in srgb,var(--accent) 35%,var(--line));}
+  .pm-badge .ic{font-size:25px;line-height:1;display:block;margin-bottom:6px;}
+  .pm-badge .bn{font-size:10.5px;color:var(--muted);line-height:1.25;}
+  .pm-badge.got .bn{color:var(--ink);font-weight:600;}
+
   .grades{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:16px;}
   .grade{border:1px solid var(--line);background:var(--surface);border-radius:12px;
     padding:11px 6px 9px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;
@@ -382,6 +439,12 @@
 
   <!-- VOCAB -->
   <section id="view-study">
+    <button type="button" id="game-hud" class="ghud" aria-label="Your progress">
+      <span class="gh-lvl"><span class="gh-lvlnum">1</span></span>
+      <span class="gh-mid"><span class="gh-rank">Neuling</span><span class="gh-bar"><i class="gh-fill"></i></span></span>
+      <span class="gh-streak">🔥<b>0</b></span>
+      <span class="gh-ring"><svg viewBox="0 0 32 32" width="36" height="36" aria-hidden="true"><circle class="gh-track" cx="16" cy="16" r="13"></circle><circle class="gh-arc" cx="16" cy="16" r="13"></circle></svg><span class="gh-ringtxt">0</span></span>
+    </button>
     <div class="deckpick">
       <span data-i18n="dp.deck">Deck</span>
       <select id="deck-filter"></select>
@@ -647,9 +710,16 @@
       Everything saves in this browser only — nothing leaves your device. Export regularly to back up.
       <br>On your phone: open this page in the browser → Share → <b>Add to Home Screen</b> to run it like an app.
     </p>
-    <div id="app-ver" style="text-align:center;font-size:11px;color:var(--faint);margin-top:6px">Wortschatz v17</div>
+    <div id="app-ver" style="text-align:center;font-size:11px;color:var(--faint);margin-top:6px">Wortschatz v18</div>
   </footer>
 </main>
+
+<div id="prog-modal" class="pm-overlay hidden" role="dialog" aria-modal="true">
+  <div class="pm-sheet">
+    <button type="button" class="pm-close" id="pm-close" aria-label="Close">✕</button>
+    <div id="prog-body"></div>
+  </div>
+</div>
 
 <div class="toast" id="toast"></div>
 
@@ -705,6 +775,7 @@
     "verb.again":"Practice again","verb.got":"Got it ✓","verb.conjugate":"Verb · conjugate",
     "deck.a1":"A1 · Basics","deck.a2":"A2 · Everyday","deck.core":"Core B1–B2","deck.arbeit":"Arbeit · Work","deck.meinung":"Meinung · Opinions","deck.advanced":"B2–C1 Advanced","deck.reisen":"Reisen · Travel","deck.essen":"Essen · Food","deck.gesundheit":"Gesundheit · Health","deck.topA":"A · most frequent","deck.topB":"B · common","deck.topC":"C · advanced","deck.top10k":"Top 12k · Frequency","deck.mine":"My cards","deck.all":"All decks",
     "spell.flash":"Cards","spell.spell":"Spell","spell.hint":"Listen and type the German word","spell.ph":"Type what you hear…","spell.check":"Check","spell.ok":"Correct!","spell.cap":"Right — but nouns take a capital letter","spell.no":"Not quite","spell.you":"You wrote","spell.speak":"Speak the word",
+    "game.lvl":"Level","game.total":"%n XP total","game.mastered":"Word mastered!","game.mastered2":"mastered","game.wordsLearned":"learned","game.streakWord":"day streak","game.goal":"Daily goal","game.levelup":"Level %n!","badge.section":"Achievements","badge.first":"First word","badge.words":"%n words","badge.master":"%n mastered","badge.streak":"%n-day streak","badge.level":"Level %n","badge.xp":"%n XP","badge.speller":"%n spelled",
     "tab.dict":"Dict","dict.ph":"Look up any German word…","dict.go":"Search","dict.local":"In your decks","dict.wik":"Full dictionary (Wiktionary · English)","dict.none":"No dictionary entry found.","dict.offline":"Couldn't reach the dictionary — check your connection.","dict.hint":"Type any German word and press Search — it looks in your decks first, then the full Wiktionary."
   } };
   I18N.ar={
@@ -729,6 +800,7 @@
     "verb.again":"تدرّب ثانية","verb.got":"عرفتها ✓","verb.conjugate":"فعل · صرّفه",
     "deck.a1":"A1 · أساسيات","deck.a2":"A2 · يوميات","deck.core":"أساسي B1–B2","deck.arbeit":"Arbeit · العمل","deck.meinung":"Meinung · الآراء","deck.advanced":"متقدّم B2–C1","deck.reisen":"Reisen · السفر","deck.essen":"Essen · الطعام","deck.gesundheit":"Gesundheit · الصحة","deck.topA":"A · الأكثر شيوعًا","deck.topB":"B · شائعة","deck.topC":"C · متقدّمة","deck.top10k":"أكثر 12 ألف تكرارًا","deck.mine":"بطاقاتي","deck.all":"كل المجموعات",
     "spell.flash":"بطاقات","spell.spell":"إملاء","spell.hint":"استمع واكتب الكلمة الألمانية","spell.ph":"اكتب ما تسمعه…","spell.check":"تحقّق","spell.ok":"صحيح!","spell.cap":"صحيح — لكن الأسماء تبدأ بحرف كبير","spell.no":"ليس تمامًا","spell.you":"كتبتَ","spell.speak":"انطق الكلمة",
+    "game.lvl":"المستوى","game.total":"%n نقطة إجمالاً","game.mastered":"أتقنت الكلمة!","game.mastered2":"مُتقَنة","game.wordsLearned":"تعلّمتها","game.streakWord":"يوم متتابع","game.goal":"الهدف اليومي","game.levelup":"المستوى %n!","badge.section":"الإنجازات","badge.first":"أول كلمة","badge.words":"%n كلمة","badge.master":"%n مُتقَنة","badge.streak":"%n أيام متتابعة","badge.level":"المستوى %n","badge.xp":"%n نقطة","badge.speller":"%n إملاءً صحيحًا",
     "tab.dict":"قاموس","dict.ph":"ابحث عن أي كلمة ألمانية…","dict.go":"بحث","dict.local":"في مجموعاتك","dict.wik":"القاموس الكامل (ويكاموس · بالإنجليزية)","dict.none":"لا يوجد مدخل في القاموس.","dict.offline":"تعذّر الوصول إلى القاموس — تحقّق من اتصالك.","dict.hint":"اكتب أي كلمة ألمانية واضغط بحث — يبحث في مجموعاتك أولًا ثم في ويكاموس الكامل."
   };
   I18N.es={
@@ -753,6 +825,7 @@
     "verb.again":"Practicar otra vez","verb.got":"La sé ✓","verb.conjugate":"Verbo · conjuga",
     "deck.a1":"A1 · Básico","deck.a2":"A2 · Cotidiano","deck.core":"Esencial B1–B2","deck.arbeit":"Arbeit · Trabajo","deck.meinung":"Meinung · Opiniones","deck.advanced":"Avanzado B2–C1","deck.reisen":"Reisen · Viajes","deck.essen":"Essen · Comida","deck.gesundheit":"Gesundheit · Salud","deck.topA":"A · más frecuentes","deck.topB":"B · comunes","deck.topC":"C · avanzadas","deck.top10k":"Top 12k · Frecuencia","deck.mine":"Mis tarjetas","deck.all":"Todos los mazos",
     "spell.flash":"Tarjetas","spell.spell":"Deletrear","spell.hint":"Escucha y escribe la palabra alemana","spell.ph":"Escribe lo que oyes…","spell.check":"Comprobar","spell.ok":"¡Correcto!","spell.cap":"Bien, pero los sustantivos van con mayúscula","spell.no":"Casi","spell.you":"Escribiste","spell.speak":"Di la palabra",
+    "game.lvl":"Nivel","game.total":"%n XP en total","game.mastered":"¡Palabra dominada!","game.mastered2":"dominadas","game.wordsLearned":"aprendidas","game.streakWord":"días seguidos","game.goal":"Meta diaria","game.levelup":"¡Nivel %n!","badge.section":"Logros","badge.first":"Primera palabra","badge.words":"%n palabras","badge.master":"%n dominadas","badge.streak":"racha de %n días","badge.level":"Nivel %n","badge.xp":"%n XP","badge.speller":"%n deletreadas",
     "tab.dict":"Dicc.","dict.ph":"Busca cualquier palabra alemana…","dict.go":"Buscar","dict.local":"En tus mazos","dict.wik":"Diccionario completo (Wiktionary · en inglés)","dict.none":"No se encontró ninguna entrada.","dict.offline":"No se pudo acceder al diccionario — revisa tu conexión.","dict.hint":"Escribe cualquier palabra alemana y pulsa Buscar — mira primero en tus mazos y luego en todo Wiktionary."
   };
   I18N.fr={
@@ -777,6 +850,7 @@
     "verb.again":"S’entraîner encore","verb.got":"Je sais ✓","verb.conjugate":"Verbe · conjuguez",
     "deck.a1":"A1 · Bases","deck.a2":"A2 · Quotidien","deck.core":"Essentiel B1–B2","deck.arbeit":"Arbeit · Travail","deck.meinung":"Meinung · Opinions","deck.advanced":"Avancé B2–C1","deck.reisen":"Reisen · Voyages","deck.essen":"Essen · Nourriture","deck.gesundheit":"Gesundheit · Santé","deck.topA":"A · plus fréquents","deck.topB":"B · courants","deck.topC":"C · avancés","deck.top10k":"Top 12k · Fréquence","deck.mine":"Mes cartes","deck.all":"Tous les paquets",
     "spell.flash":"Cartes","spell.spell":"Épeler","spell.hint":"Écoutez et tapez le mot allemand","spell.ph":"Tapez ce que vous entendez…","spell.check":"Vérifier","spell.ok":"Correct !","spell.cap":"Bien — mais les noms prennent une majuscule","spell.no":"Presque","spell.you":"Vous avez écrit","spell.speak":"Dites le mot",
+    "game.lvl":"Niveau","game.total":"%n XP au total","game.mastered":"Mot maîtrisé !","game.mastered2":"maîtrisés","game.wordsLearned":"apprises","game.streakWord":"jours d'affilée","game.goal":"Objectif quotidien","game.levelup":"Niveau %n !","badge.section":"Succès","badge.first":"Premier mot","badge.words":"%n mots","badge.master":"%n maîtrisés","badge.streak":"série de %n jours","badge.level":"Niveau %n","badge.xp":"%n XP","badge.speller":"%n bien épelés",
     "tab.dict":"Dico","dict.ph":"Cherchez n'importe quel mot allemand…","dict.go":"Chercher","dict.local":"Dans vos paquets","dict.wik":"Dictionnaire complet (Wiktionnaire · en anglais)","dict.none":"Aucune entrée trouvée.","dict.offline":"Impossible d'accéder au dictionnaire — vérifiez votre connexion.","dict.hint":"Tapez n'importe quel mot allemand et appuyez sur Chercher — il regarde d'abord dans vos paquets, puis dans tout le Wiktionnaire."
   };
   I18N.tr={
@@ -801,6 +875,7 @@
     "verb.again":"Tekrar çalış","verb.got":"Biliyorum ✓","verb.conjugate":"Fiil · çek",
     "deck.a1":"A1 · Temel","deck.a2":"A2 · Günlük","deck.core":"Çekirdek B1–B2","deck.arbeit":"Arbeit · İş","deck.meinung":"Meinung · Görüşler","deck.advanced":"İleri B2–C1","deck.reisen":"Reisen · Seyahat","deck.essen":"Essen · Yemek","deck.gesundheit":"Gesundheit · Sağlık","deck.topA":"A · en sık","deck.topB":"B · yaygın","deck.topC":"C · ileri","deck.top10k":"En sık 12k","deck.mine":"Kartlarım","deck.all":"Tüm desteler",
     "spell.flash":"Kartlar","spell.spell":"Yaz","spell.hint":"Dinle ve Almanca kelimeyi yaz","spell.ph":"Duyduğunu yaz…","spell.check":"Kontrol et","spell.ok":"Doğru!","spell.cap":"Doğru — ama isimler büyük harfle başlar","spell.no":"Pek değil","spell.you":"Yazdığın","spell.speak":"Kelimeyi söyle",
+    "game.lvl":"Seviye","game.total":"toplam %n XP","game.mastered":"Kelime öğrenildi!","game.mastered2":"pekişen","game.wordsLearned":"öğrenilen","game.streakWord":"gün üst üste","game.goal":"Günlük hedef","game.levelup":"Seviye %n!","badge.section":"Başarımlar","badge.first":"İlk kelime","badge.words":"%n kelime","badge.master":"%n pekişen","badge.streak":"%n günlük seri","badge.level":"Seviye %n","badge.xp":"%n XP","badge.speller":"%n doğru yazım",
     "tab.dict":"Sözlük","dict.ph":"Herhangi bir Almanca kelimeyi ara…","dict.go":"Ara","dict.local":"Destelerinde","dict.wik":"Tam sözlük (Wiktionary · İngilizce)","dict.none":"Sözlük kaydı bulunamadı.","dict.offline":"Sözlüğe ulaşılamadı — bağlantını kontrol et.","dict.hint":"Herhangi bir Almanca kelime yazıp Ara'ya bas — önce destelerine, sonra tüm Wiktionary'ye bakar."
   };
   I18N.ru={
@@ -825,6 +900,7 @@
     "verb.again":"Ещё раз","verb.got":"Знаю ✓","verb.conjugate":"Глагол · спрягите",
     "deck.a1":"A1 · Основы","deck.a2":"A2 · Повседневное","deck.core":"База B1–B2","deck.arbeit":"Arbeit · Работа","deck.meinung":"Meinung · Мнения","deck.advanced":"Продвинутый B2–C1","deck.reisen":"Reisen · Путешествия","deck.essen":"Essen · Еда","deck.gesundheit":"Gesundheit · Здоровье","deck.topA":"A · самые частые","deck.topB":"B · частые","deck.topC":"C · продвинутые","deck.top10k":"Топ-12k · Частота","deck.mine":"Мои карточки","deck.all":"Все колоды",
     "spell.flash":"Карточки","spell.spell":"Диктант","spell.hint":"Послушайте и напишите немецкое слово","spell.ph":"Напишите, что слышите…","spell.check":"Проверить","spell.ok":"Верно!","spell.cap":"Верно — но существительные пишутся с заглавной","spell.no":"Не совсем","spell.you":"Вы написали","spell.speak":"Произнесите слово",
+    "game.lvl":"Уровень","game.total":"всего %n XP","game.mastered":"Слово освоено!","game.mastered2":"освоено","game.wordsLearned":"выучено","game.streakWord":"дней подряд","game.goal":"Дневная цель","game.levelup":"Уровень %n!","badge.section":"Достижения","badge.first":"Первое слово","badge.words":"%n слов","badge.master":"%n освоено","badge.streak":"серия %n дней","badge.level":"Уровень %n","badge.xp":"%n XP","badge.speller":"%n верных написаний",
     "tab.dict":"Словарь","dict.ph":"Найдите любое немецкое слово…","dict.go":"Искать","dict.local":"В ваших колодах","dict.wik":"Полный словарь (Викисловарь · на английском)","dict.none":"Статья в словаре не найдена.","dict.offline":"Не удалось получить доступ к словарю — проверьте соединение.","dict.hint":"Введите любое немецкое слово и нажмите «Искать» — сначала ищет в ваших колодах, затем во всём Викисловаре."
   };
   I18N.pt={
@@ -849,6 +925,7 @@
     "verb.again":"Praticar de novo","verb.got":"Eu sei ✓","verb.conjugate":"Verbo · conjugue",
     "deck.a1":"A1 · Básico","deck.a2":"A2 · Cotidiano","deck.core":"Essencial B1–B2","deck.arbeit":"Arbeit · Trabalho","deck.meinung":"Meinung · Opiniões","deck.advanced":"Avançado B2–C1","deck.reisen":"Reisen · Viagens","deck.essen":"Essen · Comida","deck.gesundheit":"Gesundheit · Saúde","deck.topA":"A · mais frequentes","deck.topB":"B · comuns","deck.topC":"C · avançadas","deck.top10k":"Top 12k · Frequência","deck.mine":"Meus cartões","deck.all":"Todos os baralhos",
     "spell.flash":"Cartões","spell.spell":"Soletrar","spell.hint":"Ouça e digite a palavra alemã","spell.ph":"Digite o que ouvir…","spell.check":"Verificar","spell.ok":"Correto!","spell.cap":"Certo — mas substantivos começam com maiúscula","spell.no":"Quase","spell.you":"Você escreveu","spell.speak":"Diga a palavra",
+    "game.lvl":"Nível","game.total":"%n XP no total","game.mastered":"Palavra dominada!","game.mastered2":"dominadas","game.wordsLearned":"aprendidas","game.streakWord":"dias seguidos","game.goal":"Meta diária","game.levelup":"Nível %n!","badge.section":"Conquistas","badge.first":"Primeira palavra","badge.words":"%n palavras","badge.master":"%n dominadas","badge.streak":"sequência de %n dias","badge.level":"Nível %n","badge.xp":"%n XP","badge.speller":"%n soletradas",
     "tab.dict":"Dic.","dict.ph":"Procure qualquer palavra alemã…","dict.go":"Buscar","dict.local":"Nos seus baralhos","dict.wik":"Dicionário completo (Wiktionary · em inglês)","dict.none":"Nenhuma entrada encontrada.","dict.offline":"Não foi possível acessar o dicionário — verifique sua conexão.","dict.hint":"Digite qualquer palavra alemã e toque em Buscar — procura primeiro nos seus baralhos e depois em todo o Wiktionary."
   };
   function t(k){ var d=I18N[LANG]; if(d&&d[k]!=null) return d[k]; return (I18N.en[k]!=null?I18N.en[k]:k); }
@@ -1206,6 +1283,12 @@
     if(typeof state.newPerDay!=="number") state.newPerDay=20;
     if(typeof state.newToday!=="number") state.newToday=0;
     if(!state.newDay) state.newDay=todayStr();
+    if(typeof state.xp!=="number") state.xp=0;
+    if(typeof state.goal!=="number") state.goal=30;
+    if(!state.badges||typeof state.badges!=="object") state.badges={};
+    if(typeof state.spellWins!=="number") state.spellWins=0;
+    if(typeof state.xpToday!=="number") state.xpToday=0;
+    if(!state.xpDay) state.xpDay=todayStr();
     save();
   }
   function save(){ try{ localStorage.setItem(KEY2, JSON.stringify(state)); }catch(e){} schedulePush(); }
@@ -1220,10 +1303,11 @@
   function buildSave(){
     var progress={}, mine=[];
     for(var i=0;i<state.cards.length;i++){ var c=state.cards[i];
-      if((c.reps||0)>0 || c.intro){ progress[c.id]=[c.ef||2.5,c.interval||0,c.reps||0,c.due||0,c.intro||0,c.seen||0]; }
+      if((c.reps||0)>0 || c.intro || c.spellN){ progress[c.id]=[c.ef||2.5,c.interval||0,c.reps||0,c.due||0,c.intro||0,c.seen||0,c.spellN||0,c.mastered?1:0,c.spellDay||0]; }
       if((c.deck||"")==="mine") mine.push(c);
     }
-    return { v:1, updatedAt:Date.now(), streak:state.streak||0, lastDay:state.lastDay||null, newPerDay:state.newPerDay||20, newToday:state.newToday||0, newDay:state.newDay||null, progress:progress, mine:mine };
+    return { v:1, updatedAt:Date.now(), streak:state.streak||0, lastDay:state.lastDay||null, newPerDay:state.newPerDay||20, newToday:state.newToday||0, newDay:state.newDay||null,
+      xp:state.xp||0, goal:state.goal||30, badges:state.badges||{}, spellWins:state.spellWins||0, xpToday:state.xpToday||0, xpDay:state.xpDay||null, progress:progress, mine:mine };
   }
   function applySave(rem){
     if(!rem) return false;
@@ -1231,12 +1315,20 @@
     var changed=false, p=rem.progress||{};
     for(var id in p){ var v=p[id], c=byId[id]; if(!c) continue;
       if((v[5]||0) >= (c.seen||0)){ c.ef=v[0]; c.interval=v[1]; c.reps=v[2]; c.due=v[3]; if(v[4]) c.intro=v[4]; c.seen=v[5]||0; changed=true; }
+      if(v[6]!=null && v[6]>(c.spellN||0)){ c.spellN=v[6]; changed=true; }
+      if(v[7]){ if(!c.mastered) changed=true; c.mastered=true; }
+      if(v[8] && (!c.spellDay || v[8]>c.spellDay)) c.spellDay=v[8];
     }
     (rem.mine||[]).forEach(function(rc){ if(!byId[rc.id]){ state.cards.push(rc); byId[rc.id]=rc; changed=true; } });
+    if(rem.xp!=null && rem.xp>(state.xp||0)){ state.xp=rem.xp; changed=true; }
+    if(rem.spellWins!=null && rem.spellWins>(state.spellWins||0)){ state.spellWins=rem.spellWins; changed=true; }
+    if(rem.badges){ if(!state.badges) state.badges={}; for(var bk in rem.badges){ if(!state.badges[bk]){ state.badges[bk]=rem.badges[bk]; changed=true; } } }
+    if(rem.xpDay===todayStr() && (rem.xpToday||0)>(state.xpToday||0)){ state.xpDay=rem.xpDay; state.xpToday=rem.xpToday; changed=true; }
     if((rem.updatedAt||0) >= (SYNC.localUpdatedAt||0)){
       if(rem.newPerDay) state.newPerDay=rem.newPerDay;
       if(rem.lastDay) state.lastDay=rem.lastDay;
       if(rem.newDay){ state.newDay=rem.newDay; state.newToday=rem.newToday||0; }
+      if(rem.goal) state.goal=rem.goal;
       changed=true;
     }
     state.streak=Math.max(state.streak||0, rem.streak||0);
@@ -1381,11 +1473,87 @@
   var POSLABEL={noun:"Noun",verb:"Verb",adj:"Adjective",adv:"Adverb",conn:"Connector",other:"Phrase",q:"Question word"};
   var GENDERLABEL={der:"masculine",die:"feminine",das:"neuter",pl:"plural"};
 
+  /* ---------- Gamification (XP · levels · streak · badges · mastery) ---------- */
+  function ensureXpDay(){ var t=todayStr(); if(state.xpDay!==t){ state.xpDay=t; state.xpToday=0; } }
+  function levelInfo(xp){ var lvl=1, need=100, acc=0; xp=xp||0;
+    while(xp>=acc+need){ acc+=need; lvl++; need=Math.round(need*1.18); }
+    return { level:lvl, into:xp-acc, span:need }; }
+  var RANKS=["Neuling","Anfänger","Lehrling","Schüler","Kenner","Könner","Profi","Experte","Meister","Großmeister","Sprachheld"];
+  function rankTitle(lvl){ return RANKS[Math.min(RANKS.length-1, Math.floor((lvl-1)/2))]; }
+  function awardXp(n){ if(!n) return; ensureXpDay(); state.xp=(state.xp||0)+n; state.xpToday=(state.xpToday||0)+n; }
+  function creditMastery(c){ var td=todayStr(); if(c.spellDay===td) return false;
+    c.spellDay=td; c.spellN=(c.spellN||0)+1; state.spellWins=(state.spellWins||0)+1;
+    if(c.spellN>=3 && !c.mastered){ c.mastered=true; return true; } return false; }
+  function gameStats(){ var learned=0, mastered=0;
+    for(var i=0;i<state.cards.length;i++){ var c=state.cards[i]; if(c.mastered) mastered++; if((c.reps||0)>0) learned++; }
+    var li=levelInfo(state.xp||0);
+    return { learned:learned, mastered:mastered, streak:state.streak||0, xp:state.xp||0, level:li.level, spellWins:state.spellWins||0 }; }
+  var BADGES=[
+    {id:"first",ic:"🌱",nm:function(){return t("badge.first");},ok:function(s){return s.learned>=1;}},
+    {id:"w50",ic:"📖",nm:function(){return tn("badge.words",50);},ok:function(s){return s.learned>=50;}},
+    {id:"w200",ic:"📚",nm:function(){return tn("badge.words",200);},ok:function(s){return s.learned>=200;}},
+    {id:"w1000",ic:"🎓",nm:function(){return tn("badge.words",1000);},ok:function(s){return s.learned>=1000;}},
+    {id:"m10",ic:"✅",nm:function(){return tn("badge.master",10);},ok:function(s){return s.mastered>=10;}},
+    {id:"m100",ic:"🏅",nm:function(){return tn("badge.master",100);},ok:function(s){return s.mastered>=100;}},
+    {id:"m500",ic:"🏛️",nm:function(){return tn("badge.master",500);},ok:function(s){return s.mastered>=500;}},
+    {id:"s3",ic:"🔥",nm:function(){return tn("badge.streak",3);},ok:function(s){return s.streak>=3;}},
+    {id:"s7",ic:"🔥",nm:function(){return tn("badge.streak",7);},ok:function(s){return s.streak>=7;}},
+    {id:"s30",ic:"💯",nm:function(){return tn("badge.streak",30);},ok:function(s){return s.streak>=30;}},
+    {id:"l5",ic:"⭐",nm:function(){return tn("badge.level",5);},ok:function(s){return s.level>=5;}},
+    {id:"l10",ic:"🌟",nm:function(){return tn("badge.level",10);},ok:function(s){return s.level>=10;}},
+    {id:"l20",ic:"👑",nm:function(){return tn("badge.level",20);},ok:function(s){return s.level>=20;}},
+    {id:"xp1k",ic:"⚡",nm:function(){return tn("badge.xp",1000);},ok:function(s){return s.xp>=1000;}},
+    {id:"xp10k",ic:"🚀",nm:function(){return tn("badge.xp",10000);},ok:function(s){return s.xp>=10000;}},
+    {id:"sp50",ic:"✍️",nm:function(){return tn("badge.speller",50);},ok:function(s){return s.spellWins>=50;}}
+  ];
+  function checkBadges(silent){ if(!state.badges) state.badges={}; var s=gameStats(), newly=[];
+    BADGES.forEach(function(b){ if(!state.badges[b.id] && b.ok(s)){ state.badges[b.id]=Date.now(); newly.push(b); } });
+    if(newly.length && !silent){ newly.forEach(function(b,i){ setTimeout(function(){ toast(b.ic+"  "+b.nm()); },400*(i+1)); }); }
+    return newly; }
+  function updateHud(){ var hud=document.getElementById("game-hud"); if(!hud) return; ensureXpDay();
+    var li=levelInfo(state.xp||0);
+    hud.querySelector(".gh-lvlnum").textContent=li.level;
+    hud.querySelector(".gh-rank").textContent=rankTitle(li.level);
+    hud.querySelector(".gh-fill").style.width=Math.min(100,Math.round(li.into/li.span*100))+"%";
+    hud.querySelector(".gh-streak b").textContent=state.streak||0;
+    var goal=state.goal||30, done=(state.xpToday||0)>=goal, arc=hud.querySelector(".gh-arc");
+    if(arc){ var C=2*Math.PI*13; arc.style.strokeDasharray=C.toFixed(1); arc.style.strokeDashoffset=(C*(1-Math.min(1,(state.xpToday||0)/goal))).toFixed(1); }
+    hud.querySelector(".gh-ringtxt").textContent=done?"✓":(state.xpToday||0);
+    hud.querySelector(".gh-ring").classList.toggle("done",done); }
+  function openProgress(){ renderProgress(); document.getElementById("prog-modal").classList.remove("hidden"); }
+  function closeProgress(){ document.getElementById("prog-modal").classList.add("hidden"); }
+  function renderProgress(){
+    var body=document.getElementById("prog-body"); if(!body) return;
+    ensureXpDay(); var s=gameStats(), li=levelInfo(state.xp||0);
+    var C=2*Math.PI*54, off=C*(1-Math.min(1,li.into/li.span)), goal=state.goal||30;
+    var h='<div class="pm-head"><div class="pm-ringbig"><svg viewBox="0 0 120 120" width="118" height="118">'+
+      '<circle class="tk" cx="60" cy="60" r="54"></circle><circle class="ar" cx="60" cy="60" r="54" style="stroke-dasharray:'+C.toFixed(1)+';stroke-dashoffset:'+off.toFixed(1)+'"></circle></svg>'+
+      '<span style="text-align:center"><span class="pm-lvlbig">'+li.level+'</span><br><span class="pm-lvllabel">'+esc(t("game.lvl"))+'</span></span></div>'+
+      '<div class="pm-rank">'+esc(rankTitle(li.level))+'</div>'+
+      '<div class="pm-xp">'+li.into+' / '+li.span+' XP · '+esc(tn("game.total",state.xp||0))+'</div></div>';
+    h+='<div class="pm-stats">'+
+      '<div class="pm-stat"><b>'+s.mastered+'</b><span>'+esc(t("game.mastered2"))+'</span></div>'+
+      '<div class="pm-stat"><b>'+s.learned+'</b><span>'+esc(t("game.wordsLearned"))+'</span></div>'+
+      '<div class="pm-stat"><b>'+(state.streak||0)+'</b><span>'+esc(t("game.streakWord"))+'</span></div></div>';
+    h+='<div class="pm-goal"><div class="lbl">'+esc(t("game.goal"))+' · '+(state.xpToday||0)+'/'+goal+' XP</div><div class="pm-goalseg" id="pm-goalseg">';
+    [10,20,30,50].forEach(function(v){ h+='<button type="button" data-goal="'+v+'" aria-pressed="'+(v===goal)+'">'+v+'</button>'; });
+    h+='</div></div>';
+    h+='<div class="pm-sec">'+esc(t("badge.section"))+' · '+Object.keys(state.badges||{}).length+'/'+BADGES.length+'</div><div class="pm-badges">';
+    BADGES.forEach(function(b){ var got=!!(state.badges&&state.badges[b.id]);
+      h+='<div class="pm-badge'+(got?' got':'')+'"><span class="ic">'+b.ic+'</span><span class="bn">'+esc(b.nm())+'</span></div>'; });
+    h+='</div>';
+    body.innerHTML=h;
+    var seg=document.getElementById("pm-goalseg");
+    if(seg) seg.onclick=function(e){ var btn=e.target.closest("button[data-goal]"); if(!btn) return;
+      state.goal=parseInt(btn.getAttribute("data-goal"),10)||30; save(); refreshStats(); renderProgress(); };
+  }
+
   /* ---------- Stats ---------- */
   function refreshStats(){
-    ensureNewDay();
+    ensureNewDay(); updateHud();
     var reviews=0, newPool=0, learned=0;
     for(var i=0;i<state.cards.length;i++){ var c=state.cards[i];
+      if(c.mastered){ learned++; continue; }
       if(isNew(c)) newPool++; else { if((c.reps||0)>0) learned++; if(isDue(c)) reviews++; } }
     var newRem=Math.max(0,(state.newPerDay||20)-(state.newToday||0));
     document.getElementById("s-due").textContent=reviews+Math.min(newRem,newPool);
@@ -1413,6 +1581,7 @@
     ensureNewDay();
     var reviews=[], news=[], filt=ui.deckFilter!=="all";
     for(var i=0;i<state.cards.length;i++){ var c=state.cards[i];
+      if(c.mastered) continue;
       if(filt && (c.deck||"mine")!==ui.deckFilter) continue;
       if(isNew(c)) news.push(c); else if(isDue(c)) reviews.push(c);
     }
@@ -1438,7 +1607,7 @@
     var fc=document.getElementById("flashcard"), h="";
     h+='<div class="pos-kicker"><span>'+esc(t("pos."+c.pos))+'</span><span class="deckchip">'+esc(deckName(c.deck))+'</span></div>';
     if(ui.mode==="spell"){
-      ui.spellAttempt="";
+      ui.spellAttempt=""; ui.spellCorrect=false;
       h+='<div class="sp-clue">'+esc(meaning(c))+'</div>';
       h+='<div class="sp-sub">'+esc(t("spell.hint"))+'</div>';
       h+='<div class="center-audio">'+spk(sayStr(c))+'</div>';
@@ -1478,7 +1647,8 @@
   }
   function reveal(){
     if(ui.shown||!ui.current) return;
-    if(ui.mode==="spell"){ var i=document.getElementById("sp-input"); ui.spellAttempt=i?i.value:""; if(_rec){ try{_rec.stop();}catch(e){} } }
+    if(ui.mode==="spell"){ var i=document.getElementById("sp-input"); ui.spellAttempt=i?i.value:"";
+      ui.spellCorrect=(ui.spellAttempt.trim().toLowerCase()===(ui.current.de||"").toLowerCase()); if(_rec){ try{_rec.stop();}catch(e){} } }
     ui.shown=true; renderBack(ui.current);
     var g=document.getElementById("grades");
     var grades=["again","hard","good","easy"];
@@ -1488,15 +1658,27 @@
   function grade(g){
     if(!ui.shown||!ui.current) return;
     var c=ui.current; ensureNewDay();
-    var wasNew=isNew(c);
+    var wasNew=isNew(c), beforeLvl=levelInfo(state.xp||0).level;
     var r=next(c,g); c.ef=r.ef; c.interval=r.interval; c.reps=r.reps; c.due=r.due; c.seen=Date.now();
     if(wasNew){ c.intro=todayStr(); state.newToday=(state.newToday||0)+1; }
-    var t=todayStr();
-    if(state.lastDay!==t){ var y=new Date(Date.now()-DAY); var ys=y.getFullYear()+"-"+(y.getMonth()+1)+"-"+y.getDate();
-      state.streak=(state.lastDay===ys)?(state.streak||0)+1:1; state.lastDay=t; }
+    var gained=({again:2,hard:8,good:12,easy:15})[g]||0, masteredNow=false;
+    if(ui.mode==="spell" && ui.spellCorrect){ gained+=5; masteredNow=creditMastery(c); }
+    awardXp(gained);
+    var td=todayStr();
+    if(state.lastDay!==td){ var y=new Date(Date.now()-DAY); var ys=y.getFullYear()+"-"+(y.getMonth()+1)+"-"+y.getDate();
+      state.streak=(state.lastDay===ys)?(state.streak||0)+1:1; state.lastDay=td; }
     if(g!=="again") ui.doneToday++;
-    save(); refreshStats(); studyRender();
+    var afterLvl=levelInfo(state.xp||0).level;
+    save();
+    if(gained) showXpGain(gained);
+    if(masteredNow) setTimeout(function(){ toast("✅  "+tn("game.mastered",0)); }, 260);
+    if(afterLvl>beforeLvl) setTimeout(function(){ toast("🎉  "+tn("game.levelup",afterLvl)+" · "+rankTitle(afterLvl)); }, 120);
+    checkBadges(false);
+    refreshStats(); studyRender();
   }
+  function showXpGain(n){ var hud=document.getElementById("game-hud"); if(!hud) return;
+    var f=document.createElement("span"); f.className="gh-pop"; f.textContent="+"+n+" XP"; hud.appendChild(f);
+    setTimeout(function(){ if(f.parentNode) f.parentNode.removeChild(f); }, 1100); }
   function renderEmpty(el){
     var up=state.cards.filter(function(c){return !isDue(c);}).sort(function(a,b){return a.due-b.due;})[0];
     var when=up?t("empty.next")+" "+relTime(up.due):"";
@@ -1553,7 +1735,7 @@
     a.innerHTML='<button class="btn ghost" data-v="again">'+esc(t("verb.again"))+'</button><button class="btn" data-v="good">'+esc(t("verb.got"))+'</button>';
     a.classList.remove("hidden"); document.getElementById("v-hint").classList.add("hidden");
   }
-  function gradeVerb(g){ if(!ui.vShown) return; if(g==="good") ui.vDone++; nextVerb(); }
+  function gradeVerb(g){ if(!ui.vShown) return; if(g==="good"){ ui.vDone++; awardXp(10); save(); showXpGain(10); checkBadges(false); refreshStats(); } nextVerb(); }
 
   /* ---------- Deck browse ---------- */
   function deckRender(){
@@ -1785,7 +1967,7 @@
 
   /* ---------- Init ---------- */
   function init(){
-    load(); refreshStats(); fillDeckFilter(); fillAddDeck();
+    load(); checkBadges(true); refreshStats(); fillDeckFilter(); fillAddDeck();
     Array.prototype.forEach.call(document.querySelectorAll(".tabs button"),function(b){ b.onclick=function(){ setTab(b.getAttribute("data-tab")); }; });
 
     var fc=document.getElementById("flashcard");
@@ -1796,6 +1978,10 @@
       var m=b.getAttribute("data-mode"); if(m===ui.mode) return; ui.mode=m; try{ localStorage.setItem("ws-study-mode",m); }catch(_){}
       Array.prototype.forEach.call(this.children,function(x){ x.setAttribute("aria-selected", x.getAttribute("data-mode")===m?"true":"false"); });
       ui.shown=false; if(ui.tab==="study") studyRender(); };
+
+    document.getElementById("game-hud").onclick=openProgress;
+    document.getElementById("pm-close").onclick=closeProgress;
+    document.getElementById("prog-modal").addEventListener("click",function(e){ if(e.target===this) closeProgress(); });
 
     var vc=document.getElementById("verbcard");
     vc.onclick=function(e){ var s=e.target.closest(".spk"); if(s){ e.stopPropagation(); speak(s.getAttribute("data-say")); return; } if(!ui.vShown) revealVerb(); };
@@ -1818,6 +2004,7 @@
     document.getElementById("btn-restore").onclick=restoreSeed;
 
     document.addEventListener("keydown",function(e){
+      if(e.key==="Escape" && !document.getElementById("prog-modal").classList.contains("hidden")){ closeProgress(); return; }
       var tag=(e.target.tagName||"").toLowerCase();
       if(tag==="input"||tag==="textarea"||tag==="select") return;
       if(ui.tab==="study"){
