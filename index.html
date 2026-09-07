@@ -178,6 +178,11 @@
   .sp-diff{text-align:center;font-family:var(--font-display);font-size:22px;letter-spacing:2px;direction:ltr;unicode-bidi:isolate;}
   .sp-diff-label{font-family:var(--font-sans);font-size:11.5px;color:var(--muted);letter-spacing:0;display:block;margin-bottom:3px;}
   .sp-ok{color:var(--good);} .sp-bad{color:var(--bad);text-decoration:line-through;} .sp-miss{color:var(--faint);opacity:.45;}
+  .sp-wrong{background:color-mix(in srgb,var(--bad) 9%,var(--surface));border:1px solid color-mix(in srgb,var(--bad) 30%,var(--line));border-radius:12px;padding:12px 14px;margin:14px 0 4px;text-align:center;}
+  .sp-answer{font-family:var(--font-display);font-size:23px;font-weight:600;margin:6px 0;direction:ltr;unicode-bidi:isolate;}
+  .sp-answer .article{font-style:italic;}
+  .sp-answer .article.der{color:var(--der);} .sp-answer .article.die{color:var(--die);} .sp-answer .article.das{color:var(--das);} .sp-answer .article.pl{color:var(--accent);}
+  .sp-next{width:100%;margin-top:16px;}
 
   .ghud{display:flex;align-items:center;gap:11px;width:100%;background:var(--surface);border:1px solid var(--line);
     border-radius:14px;box-shadow:var(--shadow);padding:9px 13px;margin-bottom:14px;cursor:pointer;position:relative;
@@ -710,7 +715,7 @@
       Everything saves in this browser only — nothing leaves your device. Export regularly to back up.
       <br>On your phone: open this page in the browser → Share → <b>Add to Home Screen</b> to run it like an app.
     </p>
-    <div id="app-ver" style="text-align:center;font-size:11px;color:var(--faint);margin-top:6px">Wortschatz v18</div>
+    <div id="app-ver" style="text-align:center;font-size:11px;color:var(--faint);margin-top:6px">Wortschatz v19</div>
   </footer>
 </main>
 
@@ -774,7 +779,7 @@
     "deck.showing":"Showing first 400 of %n matches — use search to narrow.","deck.nomatch":"No cards match",
     "verb.again":"Practice again","verb.got":"Got it ✓","verb.conjugate":"Verb · conjugate",
     "deck.a1":"A1 · Basics","deck.a2":"A2 · Everyday","deck.core":"Core B1–B2","deck.arbeit":"Arbeit · Work","deck.meinung":"Meinung · Opinions","deck.advanced":"B2–C1 Advanced","deck.reisen":"Reisen · Travel","deck.essen":"Essen · Food","deck.gesundheit":"Gesundheit · Health","deck.topA":"A · most frequent","deck.topB":"B · common","deck.topC":"C · advanced","deck.top10k":"Top 12k · Frequency","deck.mine":"My cards","deck.all":"All decks",
-    "spell.flash":"Cards","spell.spell":"Spell","spell.hint":"Listen and type the German word","spell.ph":"Type what you hear…","spell.check":"Check","spell.ok":"Correct!","spell.cap":"Right — but nouns take a capital letter","spell.no":"Not quite","spell.you":"You wrote","spell.speak":"Speak the word",
+    "spell.flash":"Cards","spell.spell":"Spell","spell.hint":"Listen and type the German word","spell.ph":"Type what you hear…","spell.check":"Check","spell.next":"Continue","spell.ok":"Correct!","spell.cap":"Right — but nouns take a capital letter","spell.no":"Not quite","spell.you":"You wrote","spell.speak":"Speak the word",
     "game.lvl":"Level","game.total":"%n XP total","game.mastered":"Word mastered!","game.mastered2":"mastered","game.wordsLearned":"learned","game.streakWord":"day streak","game.goal":"Daily goal","game.levelup":"Level %n!","badge.section":"Achievements","badge.first":"First word","badge.words":"%n words","badge.master":"%n mastered","badge.streak":"%n-day streak","badge.level":"Level %n","badge.xp":"%n XP","badge.speller":"%n spelled",
     "tab.dict":"Dict","dict.ph":"Look up any German word…","dict.go":"Search","dict.local":"In your decks","dict.wik":"Full dictionary (Wiktionary · English)","dict.none":"No dictionary entry found.","dict.offline":"Couldn't reach the dictionary — check your connection.","dict.hint":"Type any German word and press Search — it looks in your decks first, then the full Wiktionary."
   } };
@@ -799,7 +804,7 @@
     "deck.showing":"عرض أول 400 من %n — استخدم البحث للتضييق.","deck.nomatch":"لا بطاقات تطابق",
     "verb.again":"تدرّب ثانية","verb.got":"عرفتها ✓","verb.conjugate":"فعل · صرّفه",
     "deck.a1":"A1 · أساسيات","deck.a2":"A2 · يوميات","deck.core":"أساسي B1–B2","deck.arbeit":"Arbeit · العمل","deck.meinung":"Meinung · الآراء","deck.advanced":"متقدّم B2–C1","deck.reisen":"Reisen · السفر","deck.essen":"Essen · الطعام","deck.gesundheit":"Gesundheit · الصحة","deck.topA":"A · الأكثر شيوعًا","deck.topB":"B · شائعة","deck.topC":"C · متقدّمة","deck.top10k":"أكثر 12 ألف تكرارًا","deck.mine":"بطاقاتي","deck.all":"كل المجموعات",
-    "spell.flash":"بطاقات","spell.spell":"إملاء","spell.hint":"استمع واكتب الكلمة الألمانية","spell.ph":"اكتب ما تسمعه…","spell.check":"تحقّق","spell.ok":"صحيح!","spell.cap":"صحيح — لكن الأسماء تبدأ بحرف كبير","spell.no":"ليس تمامًا","spell.you":"كتبتَ","spell.speak":"انطق الكلمة",
+    "spell.flash":"بطاقات","spell.spell":"إملاء","spell.hint":"استمع واكتب الكلمة الألمانية","spell.ph":"اكتب ما تسمعه…","spell.check":"تحقّق","spell.next":"متابعة","spell.ok":"صحيح!","spell.cap":"صحيح — لكن الأسماء تبدأ بحرف كبير","spell.no":"ليس تمامًا","spell.you":"كتبتَ","spell.speak":"انطق الكلمة",
     "game.lvl":"المستوى","game.total":"%n نقطة إجمالاً","game.mastered":"أتقنت الكلمة!","game.mastered2":"مُتقَنة","game.wordsLearned":"تعلّمتها","game.streakWord":"يوم متتابع","game.goal":"الهدف اليومي","game.levelup":"المستوى %n!","badge.section":"الإنجازات","badge.first":"أول كلمة","badge.words":"%n كلمة","badge.master":"%n مُتقَنة","badge.streak":"%n أيام متتابعة","badge.level":"المستوى %n","badge.xp":"%n نقطة","badge.speller":"%n إملاءً صحيحًا",
     "tab.dict":"قاموس","dict.ph":"ابحث عن أي كلمة ألمانية…","dict.go":"بحث","dict.local":"في مجموعاتك","dict.wik":"القاموس الكامل (ويكاموس · بالإنجليزية)","dict.none":"لا يوجد مدخل في القاموس.","dict.offline":"تعذّر الوصول إلى القاموس — تحقّق من اتصالك.","dict.hint":"اكتب أي كلمة ألمانية واضغط بحث — يبحث في مجموعاتك أولًا ثم في ويكاموس الكامل."
   };
@@ -824,7 +829,7 @@
     "deck.showing":"Mostrando las primeras 400 de %n — usa la búsqueda para acotar.","deck.nomatch":"Ninguna tarjeta coincide con",
     "verb.again":"Practicar otra vez","verb.got":"La sé ✓","verb.conjugate":"Verbo · conjuga",
     "deck.a1":"A1 · Básico","deck.a2":"A2 · Cotidiano","deck.core":"Esencial B1–B2","deck.arbeit":"Arbeit · Trabajo","deck.meinung":"Meinung · Opiniones","deck.advanced":"Avanzado B2–C1","deck.reisen":"Reisen · Viajes","deck.essen":"Essen · Comida","deck.gesundheit":"Gesundheit · Salud","deck.topA":"A · más frecuentes","deck.topB":"B · comunes","deck.topC":"C · avanzadas","deck.top10k":"Top 12k · Frecuencia","deck.mine":"Mis tarjetas","deck.all":"Todos los mazos",
-    "spell.flash":"Tarjetas","spell.spell":"Deletrear","spell.hint":"Escucha y escribe la palabra alemana","spell.ph":"Escribe lo que oyes…","spell.check":"Comprobar","spell.ok":"¡Correcto!","spell.cap":"Bien, pero los sustantivos van con mayúscula","spell.no":"Casi","spell.you":"Escribiste","spell.speak":"Di la palabra",
+    "spell.flash":"Tarjetas","spell.spell":"Deletrear","spell.hint":"Escucha y escribe la palabra alemana","spell.ph":"Escribe lo que oyes…","spell.check":"Comprobar","spell.next":"Continuar","spell.ok":"¡Correcto!","spell.cap":"Bien, pero los sustantivos van con mayúscula","spell.no":"Casi","spell.you":"Escribiste","spell.speak":"Di la palabra",
     "game.lvl":"Nivel","game.total":"%n XP en total","game.mastered":"¡Palabra dominada!","game.mastered2":"dominadas","game.wordsLearned":"aprendidas","game.streakWord":"días seguidos","game.goal":"Meta diaria","game.levelup":"¡Nivel %n!","badge.section":"Logros","badge.first":"Primera palabra","badge.words":"%n palabras","badge.master":"%n dominadas","badge.streak":"racha de %n días","badge.level":"Nivel %n","badge.xp":"%n XP","badge.speller":"%n deletreadas",
     "tab.dict":"Dicc.","dict.ph":"Busca cualquier palabra alemana…","dict.go":"Buscar","dict.local":"En tus mazos","dict.wik":"Diccionario completo (Wiktionary · en inglés)","dict.none":"No se encontró ninguna entrada.","dict.offline":"No se pudo acceder al diccionario — revisa tu conexión.","dict.hint":"Escribe cualquier palabra alemana y pulsa Buscar — mira primero en tus mazos y luego en todo Wiktionary."
   };
@@ -849,7 +854,7 @@
     "deck.showing":"Affichage des 400 premières sur %n — affinez avec la recherche.","deck.nomatch":"Aucune carte ne correspond à",
     "verb.again":"S’entraîner encore","verb.got":"Je sais ✓","verb.conjugate":"Verbe · conjuguez",
     "deck.a1":"A1 · Bases","deck.a2":"A2 · Quotidien","deck.core":"Essentiel B1–B2","deck.arbeit":"Arbeit · Travail","deck.meinung":"Meinung · Opinions","deck.advanced":"Avancé B2–C1","deck.reisen":"Reisen · Voyages","deck.essen":"Essen · Nourriture","deck.gesundheit":"Gesundheit · Santé","deck.topA":"A · plus fréquents","deck.topB":"B · courants","deck.topC":"C · avancés","deck.top10k":"Top 12k · Fréquence","deck.mine":"Mes cartes","deck.all":"Tous les paquets",
-    "spell.flash":"Cartes","spell.spell":"Épeler","spell.hint":"Écoutez et tapez le mot allemand","spell.ph":"Tapez ce que vous entendez…","spell.check":"Vérifier","spell.ok":"Correct !","spell.cap":"Bien — mais les noms prennent une majuscule","spell.no":"Presque","spell.you":"Vous avez écrit","spell.speak":"Dites le mot",
+    "spell.flash":"Cartes","spell.spell":"Épeler","spell.hint":"Écoutez et tapez le mot allemand","spell.ph":"Tapez ce que vous entendez…","spell.check":"Vérifier","spell.next":"Continuer","spell.ok":"Correct !","spell.cap":"Bien — mais les noms prennent une majuscule","spell.no":"Presque","spell.you":"Vous avez écrit","spell.speak":"Dites le mot",
     "game.lvl":"Niveau","game.total":"%n XP au total","game.mastered":"Mot maîtrisé !","game.mastered2":"maîtrisés","game.wordsLearned":"apprises","game.streakWord":"jours d'affilée","game.goal":"Objectif quotidien","game.levelup":"Niveau %n !","badge.section":"Succès","badge.first":"Premier mot","badge.words":"%n mots","badge.master":"%n maîtrisés","badge.streak":"série de %n jours","badge.level":"Niveau %n","badge.xp":"%n XP","badge.speller":"%n bien épelés",
     "tab.dict":"Dico","dict.ph":"Cherchez n'importe quel mot allemand…","dict.go":"Chercher","dict.local":"Dans vos paquets","dict.wik":"Dictionnaire complet (Wiktionnaire · en anglais)","dict.none":"Aucune entrée trouvée.","dict.offline":"Impossible d'accéder au dictionnaire — vérifiez votre connexion.","dict.hint":"Tapez n'importe quel mot allemand et appuyez sur Chercher — il regarde d'abord dans vos paquets, puis dans tout le Wiktionnaire."
   };
@@ -874,7 +879,7 @@
     "deck.showing":"%n eşleşmeden ilk 400 gösteriliyor — daraltmak için arayın.","deck.nomatch":"Eşleşen kart yok:",
     "verb.again":"Tekrar çalış","verb.got":"Biliyorum ✓","verb.conjugate":"Fiil · çek",
     "deck.a1":"A1 · Temel","deck.a2":"A2 · Günlük","deck.core":"Çekirdek B1–B2","deck.arbeit":"Arbeit · İş","deck.meinung":"Meinung · Görüşler","deck.advanced":"İleri B2–C1","deck.reisen":"Reisen · Seyahat","deck.essen":"Essen · Yemek","deck.gesundheit":"Gesundheit · Sağlık","deck.topA":"A · en sık","deck.topB":"B · yaygın","deck.topC":"C · ileri","deck.top10k":"En sık 12k","deck.mine":"Kartlarım","deck.all":"Tüm desteler",
-    "spell.flash":"Kartlar","spell.spell":"Yaz","spell.hint":"Dinle ve Almanca kelimeyi yaz","spell.ph":"Duyduğunu yaz…","spell.check":"Kontrol et","spell.ok":"Doğru!","spell.cap":"Doğru — ama isimler büyük harfle başlar","spell.no":"Pek değil","spell.you":"Yazdığın","spell.speak":"Kelimeyi söyle",
+    "spell.flash":"Kartlar","spell.spell":"Yaz","spell.hint":"Dinle ve Almanca kelimeyi yaz","spell.ph":"Duyduğunu yaz…","spell.check":"Kontrol et","spell.next":"Devam","spell.ok":"Doğru!","spell.cap":"Doğru — ama isimler büyük harfle başlar","spell.no":"Pek değil","spell.you":"Yazdığın","spell.speak":"Kelimeyi söyle",
     "game.lvl":"Seviye","game.total":"toplam %n XP","game.mastered":"Kelime öğrenildi!","game.mastered2":"pekişen","game.wordsLearned":"öğrenilen","game.streakWord":"gün üst üste","game.goal":"Günlük hedef","game.levelup":"Seviye %n!","badge.section":"Başarımlar","badge.first":"İlk kelime","badge.words":"%n kelime","badge.master":"%n pekişen","badge.streak":"%n günlük seri","badge.level":"Seviye %n","badge.xp":"%n XP","badge.speller":"%n doğru yazım",
     "tab.dict":"Sözlük","dict.ph":"Herhangi bir Almanca kelimeyi ara…","dict.go":"Ara","dict.local":"Destelerinde","dict.wik":"Tam sözlük (Wiktionary · İngilizce)","dict.none":"Sözlük kaydı bulunamadı.","dict.offline":"Sözlüğe ulaşılamadı — bağlantını kontrol et.","dict.hint":"Herhangi bir Almanca kelime yazıp Ara'ya bas — önce destelerine, sonra tüm Wiktionary'ye bakar."
   };
@@ -899,7 +904,7 @@
     "deck.showing":"Показаны первые 400 из %n — уточните поиском.","deck.nomatch":"Нет карточек по запросу",
     "verb.again":"Ещё раз","verb.got":"Знаю ✓","verb.conjugate":"Глагол · спрягите",
     "deck.a1":"A1 · Основы","deck.a2":"A2 · Повседневное","deck.core":"База B1–B2","deck.arbeit":"Arbeit · Работа","deck.meinung":"Meinung · Мнения","deck.advanced":"Продвинутый B2–C1","deck.reisen":"Reisen · Путешествия","deck.essen":"Essen · Еда","deck.gesundheit":"Gesundheit · Здоровье","deck.topA":"A · самые частые","deck.topB":"B · частые","deck.topC":"C · продвинутые","deck.top10k":"Топ-12k · Частота","deck.mine":"Мои карточки","deck.all":"Все колоды",
-    "spell.flash":"Карточки","spell.spell":"Диктант","spell.hint":"Послушайте и напишите немецкое слово","spell.ph":"Напишите, что слышите…","spell.check":"Проверить","spell.ok":"Верно!","spell.cap":"Верно — но существительные пишутся с заглавной","spell.no":"Не совсем","spell.you":"Вы написали","spell.speak":"Произнесите слово",
+    "spell.flash":"Карточки","spell.spell":"Диктант","spell.hint":"Послушайте и напишите немецкое слово","spell.ph":"Напишите, что слышите…","spell.check":"Проверить","spell.next":"Дальше","spell.ok":"Верно!","spell.cap":"Верно — но существительные пишутся с заглавной","spell.no":"Не совсем","spell.you":"Вы написали","spell.speak":"Произнесите слово",
     "game.lvl":"Уровень","game.total":"всего %n XP","game.mastered":"Слово освоено!","game.mastered2":"освоено","game.wordsLearned":"выучено","game.streakWord":"дней подряд","game.goal":"Дневная цель","game.levelup":"Уровень %n!","badge.section":"Достижения","badge.first":"Первое слово","badge.words":"%n слов","badge.master":"%n освоено","badge.streak":"серия %n дней","badge.level":"Уровень %n","badge.xp":"%n XP","badge.speller":"%n верных написаний",
     "tab.dict":"Словарь","dict.ph":"Найдите любое немецкое слово…","dict.go":"Искать","dict.local":"В ваших колодах","dict.wik":"Полный словарь (Викисловарь · на английском)","dict.none":"Статья в словаре не найдена.","dict.offline":"Не удалось получить доступ к словарю — проверьте соединение.","dict.hint":"Введите любое немецкое слово и нажмите «Искать» — сначала ищет в ваших колодах, затем во всём Викисловаре."
   };
@@ -924,7 +929,7 @@
     "deck.showing":"Mostrando os primeiros 400 de %n — use a busca para refinar.","deck.nomatch":"Nenhum cartão corresponde a",
     "verb.again":"Praticar de novo","verb.got":"Eu sei ✓","verb.conjugate":"Verbo · conjugue",
     "deck.a1":"A1 · Básico","deck.a2":"A2 · Cotidiano","deck.core":"Essencial B1–B2","deck.arbeit":"Arbeit · Trabalho","deck.meinung":"Meinung · Opiniões","deck.advanced":"Avançado B2–C1","deck.reisen":"Reisen · Viagens","deck.essen":"Essen · Comida","deck.gesundheit":"Gesundheit · Saúde","deck.topA":"A · mais frequentes","deck.topB":"B · comuns","deck.topC":"C · avançadas","deck.top10k":"Top 12k · Frequência","deck.mine":"Meus cartões","deck.all":"Todos os baralhos",
-    "spell.flash":"Cartões","spell.spell":"Soletrar","spell.hint":"Ouça e digite a palavra alemã","spell.ph":"Digite o que ouvir…","spell.check":"Verificar","spell.ok":"Correto!","spell.cap":"Certo — mas substantivos começam com maiúscula","spell.no":"Quase","spell.you":"Você escreveu","spell.speak":"Diga a palavra",
+    "spell.flash":"Cartões","spell.spell":"Soletrar","spell.hint":"Ouça e digite a palavra alemã","spell.ph":"Digite o que ouvir…","spell.check":"Verificar","spell.next":"Continuar","spell.ok":"Correto!","spell.cap":"Certo — mas substantivos começam com maiúscula","spell.no":"Quase","spell.you":"Você escreveu","spell.speak":"Diga a palavra",
     "game.lvl":"Nível","game.total":"%n XP no total","game.mastered":"Palavra dominada!","game.mastered2":"dominadas","game.wordsLearned":"aprendidas","game.streakWord":"dias seguidos","game.goal":"Meta diária","game.levelup":"Nível %n!","badge.section":"Conquistas","badge.first":"Primeira palavra","badge.words":"%n palavras","badge.master":"%n dominadas","badge.streak":"sequência de %n dias","badge.level":"Nível %n","badge.xp":"%n XP","badge.speller":"%n soletradas",
     "tab.dict":"Dic.","dict.ph":"Procure qualquer palavra alemã…","dict.go":"Buscar","dict.local":"Nos seus baralhos","dict.wik":"Dicionário completo (Wiktionary · em inglês)","dict.none":"Nenhuma entrada encontrada.","dict.offline":"Não foi possível acessar o dicionário — verifique sua conexão.","dict.hint":"Digite qualquer palavra alemã e toque em Buscar — procura primeiro nos seus baralhos e depois em todo o Wiktionary."
   };
@@ -1601,25 +1606,14 @@
     document.getElementById("sess-fill").style.width=total?(ui.doneToday/total*100)+"%":"0%";
     renderFront(ui.current);
     document.getElementById("grades").classList.add("hidden");
-    document.getElementById("flip-hint").classList.remove("hidden");
+    document.getElementById("flip-hint").classList.toggle("hidden", ui.mode==="spell");
   }
   function renderFront(c){
     var fc=document.getElementById("flashcard"), h="";
     h+='<div class="pos-kicker"><span>'+esc(t("pos."+c.pos))+'</span><span class="deckchip">'+esc(deckName(c.deck))+'</span></div>';
     if(ui.mode==="spell"){
-      ui.spellAttempt=""; ui.spellCorrect=false;
-      h+='<div class="sp-clue">'+esc(meaning(c))+'</div>';
-      h+='<div class="sp-sub">'+esc(t("spell.hint"))+'</div>';
-      h+='<div class="center-audio">'+spk(sayStr(c))+'</div>';
-      h+='<div class="sp-inwrap"><input id="sp-input" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="'+attr(t("spell.ph"))+'">'+
-         (SPEECH_OK?'<button type="button" class="sp-mic" id="sp-mic" aria-label="'+attr(t("spell.speak"))+'">🎤</button>':'')+'</div>';
-      h+='<button type="button" class="btn sp-check" id="sp-check">'+esc(t("spell.check"))+'</button>';
-      fc.innerHTML=h;
-      var inp=document.getElementById("sp-input");
-      document.getElementById("sp-check").onclick=function(){ reveal(); };
-      inp.addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); reveal(); } });
-      if(SPEECH_OK){ document.getElementById("sp-mic").onclick=startRec; }
-      setTimeout(function(){ try{ inp.focus(); }catch(e){} speak(sayStr(c)); },140);
+      ui.spellAttempt=""; ui.spellCorrect=false; ui.spellTries=0;
+      renderSpellFront(c,"");
       return;
     }
     h+='<div class="word">'+esc(c.de)+'</div>';
@@ -1627,6 +1621,51 @@
     if(c.pos==="noun"){ h+='<div class="genderhint"><span class="q"><span>der</span><span>die</span><span>das</span></span></div>'; }
     else { h+='<div class="genderhint" style="opacity:0">.</div>'; }
     fc.innerHTML=h;
+  }
+  function renderSpellFront(c, feedback){
+    var fc=document.getElementById("flashcard");
+    var mic=SPEECH_OK?'<button type="button" class="sp-mic" id="sp-mic" aria-label="'+attr(t("spell.speak"))+'">🎤</button>':'';
+    var h='<div class="pos-kicker"><span>'+esc(t("pos."+c.pos))+'</span><span class="deckchip">'+esc(deckName(c.deck))+'</span></div>'+
+      '<div class="sp-clue">'+esc(meaning(c))+'</div>'+
+      '<div class="sp-sub">'+esc(t("spell.hint"))+'</div>'+
+      (feedback||"")+
+      '<div class="center-audio">'+spk(sayStr(c))+'</div>'+
+      '<div class="sp-inwrap"><input id="sp-input" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="'+attr(t("spell.ph"))+'">'+mic+'</div>'+
+      '<button type="button" class="btn sp-check" id="sp-check">'+esc(t("spell.check"))+'</button>';
+    fc.innerHTML=h;
+    var inp=document.getElementById("sp-input");
+    document.getElementById("sp-check").onclick=spellCheck;
+    inp.addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); spellCheck(); } });
+    if(SPEECH_OK){ document.getElementById("sp-mic").onclick=startRec; }
+    setTimeout(function(){ try{ inp.focus(); }catch(e){} speak(sayStr(c)); },140);
+  }
+  function spellWrongHTML(c, attempt){
+    var word = (c.pos==="noun"&&c.gender)?('<span class="article '+c.gender+'">'+(c.gender==="pl"?"die":c.gender)+'</span> '+esc(c.de)):esc(c.de);
+    return '<div class="sp-wrong"><div class="sp-res bad">✗ '+esc(t("spell.no"))+'</div>'+
+      '<div class="sp-answer">'+word+'</div>'+
+      (attempt?'<div class="sp-diff"><span class="sp-diff-label">'+esc(t("spell.you"))+'</span>'+spellDiffHTML(attempt,c.de)+'</div>':'')+'</div>';
+  }
+  function spellCheck(){
+    if(!ui.current) return;
+    var inp=document.getElementById("sp-input"); var attempt=inp?(inp.value||"").trim():"";
+    if(!attempt){ if(inp) inp.focus(); return; }
+    var c=ui.current; ui.spellAttempt=attempt;
+    if(_rec){ try{_rec.stop();}catch(e){} }
+    if(attempt.toLowerCase()===(c.de||"").toLowerCase()){
+      ui.spellCorrect=true; ui.shown=true;
+      renderBack(c);
+      document.getElementById("grades").classList.add("hidden");
+      document.getElementById("flip-hint").classList.add("hidden");
+      var nx=document.getElementById("sp-next"); if(nx){ nx.onclick=spellAdvance; setTimeout(function(){ try{nx.focus();}catch(e){} },40); }
+    } else {
+      ui.spellCorrect=false; ui.spellTries=(ui.spellTries||0)+1;
+      renderSpellFront(c, spellWrongHTML(c,attempt));
+    }
+  }
+  function spellAdvance(){
+    if(!ui.shown||!ui.current) return;
+    var g=(ui.spellTries||0)===0 ? (ui.spellAttempt===ui.current.de?"easy":"good") : "hard";
+    grade(g);
   }
   function renderBack(c){
     var fc=document.getElementById("flashcard"), h="";
@@ -1643,6 +1682,7 @@
          (exT?'<div class="en">'+esc(exT)+'</div>':'')+'</div>'+spk(c.exDe,"sm")+'</div>';
     }
     h+='</div>';
+    if(ui.mode==="spell") h+='<button type="button" class="btn sp-next" id="sp-next">'+esc(t("spell.next"))+'</button>';
     fc.innerHTML=h;
   }
   function reveal(){
@@ -2008,7 +2048,8 @@
       var tag=(e.target.tagName||"").toLowerCase();
       if(tag==="input"||tag==="textarea"||tag==="select") return;
       if(ui.tab==="study"){
-        if((e.key===" "||e.key==="Enter")&&!ui.shown&&ui.current&&ui.mode!=="spell"){ e.preventDefault(); reveal(); return; }
+        if(ui.mode==="spell"){ if(ui.shown&&e.key==="Enter"){ e.preventDefault(); spellAdvance(); } return; }
+        if((e.key===" "||e.key==="Enter")&&!ui.shown&&ui.current){ e.preventDefault(); reveal(); return; }
         if(ui.shown){ var m={"1":"again","2":"hard","3":"good","4":"easy"}; if(m[e.key]){ e.preventDefault(); grade(m[e.key]); } }
       } else if(ui.tab==="verbs"){
         if((e.key===" "||e.key==="Enter")&&!ui.vShown){ e.preventDefault(); revealVerb(); return; }
