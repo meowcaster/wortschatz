@@ -1,12 +1,15 @@
 /* Wortschatz service worker — network-first for the page, cache-first for static assets.
    Network-first means new words/features appear as soon as you're online; the cache is the
    offline fallback. Bump VERSION whenever you change files so installed apps refresh cleanly. */
-const VERSION = 'wortschatz-v20';
+const VERSION = 'wortschatz-v21';
+// Word pictures (ARASAAC) live in their own cache so they survive VERSION bumps and work offline once seen.
+const PICS_CACHE = 'ws-pics-v1';
 const ASSETS = [
   './',
   './index.html',
   './manifest.webmanifest',
   './words.json',
+  './pics.json',
   './icon-192.png',
   './icon-512.png',
   './icon-maskable-512.png',
@@ -21,7 +24,7 @@ self.addEventListener('install', (e) => {
 self.addEventListener('activate', (e) => {
   e.waitUntil(
     caches.keys()
-      .then((keys) => Promise.all(keys.filter((k) => k !== VERSION).map((k) => caches.delete(k))))
+      .then((keys) => Promise.all(keys.filter((k) => k !== VERSION && k !== PICS_CACHE).map((k) => caches.delete(k))))
       .then(() => self.clients.claim())
   );
 });
@@ -29,7 +32,17 @@ self.addEventListener('activate', (e) => {
 self.addEventListener('fetch', (e) => {
   const req = e.request;
   if (req.method !== 'GET') return;
-  try { if (new URL(req.url).pathname.indexOf('/api/') === 0) return; } catch (_) {}
+  let url; try { url = new URL(req.url); } catch (_) { return; }
+  if (url.pathname.indexOf('/api/') === 0) return;
+
+  if (url.hostname === 'static.arasaac.org') {
+    // Cache-first; requested with crossorigin=anonymous so responses are CORS (not opaque) and cache cheaply.
+    e.respondWith(caches.open(PICS_CACHE).then((c) => c.match(req).then((hit) => hit || fetch(req).then((res) => {
+      if (res && res.ok) c.put(req, res.clone()).catch(() => {});
+      return res;
+    }))));
+    return;
+  }
   const accept = req.headers.get('accept') || '';
   const isPage = req.mode === 'navigate' || accept.includes('text/html');
 
