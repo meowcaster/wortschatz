@@ -118,7 +118,7 @@ async function check(p) {
 Estimate the learner's CEFR level from this message (score 1.0-6.0: A1=1, A2=2, B1=3, B2=4, C1=5, C2=6). Very short answers ("Ja", "Danke") show little — then score near their current level ${level(p.level)}.
 Return ONLY JSON: {"correction":"the whole message corrected, or empty string if it is already correct","errors":[{"type":"${ERR_TYPES.join('|')}","wrong":"exact wrong part","right":"fixed part","why":"very short explanation"}],"level":"B1","score":3.1}
 Only list real mistakes; never list a part that is already correct. Max 6 errors.
-${langRule(p.ui)}`;
+${p.spoken ? 'IMPORTANT: this message was SPOKEN aloud and converted to text by speech recognition. Ignore spelling, capitalisation, punctuation and run-on sentences completely (those come from the recognizer); judge only grammar, word order, word forms and word choice. In "correction", fix only those.\n' : ''}${langRule(p.ui)}`;
   const r = await ask(SMART, [{ role: 'system', content: sys }, { role: 'user', content: clip(p.text, 600) }],
     { max_tokens: 700, temperature: 0.2 }, (o) => Array.isArray(o.errors) || typeof o.correction === 'string');
   if (!r) return null;
