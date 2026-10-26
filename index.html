@@ -285,6 +285,13 @@
   .tv-status{font-size:13px;color:var(--muted);margin-top:9px;min-height:18px;padding:0 10px;}
   .talk-voice[hidden],.talk-comp[hidden]{display:none;}
   .tb-spoken{font-size:12px;opacity:.85;}
+  .tb-coach{background:color-mix(in srgb,var(--warn) 11%,var(--surface));border-color:color-mix(in srgb,var(--warn) 38%,var(--line));}
+  .tb-coach .tb-name{color:var(--warn);}
+  .tb-rep.ok{background:var(--good);} .tb-rep.no{background:color-mix(in srgb,var(--bad) 80%,var(--accent));}
+  .tv-wait{width:130px;height:4px;border-radius:99px;margin:0 auto 8px;opacity:0;
+    background:linear-gradient(var(--accent),var(--accent)) left/0% 100% no-repeat,var(--surface-3);}
+  .tv-wait.run{opacity:1;animation:tv-fill linear forwards;}
+  @keyframes tv-fill{to{background-size:100% 100%;}}
 
   .ghud{display:flex;align-items:center;gap:11px;width:100%;background:var(--surface);border:1px solid var(--line);
     border-radius:14px;box-shadow:var(--shadow);padding:9px 13px;margin-bottom:14px;cursor:pointer;position:relative;
@@ -593,6 +600,7 @@
       <div class="talk-sugg" id="talk-sugg" hidden></div>
       <div class="talk-voice" id="talk-vbar">
         <div class="tv-live" id="tv-live"></div>
+        <div class="tv-wait" id="tv-wait"></div>
         <div class="tv-row">
           <button type="button" class="tv-side" id="tv-kbd" aria-label="Type">⌨️</button>
           <button type="button" class="tv-mic" id="tv-mic" aria-label="Talk"><span class="tv-ring"></span><span class="tv-ic">🎤</span></button>
@@ -610,6 +618,8 @@
         <button type="button" class="tt" id="talk-hint">💡 <span data-i18n="talk.hint">Hint</span></button>
         <button type="button" class="tt" id="talk-review">📊 <span data-i18n="talk.review">How am I doing?</span></button>
         <button type="button" class="tt" id="talk-hands"></button>
+        <button type="button" class="tt" id="talk-corr"></button>
+        <button type="button" class="tt" id="talk-wait"></button>
         <button type="button" class="tt" id="talk-slow"></button>
         <button type="button" class="tt" id="talk-voice"></button>
         <button type="button" class="tt" id="talk-new">↻ <span data-i18n="talk.new">New chat</span></button>
@@ -853,7 +863,7 @@
       <br>On your phone: open this page in the browser → Share → <b>Add to Home Screen</b> to run it like an app.
     </p>
     <div class="pic-credit">Pictograms: Sergio Palao · <a href="https://arasaac.org" target="_blank" rel="noopener">ARASAAC</a> · CC BY-NC-SA · Government of Aragón</div>
-    <div id="app-ver" style="text-align:center;font-size:11px;color:var(--faint);margin-top:6px">Wortschatz v23</div>
+    <div id="app-ver" style="text-align:center;font-size:11px;color:var(--faint);margin-top:6px">Wortschatz v24</div>
   </footer>
 </main>
 
@@ -918,7 +928,7 @@
     "verb.again":"Practice again","verb.got":"Got it ✓","verb.conjugate":"Verb · conjugate",
     "deck.a1":"A1 · Basics","deck.a2":"A2 · Everyday","deck.core":"Core B1–B2","deck.arbeit":"Arbeit · Work","deck.meinung":"Meinung · Opinions","deck.advanced":"B2–C1 Advanced","deck.reisen":"Reisen · Travel","deck.essen":"Essen · Food","deck.gesundheit":"Gesundheit · Health","deck.topA":"A · most frequent","deck.topB":"B · common","deck.topC":"C · advanced","deck.top10k":"Top 12k · Frequency","deck.mine":"My cards","deck.all":"All decks",
     "spell.flash":"Cards","spell.spell":"Spell","spell.hint":"Listen and type the German word","spell.ph":"Type what you hear…","spell.check":"Check","spell.next":"Continue","pic.wrong":"Wrong picture? Hide it","pic.hidden":"Picture hidden",
-    "tab.talk":"Talk","talk.ph":"Write in German…","talk.hint":"Hint","talk.review":"How am I doing?","talk.new":"New chat","talk.voiceOn":"Voice on","talk.voiceOff":"Voice off","talk.lvl":"Your German level","talk.est":"Estimating… chat a few messages","talk.next":"%n% to","talk.based":"based on %n messages","talk.typing":"Lena is typing…","talk.checking":"Checking your German…","talk.perfect":"Perfect — no mistakes!","talk.failcheck":"Couldn't check this one.","talk.failed":"Lena couldn't answer — try again.","talk.gateOnline":"Talking with Lena needs the online app with an account.","talk.gateSignin":"Sign in to talk with Lena, your AI German partner. She corrects your mistakes and tracks your level as you chat.","talk.signinBtn":"Go to sign in","talk.notcfg":"The AI tutor isn't switched on yet.","talk.limit":"Daily practice limit reached — see you tomorrow!","talk.offline":"No connection — try again.","talk.tr":"Translate","talk.loading":"Thinking…","talk.needMore":"Send at least 3 messages first.","talk.rvTitle":"Your assessment","talk.rvStrong":"Strengths","talk.rvFocus":"Work on","talk.rvTip":"This week","talk.rvWords":"Useful words","err.wo":"Word order","err.case":"Case","err.art":"Article","err.verb":"Verb","err.adj":"Adjective ending","err.spell":"Spelling","err.choice":"Word choice","err.other":"Other","talk.tapSpeak":"Tap the mic and speak German","talk.listening":"Listening… tap when you're done","talk.thinking":"Lena is thinking…","talk.speaking":"Lena is speaking — tap to interrupt","talk.handsOn":"Hands-free on","talk.handsOff":"Hands-free off","talk.slowOn":"Slow speech","talk.slowOff":"Normal speed","talk.micDenied":"Microphone blocked — allow it in your browser's site settings, then tap again.","talk.noVoice":"Voice conversation needs Chrome on Android or a computer. Here you can type — or use your keyboard's 🎤 to dictate.","talk.didntHear":"Didn't catch that — tap the mic and try again.","spell.ok":"Correct!","spell.cap":"Right — but nouns take a capital letter","spell.no":"Not quite","spell.you":"You wrote","spell.speak":"Speak the word",
+    "tab.talk":"Talk","talk.ph":"Write in German…","talk.hint":"Hint","talk.review":"How am I doing?","talk.new":"New chat","talk.voiceOn":"Voice on","talk.voiceOff":"Voice off","talk.lvl":"Your German level","talk.est":"Estimating… chat a few messages","talk.next":"%n% to","talk.based":"based on %n messages","talk.typing":"Lena is typing…","talk.checking":"Checking your German…","talk.perfect":"Perfect — no mistakes!","talk.failcheck":"Couldn't check this one.","talk.failed":"Lena couldn't answer — try again.","talk.gateOnline":"Talking with Lena needs the online app with an account.","talk.gateSignin":"Sign in to talk with Lena, your AI German partner. She corrects your mistakes and tracks your level as you chat.","talk.signinBtn":"Go to sign in","talk.notcfg":"The AI tutor isn't switched on yet.","talk.limit":"Daily practice limit reached — see you tomorrow!","talk.offline":"No connection — try again.","talk.tr":"Translate","talk.loading":"Thinking…","talk.needMore":"Send at least 3 messages first.","talk.rvTitle":"Your assessment","talk.rvStrong":"Strengths","talk.rvFocus":"Work on","talk.rvTip":"This week","talk.rvWords":"Useful words","err.wo":"Word order","err.case":"Case","err.art":"Article","err.verb":"Verb","err.adj":"Adjective ending","err.spell":"Spelling","err.choice":"Word choice","err.other":"Other","talk.tapSpeak":"Tap the mic and speak German","talk.listening":"Listening… tap when you're done","talk.thinking":"Lena is thinking…","talk.speaking":"Lena is speaking — tap to interrupt","talk.handsOn":"Hands-free on","talk.handsOff":"Hands-free off","talk.slowOn":"Slow speech","talk.slowOff":"Normal speed","talk.micDenied":"Microphone blocked — allow it in your browser's site settings, then tap again.","talk.noVoice":"Voice conversation needs Chrome on Android or a computer. Here you can type — or use your keyboard's 🎤 to dictate.","talk.didntHear":"Didn't catch that — tap the mic and try again.","talk.corrRepeat":"Correct + repeat","talk.corrSay":"Correct out loud","talk.corrOff":"Silent corrections","talk.wait":"Lena waits %n s","spell.ok":"Correct!","spell.cap":"Right — but nouns take a capital letter","spell.no":"Not quite","spell.you":"You wrote","spell.speak":"Speak the word",
     "game.lvl":"Level","game.total":"%n XP total","game.mastered":"Word mastered!","game.mastered2":"mastered","game.wordsLearned":"learned","game.streakWord":"day streak","game.goal":"Daily goal","game.levelup":"Level %n!","badge.section":"Achievements","badge.first":"First word","badge.words":"%n words","badge.master":"%n mastered","badge.streak":"%n-day streak","badge.level":"Level %n","badge.xp":"%n XP","badge.speller":"%n spelled",
     "tab.dict":"Dict","dict.ph":"Look up any German word…","dict.go":"Search","dict.local":"In your decks","dict.wik":"Full dictionary (Wiktionary · English)","dict.none":"No dictionary entry found.","dict.offline":"Couldn't reach the dictionary — check your connection.","dict.hint":"Type any German word and press Search — it looks in your decks first, then the full Wiktionary."
   } };
@@ -944,7 +954,7 @@
     "verb.again":"تدرّب ثانية","verb.got":"عرفتها ✓","verb.conjugate":"فعل · صرّفه",
     "deck.a1":"A1 · أساسيات","deck.a2":"A2 · يوميات","deck.core":"أساسي B1–B2","deck.arbeit":"Arbeit · العمل","deck.meinung":"Meinung · الآراء","deck.advanced":"متقدّم B2–C1","deck.reisen":"Reisen · السفر","deck.essen":"Essen · الطعام","deck.gesundheit":"Gesundheit · الصحة","deck.topA":"A · الأكثر شيوعًا","deck.topB":"B · شائعة","deck.topC":"C · متقدّمة","deck.top10k":"أكثر 12 ألف تكرارًا","deck.mine":"بطاقاتي","deck.all":"كل المجموعات",
     "spell.flash":"بطاقات","spell.spell":"إملاء","spell.hint":"استمع واكتب الكلمة الألمانية","spell.ph":"اكتب ما تسمعه…","spell.check":"تحقّق","spell.next":"متابعة","pic.wrong":"صورة خاطئة؟ إخفاؤها","pic.hidden":"تم إخفاء الصورة",
-    "tab.talk":"محادثة","talk.ph":"اكتب بالألمانية…","talk.hint":"تلميح","talk.review":"كيف أدائي؟","talk.new":"محادثة جديدة","talk.voiceOn":"الصوت مفعّل","talk.voiceOff":"الصوت متوقف","talk.lvl":"مستواك في الألمانية","talk.est":"جارٍ التقدير… تحدّث بضع رسائل","talk.next":"%n٪ نحو","talk.based":"بناءً على %n رسالة","talk.typing":"لينا تكتب…","talk.checking":"جارٍ تدقيق جملتك…","talk.perfect":"ممتاز — بلا أخطاء!","talk.failcheck":"تعذّر تدقيق هذه الرسالة.","talk.failed":"لم تتمكن لينا من الرد — حاول مجددًا.","talk.gateOnline":"المحادثة مع لينا تحتاج إلى التطبيق عبر الإنترنت مع حساب.","talk.gateSignin":"سجّل الدخول للتحدث مع لينا، شريكتك الذكية في الألمانية. تصحّح أخطاءك وتتابع مستواك أثناء المحادثة.","talk.signinBtn":"انتقل إلى تسجيل الدخول","talk.notcfg":"المعلّم الذكي غير مفعّل بعد.","talk.limit":"وصلت إلى حد التدريب اليومي — نراك غدًا!","talk.offline":"لا يوجد اتصال — حاول مجددًا.","talk.tr":"ترجمة","talk.loading":"جارٍ التفكير…","talk.needMore":"أرسل 3 رسائل على الأقل أولًا.","talk.rvTitle":"تقييمك","talk.rvStrong":"نقاط القوة","talk.rvFocus":"ركّز على","talk.rvTip":"هذا الأسبوع","talk.rvWords":"كلمات مفيدة","err.wo":"ترتيب الكلمات","err.case":"الحالة الإعرابية","err.art":"أداة التعريف","err.verb":"الفعل","err.adj":"نهاية الصفة","err.spell":"الإملاء","err.choice":"اختيار الكلمة","err.other":"أخرى","talk.tapSpeak":"اضغط على الميكروفون وتحدّث بالألمانية","talk.listening":"أستمع… اضغط عندما تنتهي","talk.thinking":"لينا تفكّر…","talk.speaking":"لينا تتحدث — اضغط للمقاطعة","talk.handsOn":"بدون استخدام اليدين: مفعّل","talk.handsOff":"بدون استخدام اليدين: متوقف","talk.slowOn":"نطق بطيء","talk.slowOff":"سرعة عادية","talk.micDenied":"الميكروفون محظور — اسمح به من إعدادات الموقع في المتصفح ثم اضغط مجددًا.","talk.noVoice":"المحادثة الصوتية تحتاج إلى Chrome على أندرويد أو الكمبيوتر. يمكنك الكتابة هنا — أو استخدام 🎤 في لوحة المفاتيح للإملاء.","talk.didntHear":"لم ألتقط ذلك — اضغط على الميكروفون وحاول مجددًا.","spell.ok":"صحيح!","spell.cap":"صحيح — لكن الأسماء تبدأ بحرف كبير","spell.no":"ليس تمامًا","spell.you":"كتبتَ","spell.speak":"انطق الكلمة",
+    "tab.talk":"محادثة","talk.ph":"اكتب بالألمانية…","talk.hint":"تلميح","talk.review":"كيف أدائي؟","talk.new":"محادثة جديدة","talk.voiceOn":"الصوت مفعّل","talk.voiceOff":"الصوت متوقف","talk.lvl":"مستواك في الألمانية","talk.est":"جارٍ التقدير… تحدّث بضع رسائل","talk.next":"%n٪ نحو","talk.based":"بناءً على %n رسالة","talk.typing":"لينا تكتب…","talk.checking":"جارٍ تدقيق جملتك…","talk.perfect":"ممتاز — بلا أخطاء!","talk.failcheck":"تعذّر تدقيق هذه الرسالة.","talk.failed":"لم تتمكن لينا من الرد — حاول مجددًا.","talk.gateOnline":"المحادثة مع لينا تحتاج إلى التطبيق عبر الإنترنت مع حساب.","talk.gateSignin":"سجّل الدخول للتحدث مع لينا، شريكتك الذكية في الألمانية. تصحّح أخطاءك وتتابع مستواك أثناء المحادثة.","talk.signinBtn":"انتقل إلى تسجيل الدخول","talk.notcfg":"المعلّم الذكي غير مفعّل بعد.","talk.limit":"وصلت إلى حد التدريب اليومي — نراك غدًا!","talk.offline":"لا يوجد اتصال — حاول مجددًا.","talk.tr":"ترجمة","talk.loading":"جارٍ التفكير…","talk.needMore":"أرسل 3 رسائل على الأقل أولًا.","talk.rvTitle":"تقييمك","talk.rvStrong":"نقاط القوة","talk.rvFocus":"ركّز على","talk.rvTip":"هذا الأسبوع","talk.rvWords":"كلمات مفيدة","err.wo":"ترتيب الكلمات","err.case":"الحالة الإعرابية","err.art":"أداة التعريف","err.verb":"الفعل","err.adj":"نهاية الصفة","err.spell":"الإملاء","err.choice":"اختيار الكلمة","err.other":"أخرى","talk.tapSpeak":"اضغط على الميكروفون وتحدّث بالألمانية","talk.listening":"أستمع… اضغط عندما تنتهي","talk.thinking":"لينا تفكّر…","talk.speaking":"لينا تتحدث — اضغط للمقاطعة","talk.handsOn":"بدون استخدام اليدين: مفعّل","talk.handsOff":"بدون استخدام اليدين: متوقف","talk.slowOn":"نطق بطيء","talk.slowOff":"سرعة عادية","talk.micDenied":"الميكروفون محظور — اسمح به من إعدادات الموقع في المتصفح ثم اضغط مجددًا.","talk.noVoice":"المحادثة الصوتية تحتاج إلى Chrome على أندرويد أو الكمبيوتر. يمكنك الكتابة هنا — أو استخدام 🎤 في لوحة المفاتيح للإملاء.","talk.didntHear":"لم ألتقط ذلك — اضغط على الميكروفون وحاول مجددًا.","talk.corrRepeat":"تصحيح + تكرار","talk.corrSay":"تصحيح بصوت عالٍ","talk.corrOff":"تصحيح صامت","talk.wait":"لينا تنتظر %n ث","spell.ok":"صحيح!","spell.cap":"صحيح — لكن الأسماء تبدأ بحرف كبير","spell.no":"ليس تمامًا","spell.you":"كتبتَ","spell.speak":"انطق الكلمة",
     "game.lvl":"المستوى","game.total":"%n نقطة إجمالاً","game.mastered":"أتقنت الكلمة!","game.mastered2":"مُتقَنة","game.wordsLearned":"تعلّمتها","game.streakWord":"يوم متتابع","game.goal":"الهدف اليومي","game.levelup":"المستوى %n!","badge.section":"الإنجازات","badge.first":"أول كلمة","badge.words":"%n كلمة","badge.master":"%n مُتقَنة","badge.streak":"%n أيام متتابعة","badge.level":"المستوى %n","badge.xp":"%n نقطة","badge.speller":"%n إملاءً صحيحًا",
     "tab.dict":"قاموس","dict.ph":"ابحث عن أي كلمة ألمانية…","dict.go":"بحث","dict.local":"في مجموعاتك","dict.wik":"القاموس الكامل (ويكاموس · بالإنجليزية)","dict.none":"لا يوجد مدخل في القاموس.","dict.offline":"تعذّر الوصول إلى القاموس — تحقّق من اتصالك.","dict.hint":"اكتب أي كلمة ألمانية واضغط بحث — يبحث في مجموعاتك أولًا ثم في ويكاموس الكامل."
   };
@@ -970,7 +980,7 @@
     "verb.again":"Practicar otra vez","verb.got":"La sé ✓","verb.conjugate":"Verbo · conjuga",
     "deck.a1":"A1 · Básico","deck.a2":"A2 · Cotidiano","deck.core":"Esencial B1–B2","deck.arbeit":"Arbeit · Trabajo","deck.meinung":"Meinung · Opiniones","deck.advanced":"Avanzado B2–C1","deck.reisen":"Reisen · Viajes","deck.essen":"Essen · Comida","deck.gesundheit":"Gesundheit · Salud","deck.topA":"A · más frecuentes","deck.topB":"B · comunes","deck.topC":"C · avanzadas","deck.top10k":"Top 12k · Frecuencia","deck.mine":"Mis tarjetas","deck.all":"Todos los mazos",
     "spell.flash":"Tarjetas","spell.spell":"Deletrear","spell.hint":"Escucha y escribe la palabra alemana","spell.ph":"Escribe lo que oyes…","spell.check":"Comprobar","spell.next":"Continuar","pic.wrong":"¿Imagen incorrecta? Ocúltala","pic.hidden":"Imagen oculta",
-    "tab.talk":"Hablar","talk.ph":"Escribe en alemán…","talk.hint":"Pista","talk.review":"¿Cómo voy?","talk.new":"Nuevo chat","talk.voiceOn":"Voz activada","talk.voiceOff":"Voz desactivada","talk.lvl":"Tu nivel de alemán","talk.est":"Estimando… escribe unos mensajes","talk.next":"%n% hacia","talk.based":"según %n mensajes","talk.typing":"Lena está escribiendo…","talk.checking":"Revisando tu alemán…","talk.perfect":"¡Perfecto, sin errores!","talk.failcheck":"No se pudo revisar este mensaje.","talk.failed":"Lena no pudo responder — inténtalo de nuevo.","talk.gateOnline":"Hablar con Lena requiere la app en línea con una cuenta.","talk.gateSignin":"Inicia sesión para hablar con Lena, tu compañera de alemán con IA. Corrige tus errores y sigue tu nivel mientras chateas.","talk.signinBtn":"Ir a iniciar sesión","talk.notcfg":"El tutor de IA aún no está activado.","talk.limit":"Límite diario de práctica alcanzado — ¡hasta mañana!","talk.offline":"Sin conexión — inténtalo de nuevo.","talk.tr":"Traducir","talk.loading":"Pensando…","talk.needMore":"Envía al menos 3 mensajes primero.","talk.rvTitle":"Tu evaluación","talk.rvStrong":"Puntos fuertes","talk.rvFocus":"Trabaja en","talk.rvTip":"Esta semana","talk.rvWords":"Palabras útiles","err.wo":"Orden de palabras","err.case":"Caso","err.art":"Artículo","err.verb":"Verbo","err.adj":"Terminación del adjetivo","err.spell":"Ortografía","err.choice":"Elección de palabra","err.other":"Otro","talk.tapSpeak":"Toca el micrófono y habla en alemán","talk.listening":"Escuchando… toca cuando termines","talk.thinking":"Lena está pensando…","talk.speaking":"Lena está hablando — toca para interrumpir","talk.handsOn":"Manos libres activado","talk.handsOff":"Manos libres desactivado","talk.slowOn":"Habla lenta","talk.slowOff":"Velocidad normal","talk.micDenied":"Micrófono bloqueado — permítelo en la configuración del sitio del navegador y vuelve a tocar.","talk.noVoice":"La conversación por voz necesita Chrome en Android o un ordenador. Aquí puedes escribir — o usar el 🎤 de tu teclado para dictar.","talk.didntHear":"No te entendí — toca el micrófono e inténtalo de nuevo.","spell.ok":"¡Correcto!","spell.cap":"Bien, pero los sustantivos van con mayúscula","spell.no":"Casi","spell.you":"Escribiste","spell.speak":"Di la palabra",
+    "tab.talk":"Hablar","talk.ph":"Escribe en alemán…","talk.hint":"Pista","talk.review":"¿Cómo voy?","talk.new":"Nuevo chat","talk.voiceOn":"Voz activada","talk.voiceOff":"Voz desactivada","talk.lvl":"Tu nivel de alemán","talk.est":"Estimando… escribe unos mensajes","talk.next":"%n% hacia","talk.based":"según %n mensajes","talk.typing":"Lena está escribiendo…","talk.checking":"Revisando tu alemán…","talk.perfect":"¡Perfecto, sin errores!","talk.failcheck":"No se pudo revisar este mensaje.","talk.failed":"Lena no pudo responder — inténtalo de nuevo.","talk.gateOnline":"Hablar con Lena requiere la app en línea con una cuenta.","talk.gateSignin":"Inicia sesión para hablar con Lena, tu compañera de alemán con IA. Corrige tus errores y sigue tu nivel mientras chateas.","talk.signinBtn":"Ir a iniciar sesión","talk.notcfg":"El tutor de IA aún no está activado.","talk.limit":"Límite diario de práctica alcanzado — ¡hasta mañana!","talk.offline":"Sin conexión — inténtalo de nuevo.","talk.tr":"Traducir","talk.loading":"Pensando…","talk.needMore":"Envía al menos 3 mensajes primero.","talk.rvTitle":"Tu evaluación","talk.rvStrong":"Puntos fuertes","talk.rvFocus":"Trabaja en","talk.rvTip":"Esta semana","talk.rvWords":"Palabras útiles","err.wo":"Orden de palabras","err.case":"Caso","err.art":"Artículo","err.verb":"Verbo","err.adj":"Terminación del adjetivo","err.spell":"Ortografía","err.choice":"Elección de palabra","err.other":"Otro","talk.tapSpeak":"Toca el micrófono y habla en alemán","talk.listening":"Escuchando… toca cuando termines","talk.thinking":"Lena está pensando…","talk.speaking":"Lena está hablando — toca para interrumpir","talk.handsOn":"Manos libres activado","talk.handsOff":"Manos libres desactivado","talk.slowOn":"Habla lenta","talk.slowOff":"Velocidad normal","talk.micDenied":"Micrófono bloqueado — permítelo en la configuración del sitio del navegador y vuelve a tocar.","talk.noVoice":"La conversación por voz necesita Chrome en Android o un ordenador. Aquí puedes escribir — o usar el 🎤 de tu teclado para dictar.","talk.didntHear":"No te entendí — toca el micrófono e inténtalo de nuevo.","talk.corrRepeat":"Corregir + repetir","talk.corrSay":"Corregir en voz alta","talk.corrOff":"Correcciones en silencio","talk.wait":"Lena espera %n s","spell.ok":"¡Correcto!","spell.cap":"Bien, pero los sustantivos van con mayúscula","spell.no":"Casi","spell.you":"Escribiste","spell.speak":"Di la palabra",
     "game.lvl":"Nivel","game.total":"%n XP en total","game.mastered":"¡Palabra dominada!","game.mastered2":"dominadas","game.wordsLearned":"aprendidas","game.streakWord":"días seguidos","game.goal":"Meta diaria","game.levelup":"¡Nivel %n!","badge.section":"Logros","badge.first":"Primera palabra","badge.words":"%n palabras","badge.master":"%n dominadas","badge.streak":"racha de %n días","badge.level":"Nivel %n","badge.xp":"%n XP","badge.speller":"%n deletreadas",
     "tab.dict":"Dicc.","dict.ph":"Busca cualquier palabra alemana…","dict.go":"Buscar","dict.local":"En tus mazos","dict.wik":"Diccionario completo (Wiktionary · en inglés)","dict.none":"No se encontró ninguna entrada.","dict.offline":"No se pudo acceder al diccionario — revisa tu conexión.","dict.hint":"Escribe cualquier palabra alemana y pulsa Buscar — mira primero en tus mazos y luego en todo Wiktionary."
   };
@@ -996,7 +1006,7 @@
     "verb.again":"S’entraîner encore","verb.got":"Je sais ✓","verb.conjugate":"Verbe · conjuguez",
     "deck.a1":"A1 · Bases","deck.a2":"A2 · Quotidien","deck.core":"Essentiel B1–B2","deck.arbeit":"Arbeit · Travail","deck.meinung":"Meinung · Opinions","deck.advanced":"Avancé B2–C1","deck.reisen":"Reisen · Voyages","deck.essen":"Essen · Nourriture","deck.gesundheit":"Gesundheit · Santé","deck.topA":"A · plus fréquents","deck.topB":"B · courants","deck.topC":"C · avancés","deck.top10k":"Top 12k · Fréquence","deck.mine":"Mes cartes","deck.all":"Tous les paquets",
     "spell.flash":"Cartes","spell.spell":"Épeler","spell.hint":"Écoutez et tapez le mot allemand","spell.ph":"Tapez ce que vous entendez…","spell.check":"Vérifier","spell.next":"Continuer","pic.wrong":"Mauvaise image ? Masquez-la","pic.hidden":"Image masquée",
-    "tab.talk":"Parler","talk.ph":"Écrivez en allemand…","talk.hint":"Indice","talk.review":"Où en suis-je ?","talk.new":"Nouvelle discussion","talk.voiceOn":"Voix activée","talk.voiceOff":"Voix désactivée","talk.lvl":"Votre niveau d'allemand","talk.est":"Estimation… écrivez quelques messages","talk.next":"%n% vers","talk.based":"sur %n messages","talk.typing":"Lena écrit…","talk.checking":"Vérification de votre allemand…","talk.perfect":"Parfait — aucune faute !","talk.failcheck":"Impossible de vérifier ce message.","talk.failed":"Lena n'a pas pu répondre — réessayez.","talk.gateOnline":"Parler avec Lena nécessite l'application en ligne avec un compte.","talk.gateSignin":"Connectez-vous pour parler avec Lena, votre partenaire d'allemand IA. Elle corrige vos fautes et suit votre niveau pendant la discussion.","talk.signinBtn":"Aller à la connexion","talk.notcfg":"Le tuteur IA n'est pas encore activé.","talk.limit":"Limite quotidienne atteinte — à demain !","talk.offline":"Pas de connexion — réessayez.","talk.tr":"Traduire","talk.loading":"Réflexion…","talk.needMore":"Envoyez d'abord au moins 3 messages.","talk.rvTitle":"Votre bilan","talk.rvStrong":"Points forts","talk.rvFocus":"À travailler","talk.rvTip":"Cette semaine","talk.rvWords":"Mots utiles","err.wo":"Ordre des mots","err.case":"Cas","err.art":"Article","err.verb":"Verbe","err.adj":"Terminaison de l'adjectif","err.spell":"Orthographe","err.choice":"Choix du mot","err.other":"Autre","talk.tapSpeak":"Touchez le micro et parlez allemand","talk.listening":"J'écoute… touchez quand vous avez fini","talk.thinking":"Lena réfléchit…","talk.speaking":"Lena parle — touchez pour l'interrompre","talk.handsOn":"Mains libres activé","talk.handsOff":"Mains libres désactivé","talk.slowOn":"Parole lente","talk.slowOff":"Vitesse normale","talk.micDenied":"Micro bloqué — autorisez-le dans les paramètres du site de votre navigateur, puis touchez à nouveau.","talk.noVoice":"La conversation vocale nécessite Chrome sur Android ou un ordinateur. Ici, vous pouvez écrire — ou utiliser le 🎤 de votre clavier pour dicter.","talk.didntHear":"Je n'ai pas compris — touchez le micro et réessayez.","spell.ok":"Correct !","spell.cap":"Bien — mais les noms prennent une majuscule","spell.no":"Presque","spell.you":"Vous avez écrit","spell.speak":"Dites le mot",
+    "tab.talk":"Parler","talk.ph":"Écrivez en allemand…","talk.hint":"Indice","talk.review":"Où en suis-je ?","talk.new":"Nouvelle discussion","talk.voiceOn":"Voix activée","talk.voiceOff":"Voix désactivée","talk.lvl":"Votre niveau d'allemand","talk.est":"Estimation… écrivez quelques messages","talk.next":"%n% vers","talk.based":"sur %n messages","talk.typing":"Lena écrit…","talk.checking":"Vérification de votre allemand…","talk.perfect":"Parfait — aucune faute !","talk.failcheck":"Impossible de vérifier ce message.","talk.failed":"Lena n'a pas pu répondre — réessayez.","talk.gateOnline":"Parler avec Lena nécessite l'application en ligne avec un compte.","talk.gateSignin":"Connectez-vous pour parler avec Lena, votre partenaire d'allemand IA. Elle corrige vos fautes et suit votre niveau pendant la discussion.","talk.signinBtn":"Aller à la connexion","talk.notcfg":"Le tuteur IA n'est pas encore activé.","talk.limit":"Limite quotidienne atteinte — à demain !","talk.offline":"Pas de connexion — réessayez.","talk.tr":"Traduire","talk.loading":"Réflexion…","talk.needMore":"Envoyez d'abord au moins 3 messages.","talk.rvTitle":"Votre bilan","talk.rvStrong":"Points forts","talk.rvFocus":"À travailler","talk.rvTip":"Cette semaine","talk.rvWords":"Mots utiles","err.wo":"Ordre des mots","err.case":"Cas","err.art":"Article","err.verb":"Verbe","err.adj":"Terminaison de l'adjectif","err.spell":"Orthographe","err.choice":"Choix du mot","err.other":"Autre","talk.tapSpeak":"Touchez le micro et parlez allemand","talk.listening":"J'écoute… touchez quand vous avez fini","talk.thinking":"Lena réfléchit…","talk.speaking":"Lena parle — touchez pour l'interrompre","talk.handsOn":"Mains libres activé","talk.handsOff":"Mains libres désactivé","talk.slowOn":"Parole lente","talk.slowOff":"Vitesse normale","talk.micDenied":"Micro bloqué — autorisez-le dans les paramètres du site de votre navigateur, puis touchez à nouveau.","talk.noVoice":"La conversation vocale nécessite Chrome sur Android ou un ordinateur. Ici, vous pouvez écrire — ou utiliser le 🎤 de votre clavier pour dicter.","talk.didntHear":"Je n'ai pas compris — touchez le micro et réessayez.","talk.corrRepeat":"Corriger + répéter","talk.corrSay":"Corriger à voix haute","talk.corrOff":"Corrections silencieuses","talk.wait":"Lena attend %n s","spell.ok":"Correct !","spell.cap":"Bien — mais les noms prennent une majuscule","spell.no":"Presque","spell.you":"Vous avez écrit","spell.speak":"Dites le mot",
     "game.lvl":"Niveau","game.total":"%n XP au total","game.mastered":"Mot maîtrisé !","game.mastered2":"maîtrisés","game.wordsLearned":"apprises","game.streakWord":"jours d'affilée","game.goal":"Objectif quotidien","game.levelup":"Niveau %n !","badge.section":"Succès","badge.first":"Premier mot","badge.words":"%n mots","badge.master":"%n maîtrisés","badge.streak":"série de %n jours","badge.level":"Niveau %n","badge.xp":"%n XP","badge.speller":"%n bien épelés",
     "tab.dict":"Dico","dict.ph":"Cherchez n'importe quel mot allemand…","dict.go":"Chercher","dict.local":"Dans vos paquets","dict.wik":"Dictionnaire complet (Wiktionnaire · en anglais)","dict.none":"Aucune entrée trouvée.","dict.offline":"Impossible d'accéder au dictionnaire — vérifiez votre connexion.","dict.hint":"Tapez n'importe quel mot allemand et appuyez sur Chercher — il regarde d'abord dans vos paquets, puis dans tout le Wiktionnaire."
   };
@@ -1022,7 +1032,7 @@
     "verb.again":"Tekrar çalış","verb.got":"Biliyorum ✓","verb.conjugate":"Fiil · çek",
     "deck.a1":"A1 · Temel","deck.a2":"A2 · Günlük","deck.core":"Çekirdek B1–B2","deck.arbeit":"Arbeit · İş","deck.meinung":"Meinung · Görüşler","deck.advanced":"İleri B2–C1","deck.reisen":"Reisen · Seyahat","deck.essen":"Essen · Yemek","deck.gesundheit":"Gesundheit · Sağlık","deck.topA":"A · en sık","deck.topB":"B · yaygın","deck.topC":"C · ileri","deck.top10k":"En sık 12k","deck.mine":"Kartlarım","deck.all":"Tüm desteler",
     "spell.flash":"Kartlar","spell.spell":"Yaz","spell.hint":"Dinle ve Almanca kelimeyi yaz","spell.ph":"Duyduğunu yaz…","spell.check":"Kontrol et","spell.next":"Devam","pic.wrong":"Yanlış resim mi? Gizle","pic.hidden":"Resim gizlendi",
-    "tab.talk":"Konuş","talk.ph":"Almanca yaz…","talk.hint":"İpucu","talk.review":"Nasıl gidiyorum?","talk.new":"Yeni sohbet","talk.voiceOn":"Ses açık","talk.voiceOff":"Ses kapalı","talk.lvl":"Almanca seviyen","talk.est":"Tahmin ediliyor… birkaç mesaj yaz","talk.next":"%n% →","talk.based":"%n mesaja göre","talk.typing":"Lena yazıyor…","talk.checking":"Almancan kontrol ediliyor…","talk.perfect":"Mükemmel — hata yok!","talk.failcheck":"Bu mesaj kontrol edilemedi.","talk.failed":"Lena cevap veremedi — tekrar dene.","talk.gateOnline":"Lena ile konuşmak için hesaplı çevrimiçi uygulama gerekir.","talk.gateSignin":"Yapay zekâ Almanca partnerin Lena ile konuşmak için giriş yap. Sohbet ederken hatalarını düzeltir ve seviyeni takip eder.","talk.signinBtn":"Girişe git","talk.notcfg":"Yapay zekâ öğretmen henüz açılmadı.","talk.limit":"Günlük pratik sınırına ulaştın — yarın görüşürüz!","talk.offline":"Bağlantı yok — tekrar dene.","talk.tr":"Çevir","talk.loading":"Düşünüyor…","talk.needMore":"Önce en az 3 mesaj gönder.","talk.rvTitle":"Değerlendirmen","talk.rvStrong":"Güçlü yönler","talk.rvFocus":"Çalışman gerekenler","talk.rvTip":"Bu hafta","talk.rvWords":"Faydalı kelimeler","err.wo":"Kelime sırası","err.case":"Hâl","err.art":"Artikel","err.verb":"Fiil","err.adj":"Sıfat eki","err.spell":"Yazım","err.choice":"Kelime seçimi","err.other":"Diğer","talk.tapSpeak":"Mikrofona dokun ve Almanca konuş","talk.listening":"Dinliyorum… bitince dokun","talk.thinking":"Lena düşünüyor…","talk.speaking":"Lena konuşuyor — kesmek için dokun","talk.handsOn":"Eller serbest açık","talk.handsOff":"Eller serbest kapalı","talk.slowOn":"Yavaş konuşma","talk.slowOff":"Normal hız","talk.micDenied":"Mikrofon engellendi — tarayıcının site ayarlarından izin ver, sonra tekrar dokun.","talk.noVoice":"Sesli sohbet için Android'de veya bilgisayarda Chrome gerekir. Burada yazabilir — ya da klavyendeki 🎤 ile dikte edebilirsin.","talk.didntHear":"Anlayamadım — mikrofona dokun ve tekrar dene.","spell.ok":"Doğru!","spell.cap":"Doğru — ama isimler büyük harfle başlar","spell.no":"Pek değil","spell.you":"Yazdığın","spell.speak":"Kelimeyi söyle",
+    "tab.talk":"Konuş","talk.ph":"Almanca yaz…","talk.hint":"İpucu","talk.review":"Nasıl gidiyorum?","talk.new":"Yeni sohbet","talk.voiceOn":"Ses açık","talk.voiceOff":"Ses kapalı","talk.lvl":"Almanca seviyen","talk.est":"Tahmin ediliyor… birkaç mesaj yaz","talk.next":"%n% →","talk.based":"%n mesaja göre","talk.typing":"Lena yazıyor…","talk.checking":"Almancan kontrol ediliyor…","talk.perfect":"Mükemmel — hata yok!","talk.failcheck":"Bu mesaj kontrol edilemedi.","talk.failed":"Lena cevap veremedi — tekrar dene.","talk.gateOnline":"Lena ile konuşmak için hesaplı çevrimiçi uygulama gerekir.","talk.gateSignin":"Yapay zekâ Almanca partnerin Lena ile konuşmak için giriş yap. Sohbet ederken hatalarını düzeltir ve seviyeni takip eder.","talk.signinBtn":"Girişe git","talk.notcfg":"Yapay zekâ öğretmen henüz açılmadı.","talk.limit":"Günlük pratik sınırına ulaştın — yarın görüşürüz!","talk.offline":"Bağlantı yok — tekrar dene.","talk.tr":"Çevir","talk.loading":"Düşünüyor…","talk.needMore":"Önce en az 3 mesaj gönder.","talk.rvTitle":"Değerlendirmen","talk.rvStrong":"Güçlü yönler","talk.rvFocus":"Çalışman gerekenler","talk.rvTip":"Bu hafta","talk.rvWords":"Faydalı kelimeler","err.wo":"Kelime sırası","err.case":"Hâl","err.art":"Artikel","err.verb":"Fiil","err.adj":"Sıfat eki","err.spell":"Yazım","err.choice":"Kelime seçimi","err.other":"Diğer","talk.tapSpeak":"Mikrofona dokun ve Almanca konuş","talk.listening":"Dinliyorum… bitince dokun","talk.thinking":"Lena düşünüyor…","talk.speaking":"Lena konuşuyor — kesmek için dokun","talk.handsOn":"Eller serbest açık","talk.handsOff":"Eller serbest kapalı","talk.slowOn":"Yavaş konuşma","talk.slowOff":"Normal hız","talk.micDenied":"Mikrofon engellendi — tarayıcının site ayarlarından izin ver, sonra tekrar dokun.","talk.noVoice":"Sesli sohbet için Android'de veya bilgisayarda Chrome gerekir. Burada yazabilir — ya da klavyendeki 🎤 ile dikte edebilirsin.","talk.didntHear":"Anlayamadım — mikrofona dokun ve tekrar dene.","talk.corrRepeat":"Düzelt + tekrarla","talk.corrSay":"Sesli düzelt","talk.corrOff":"Sessiz düzeltme","talk.wait":"Lena %n sn bekler","spell.ok":"Doğru!","spell.cap":"Doğru — ama isimler büyük harfle başlar","spell.no":"Pek değil","spell.you":"Yazdığın","spell.speak":"Kelimeyi söyle",
     "game.lvl":"Seviye","game.total":"toplam %n XP","game.mastered":"Kelime öğrenildi!","game.mastered2":"pekişen","game.wordsLearned":"öğrenilen","game.streakWord":"gün üst üste","game.goal":"Günlük hedef","game.levelup":"Seviye %n!","badge.section":"Başarımlar","badge.first":"İlk kelime","badge.words":"%n kelime","badge.master":"%n pekişen","badge.streak":"%n günlük seri","badge.level":"Seviye %n","badge.xp":"%n XP","badge.speller":"%n doğru yazım",
     "tab.dict":"Sözlük","dict.ph":"Herhangi bir Almanca kelimeyi ara…","dict.go":"Ara","dict.local":"Destelerinde","dict.wik":"Tam sözlük (Wiktionary · İngilizce)","dict.none":"Sözlük kaydı bulunamadı.","dict.offline":"Sözlüğe ulaşılamadı — bağlantını kontrol et.","dict.hint":"Herhangi bir Almanca kelime yazıp Ara'ya bas — önce destelerine, sonra tüm Wiktionary'ye bakar."
   };
@@ -1048,7 +1058,7 @@
     "verb.again":"Ещё раз","verb.got":"Знаю ✓","verb.conjugate":"Глагол · спрягите",
     "deck.a1":"A1 · Основы","deck.a2":"A2 · Повседневное","deck.core":"База B1–B2","deck.arbeit":"Arbeit · Работа","deck.meinung":"Meinung · Мнения","deck.advanced":"Продвинутый B2–C1","deck.reisen":"Reisen · Путешествия","deck.essen":"Essen · Еда","deck.gesundheit":"Gesundheit · Здоровье","deck.topA":"A · самые частые","deck.topB":"B · частые","deck.topC":"C · продвинутые","deck.top10k":"Топ-12k · Частота","deck.mine":"Мои карточки","deck.all":"Все колоды",
     "spell.flash":"Карточки","spell.spell":"Диктант","spell.hint":"Послушайте и напишите немецкое слово","spell.ph":"Напишите, что слышите…","spell.check":"Проверить","spell.next":"Дальше","pic.wrong":"Неверная картинка? Скрыть","pic.hidden":"Картинка скрыта",
-    "tab.talk":"Разговор","talk.ph":"Пишите по-немецки…","talk.hint":"Подсказка","talk.review":"Как мои успехи?","talk.new":"Новый чат","talk.voiceOn":"Голос вкл.","talk.voiceOff":"Голос выкл.","talk.lvl":"Ваш уровень немецкого","talk.est":"Оцениваем… напишите несколько сообщений","talk.next":"%n% до","talk.based":"по %n сообщениям","talk.typing":"Лена печатает…","talk.checking":"Проверяем ваш немецкий…","talk.perfect":"Отлично — без ошибок!","talk.failcheck":"Не удалось проверить это сообщение.","talk.failed":"Лена не смогла ответить — попробуйте ещё раз.","talk.gateOnline":"Для разговора с Леной нужно онлайн-приложение с аккаунтом.","talk.gateSignin":"Войдите, чтобы говорить с Леной — вашим ИИ-партнёром по немецкому. Она исправляет ошибки и отслеживает ваш уровень во время беседы.","talk.signinBtn":"Перейти ко входу","talk.notcfg":"ИИ-репетитор ещё не включён.","talk.limit":"Дневной лимит практики исчерпан — до завтра!","talk.offline":"Нет соединения — попробуйте ещё раз.","talk.tr":"Перевести","talk.loading":"Думаю…","talk.needMore":"Сначала отправьте хотя бы 3 сообщения.","talk.rvTitle":"Ваша оценка","talk.rvStrong":"Сильные стороны","talk.rvFocus":"Над чем работать","talk.rvTip":"На этой неделе","talk.rvWords":"Полезные слова","err.wo":"Порядок слов","err.case":"Падеж","err.art":"Артикль","err.verb":"Глагол","err.adj":"Окончание прилагательного","err.spell":"Орфография","err.choice":"Выбор слова","err.other":"Другое","talk.tapSpeak":"Нажмите на микрофон и говорите по-немецки","talk.listening":"Слушаю… нажмите, когда закончите","talk.thinking":"Лена думает…","talk.speaking":"Лена говорит — нажмите, чтобы перебить","talk.handsOn":"Без рук: вкл.","talk.handsOff":"Без рук: выкл.","talk.slowOn":"Медленная речь","talk.slowOff":"Обычная скорость","talk.micDenied":"Микрофон заблокирован — разрешите его в настройках сайта в браузере и нажмите снова.","talk.noVoice":"Для голосового разговора нужен Chrome на Android или компьютере. Здесь можно писать — или диктовать через 🎤 на клавиатуре.","talk.didntHear":"Не расслышала — нажмите на микрофон и попробуйте ещё раз.","spell.ok":"Верно!","spell.cap":"Верно — но существительные пишутся с заглавной","spell.no":"Не совсем","spell.you":"Вы написали","spell.speak":"Произнесите слово",
+    "tab.talk":"Разговор","talk.ph":"Пишите по-немецки…","talk.hint":"Подсказка","talk.review":"Как мои успехи?","talk.new":"Новый чат","talk.voiceOn":"Голос вкл.","talk.voiceOff":"Голос выкл.","talk.lvl":"Ваш уровень немецкого","talk.est":"Оцениваем… напишите несколько сообщений","talk.next":"%n% до","talk.based":"по %n сообщениям","talk.typing":"Лена печатает…","talk.checking":"Проверяем ваш немецкий…","talk.perfect":"Отлично — без ошибок!","talk.failcheck":"Не удалось проверить это сообщение.","talk.failed":"Лена не смогла ответить — попробуйте ещё раз.","talk.gateOnline":"Для разговора с Леной нужно онлайн-приложение с аккаунтом.","talk.gateSignin":"Войдите, чтобы говорить с Леной — вашим ИИ-партнёром по немецкому. Она исправляет ошибки и отслеживает ваш уровень во время беседы.","talk.signinBtn":"Перейти ко входу","talk.notcfg":"ИИ-репетитор ещё не включён.","talk.limit":"Дневной лимит практики исчерпан — до завтра!","talk.offline":"Нет соединения — попробуйте ещё раз.","talk.tr":"Перевести","talk.loading":"Думаю…","talk.needMore":"Сначала отправьте хотя бы 3 сообщения.","talk.rvTitle":"Ваша оценка","talk.rvStrong":"Сильные стороны","talk.rvFocus":"Над чем работать","talk.rvTip":"На этой неделе","talk.rvWords":"Полезные слова","err.wo":"Порядок слов","err.case":"Падеж","err.art":"Артикль","err.verb":"Глагол","err.adj":"Окончание прилагательного","err.spell":"Орфография","err.choice":"Выбор слова","err.other":"Другое","talk.tapSpeak":"Нажмите на микрофон и говорите по-немецки","talk.listening":"Слушаю… нажмите, когда закончите","talk.thinking":"Лена думает…","talk.speaking":"Лена говорит — нажмите, чтобы перебить","talk.handsOn":"Без рук: вкл.","talk.handsOff":"Без рук: выкл.","talk.slowOn":"Медленная речь","talk.slowOff":"Обычная скорость","talk.micDenied":"Микрофон заблокирован — разрешите его в настройках сайта в браузере и нажмите снова.","talk.noVoice":"Для голосового разговора нужен Chrome на Android или компьютере. Здесь можно писать — или диктовать через 🎤 на клавиатуре.","talk.didntHear":"Не расслышала — нажмите на микрофон и попробуйте ещё раз.","talk.corrRepeat":"Исправлять + повторять","talk.corrSay":"Исправлять вслух","talk.corrOff":"Тихие исправления","talk.wait":"Лена ждёт %n с","spell.ok":"Верно!","spell.cap":"Верно — но существительные пишутся с заглавной","spell.no":"Не совсем","spell.you":"Вы написали","spell.speak":"Произнесите слово",
     "game.lvl":"Уровень","game.total":"всего %n XP","game.mastered":"Слово освоено!","game.mastered2":"освоено","game.wordsLearned":"выучено","game.streakWord":"дней подряд","game.goal":"Дневная цель","game.levelup":"Уровень %n!","badge.section":"Достижения","badge.first":"Первое слово","badge.words":"%n слов","badge.master":"%n освоено","badge.streak":"серия %n дней","badge.level":"Уровень %n","badge.xp":"%n XP","badge.speller":"%n верных написаний",
     "tab.dict":"Словарь","dict.ph":"Найдите любое немецкое слово…","dict.go":"Искать","dict.local":"В ваших колодах","dict.wik":"Полный словарь (Викисловарь · на английском)","dict.none":"Статья в словаре не найдена.","dict.offline":"Не удалось получить доступ к словарю — проверьте соединение.","dict.hint":"Введите любое немецкое слово и нажмите «Искать» — сначала ищет в ваших колодах, затем во всём Викисловаре."
   };
@@ -1074,7 +1084,7 @@
     "verb.again":"Praticar de novo","verb.got":"Eu sei ✓","verb.conjugate":"Verbo · conjugue",
     "deck.a1":"A1 · Básico","deck.a2":"A2 · Cotidiano","deck.core":"Essencial B1–B2","deck.arbeit":"Arbeit · Trabalho","deck.meinung":"Meinung · Opiniões","deck.advanced":"Avançado B2–C1","deck.reisen":"Reisen · Viagens","deck.essen":"Essen · Comida","deck.gesundheit":"Gesundheit · Saúde","deck.topA":"A · mais frequentes","deck.topB":"B · comuns","deck.topC":"C · avançadas","deck.top10k":"Top 12k · Frequência","deck.mine":"Meus cartões","deck.all":"Todos os baralhos",
     "spell.flash":"Cartões","spell.spell":"Soletrar","spell.hint":"Ouça e digite a palavra alemã","spell.ph":"Digite o que ouvir…","spell.check":"Verificar","spell.next":"Continuar","pic.wrong":"Imagem errada? Ocultar","pic.hidden":"Imagem ocultada",
-    "tab.talk":"Conversar","talk.ph":"Escreva em alemão…","talk.hint":"Dica","talk.review":"Como estou indo?","talk.new":"Nova conversa","talk.voiceOn":"Voz ligada","talk.voiceOff":"Voz desligada","talk.lvl":"Seu nível de alemão","talk.est":"Estimando… mande algumas mensagens","talk.next":"%n% até","talk.based":"com base em %n mensagens","talk.typing":"Lena está digitando…","talk.checking":"Verificando seu alemão…","talk.perfect":"Perfeito — sem erros!","talk.failcheck":"Não foi possível verificar esta mensagem.","talk.failed":"A Lena não conseguiu responder — tente de novo.","talk.gateOnline":"Conversar com a Lena exige o app online com uma conta.","talk.gateSignin":"Entre para conversar com a Lena, sua parceira de alemão com IA. Ela corrige seus erros e acompanha seu nível enquanto vocês conversam.","talk.signinBtn":"Ir para o login","talk.notcfg":"O tutor de IA ainda não está ativado.","talk.limit":"Limite diário de prática atingido — até amanhã!","talk.offline":"Sem conexão — tente de novo.","talk.tr":"Traduzir","talk.loading":"Pensando…","talk.needMore":"Envie pelo menos 3 mensagens primeiro.","talk.rvTitle":"Sua avaliação","talk.rvStrong":"Pontos fortes","talk.rvFocus":"Pratique","talk.rvTip":"Esta semana","talk.rvWords":"Palavras úteis","err.wo":"Ordem das palavras","err.case":"Caso","err.art":"Artigo","err.verb":"Verbo","err.adj":"Terminação do adjetivo","err.spell":"Ortografia","err.choice":"Escolha de palavra","err.other":"Outro","talk.tapSpeak":"Toque no microfone e fale alemão","talk.listening":"Ouvindo… toque quando terminar","talk.thinking":"A Lena está pensando…","talk.speaking":"A Lena está falando — toque para interromper","talk.handsOn":"Mãos livres ligado","talk.handsOff":"Mãos livres desligado","talk.slowOn":"Fala lenta","talk.slowOff":"Velocidade normal","talk.micDenied":"Microfone bloqueado — permita nas configurações do site no navegador e toque de novo.","talk.noVoice":"A conversa por voz precisa do Chrome no Android ou num computador. Aqui você pode digitar — ou usar o 🎤 do teclado para ditar.","talk.didntHear":"Não entendi — toque no microfone e tente de novo.","spell.ok":"Correto!","spell.cap":"Certo — mas substantivos começam com maiúscula","spell.no":"Quase","spell.you":"Você escreveu","spell.speak":"Diga a palavra",
+    "tab.talk":"Conversar","talk.ph":"Escreva em alemão…","talk.hint":"Dica","talk.review":"Como estou indo?","talk.new":"Nova conversa","talk.voiceOn":"Voz ligada","talk.voiceOff":"Voz desligada","talk.lvl":"Seu nível de alemão","talk.est":"Estimando… mande algumas mensagens","talk.next":"%n% até","talk.based":"com base em %n mensagens","talk.typing":"Lena está digitando…","talk.checking":"Verificando seu alemão…","talk.perfect":"Perfeito — sem erros!","talk.failcheck":"Não foi possível verificar esta mensagem.","talk.failed":"A Lena não conseguiu responder — tente de novo.","talk.gateOnline":"Conversar com a Lena exige o app online com uma conta.","talk.gateSignin":"Entre para conversar com a Lena, sua parceira de alemão com IA. Ela corrige seus erros e acompanha seu nível enquanto vocês conversam.","talk.signinBtn":"Ir para o login","talk.notcfg":"O tutor de IA ainda não está ativado.","talk.limit":"Limite diário de prática atingido — até amanhã!","talk.offline":"Sem conexão — tente de novo.","talk.tr":"Traduzir","talk.loading":"Pensando…","talk.needMore":"Envie pelo menos 3 mensagens primeiro.","talk.rvTitle":"Sua avaliação","talk.rvStrong":"Pontos fortes","talk.rvFocus":"Pratique","talk.rvTip":"Esta semana","talk.rvWords":"Palavras úteis","err.wo":"Ordem das palavras","err.case":"Caso","err.art":"Artigo","err.verb":"Verbo","err.adj":"Terminação do adjetivo","err.spell":"Ortografia","err.choice":"Escolha de palavra","err.other":"Outro","talk.tapSpeak":"Toque no microfone e fale alemão","talk.listening":"Ouvindo… toque quando terminar","talk.thinking":"A Lena está pensando…","talk.speaking":"A Lena está falando — toque para interromper","talk.handsOn":"Mãos livres ligado","talk.handsOff":"Mãos livres desligado","talk.slowOn":"Fala lenta","talk.slowOff":"Velocidade normal","talk.micDenied":"Microfone bloqueado — permita nas configurações do site no navegador e toque de novo.","talk.noVoice":"A conversa por voz precisa do Chrome no Android ou num computador. Aqui você pode digitar — ou usar o 🎤 do teclado para ditar.","talk.didntHear":"Não entendi — toque no microfone e tente de novo.","talk.corrRepeat":"Corrigir + repetir","talk.corrSay":"Corrigir em voz alta","talk.corrOff":"Correções silenciosas","talk.wait":"Lena espera %n s","spell.ok":"Correto!","spell.cap":"Certo — mas substantivos começam com maiúscula","spell.no":"Quase","spell.you":"Você escreveu","spell.speak":"Diga a palavra",
     "game.lvl":"Nível","game.total":"%n XP no total","game.mastered":"Palavra dominada!","game.mastered2":"dominadas","game.wordsLearned":"aprendidas","game.streakWord":"dias seguidos","game.goal":"Meta diária","game.levelup":"Nível %n!","badge.section":"Conquistas","badge.first":"Primeira palavra","badge.words":"%n palavras","badge.master":"%n dominadas","badge.streak":"sequência de %n dias","badge.level":"Nível %n","badge.xp":"%n XP","badge.speller":"%n soletradas",
     "tab.dict":"Dic.","dict.ph":"Procure qualquer palavra alemã…","dict.go":"Buscar","dict.local":"Nos seus baralhos","dict.wik":"Dicionário completo (Wiktionary · em inglês)","dict.none":"Nenhuma entrada encontrada.","dict.offline":"Não foi possível acessar o dicionário — verifique sua conexão.","dict.hint":"Digite qualquer palavra alemã e toque em Buscar — procura primeiro nos seus baralhos e depois em todo o Wiktionary."
   };
@@ -2085,7 +2095,7 @@
   function curLevel(){ var tu=tutorState(); return tu.score==null?"B1":LVLS[lvlIdx(tu.score)]; }
   function talkVoiceOn(){ try{ return localStorage.getItem("ws-talk-voice")!=="0"; }catch(e){ return true; } }
   function autoGrow(el){ el.style.height="auto"; var h=el.scrollHeight; el.style.height=Math.min(140,h)+"px"; el.style.overflowY=h>140?"auto":"hidden"; }
-  function talkHistory(){ return TALK.msgs.filter(function(m){ return m.role==="user"||m.role==="assistant"; }).slice(-12).map(function(m){ return {role:m.role,text:m.text}; }); }
+  function talkHistory(){ return TALK.msgs.filter(function(m){ return (m.role==="user"&&!m.repeat)||m.role==="assistant"; }).slice(-12).map(function(m){ return {role:m.role,text:m.text}; }); }
   function tutorApi(body, cb){
     body.ui=LANG;
     fetch("/api/tutor",{method:"POST",headers:syncHeaders(),body:JSON.stringify(body)})
@@ -2142,6 +2152,10 @@
     var nv=document.getElementById("talk-novoice"); nv.hidden=SPEECH_OK; nv.textContent=SPEECH_OK?"":t("talk.noVoice");
     document.getElementById("talk-hands").hidden=kbd;
     document.getElementById("talk-hands").textContent=(talkHands()?"🔁 ":"⏹ ")+t(talkHands()?"talk.handsOn":"talk.handsOff");
+    var cm=talkCorrMode(); document.getElementById("talk-corr").hidden=kbd;
+    document.getElementById("talk-corr").textContent="✏️ "+t(cm==="repeat"?"talk.corrRepeat":cm==="say"?"talk.corrSay":"talk.corrOff");
+    document.getElementById("talk-wait").hidden=kbd;
+    document.getElementById("talk-wait").textContent="⏱️ "+tn("talk.wait", talkPauseMs()/1000);
     document.getElementById("talk-slow").textContent=(talkSlow()?"🐢 ":"🐇 ")+t(talkSlow()?"talk.slowOn":"talk.slowOff");
     document.getElementById("talk-voice").hidden=!kbd;
     document.getElementById("talk-voice").textContent=(talkVoiceOn()?"🔊 ":"🔇 ")+t(talkVoiceOn()?"talk.voiceOn":"talk.voiceOff");
@@ -2188,7 +2202,10 @@
           '<div class="tb-tools"><button type="button" data-act="say" aria-label="Play">🔊</button><button type="button" data-act="tr">🌐 '+esc(t("talk.tr"))+'</button></div>'+
           (m.tr&&m.trLang===LANG&&!m.hideTr?'<div class="tb-tr">'+esc(m.tr)+'</div>':'')+'</div>';
       } else if(m.role==="user"){
+        if(m.repeat){ h+='<div class="tb tb-me tb-rep'+(m.ok?' ok':' no')+'"><div class="tb-text"><span class="tb-spoken">🔁</span> '+esc(m.text)+' <b>'+(m.ok?'✓':'✗')+'</b></div></div>'; return; }
         h+='<div class="tb tb-me"><div class="tb-text">'+(m.spoken?'<span class="tb-spoken" aria-hidden="true">🎤</span> ':'')+esc(m.text)+'</div></div>'+chkHTML(m);
+      } else if(m.role==="coach"){
+        h+='<div class="tb tb-lena tb-coach"><div class="tb-name">Lena · ✏️</div><div class="tb-text">'+esc(m.text)+'</div></div>';
       } else if(m.role==="review"){ h+=reviewHTML(m.review); }
       else if(m.role==="note"){ h+='<div class="t-note">'+esc(m.text)+'</div>'; }
     });
@@ -2215,22 +2232,16 @@
     var prev=""; for(var i=TALK.msgs.length-1;i>=0;i--){ if(TALK.msgs[i].role==="assistant"){ prev=TALK.msgs[i].text; break; } }
     var um={ id:"u"+(++talkSeq)+"-"+Date.now(), role:"user", text:text, spoken:!!spoken, check:{status:"pending"} };
     var cid=TALK.cid, lvl=curLevel(), words=text.split(/\s+/).filter(Boolean).length;
+    var turn={ cid:cid, spoken:!!spoken, reply:null, replyErr:null, check:null, checkDone:false, done:false, timer:null };
     TALK.msgs.push(um); talkBusy=true; talkSave(); renderTalkLog();
-    // Lena answers (fast model) …
+    // Lena's answer (fast model) …
     tutorApi({ mode:"reply", scenario:TALK.scenario, level:lvl, history:talkHistory() }, function(j,s,err){
       if(TALK.cid!==cid) return;
-      talkBusy=false;
-      if(j&&j.reply){
-        TALK.msgs.push({ id:"a"+(++talkSeq)+"-"+Date.now(), role:"assistant", text:j.reply });
-        if(spoken) vSpeakReply(j.reply); else if(talkVoiceOn()) speak(j.reply);
-        awardXp(5); save(); refreshStats(); checkBadges(false);
-      } else {
-        TALK.msgs.push({ role:"note", text:talkErrMsg(s,err) });
-        if(spoken){ VOICE.loop=false; vSet("idle", talkErrMsg(s,err)); }
-      }
-      talkSave(); renderTalkLog();
+      if(j&&j.reply){ turn.reply=j.reply; awardXp(5); save(); refreshStats(); checkBadges(false); }
+      else turn.replyErr=talkErrMsg(s,err);
+      turnStep(turn);
     });
-    // … while the accurate model checks the learner's German and updates the level estimate.
+    // … and the accurate check of the learner's German (also drives the level estimate).
     tutorApi({ mode:"check", level:lvl, context:prev, text:text, spoken:!!spoken }, function(j){
       if(j&&Array.isArray(j.errors)){
         um.check={ status:"done", correction:j.correction||"", errors:j.errors, level:j.level, score:j.score };
@@ -2238,51 +2249,178 @@
         var tu=tutorState(); j.errors.forEach(function(e){ tu.mistakes[e.type]=(tu.mistakes[e.type]||0)+1; });
         if(!j.errors.length && words>=4) awardXp(5);   // bonus for a mistake-free sentence
         save(); refreshStats(); renderTalkLevel();
+        turn.check=j;
       } else um.check={ status:"fail" };
-      if(TALK.cid===cid){ talkSave(); renderTalkLog(); }
+      turn.checkDone=true;
+      if(TALK.cid===cid){ talkSave(); renderTalkLog(); turnStep(turn); }
     });
   }
+  // Typed turns show Lena's reply as soon as it arrives. Spoken turns wait for the check too (max 8 s
+  // after the reply) so Lena can correct you out loud before she continues.
+  function turnStep(turn){
+    if(turn.done||TALK.cid!==turn.cid) return;
+    if(!turn.reply && !turn.replyErr) return;
+    if(turn.spoken && !turn.checkDone && !turn.timedOut){
+      if(!turn.timer) turn.timer=setTimeout(function(){ turn.timedOut=true; turnStep(turn); }, 8000);
+      return;
+    }
+    clearTimeout(turn.timer); turn.done=true;
+    if(turn.replyErr){
+      talkBusy=false; TALK.msgs.push({ role:"note", text:turn.replyErr }); talkSave(); renderTalkLog();
+      if(turn.spoken){ VOICE.loop=false; vSet("idle", turn.replyErr); }
+      return;
+    }
+    var chk=turn.check, mode=talkCorrMode();
+    if(turn.spoken && chk && chk.errors && chk.errors.length && mode!=="off") coachCorrect(turn, chk, mode);
+    else deliverReply(turn);
+  }
+  function deliverReply(turn){
+    if(turn.delivered) return; turn.delivered=true;
+    if(VOICE.turn===turn) VOICE.turn=null;
+    talkBusy=false;
+    TALK.msgs.push({ id:"a"+(++talkSeq)+"-"+Date.now(), role:"assistant", text:turn.reply });
+    talkSave(); renderTalkLog();
+    if(turn.spoken) vSpeakReply(turn.reply); else if(talkVoiceOn()) speak(turn.reply);
+  }
+
+  /* ----- Spoken corrections: "Kleine Korrektur: … Bitte nachsprechen!" ----- */
+  function pickOne(a){ return a[Math.floor(Math.random()*a.length)]; }
+  function talkCorrMode(){ var v=""; try{ v=localStorage.getItem("ws-talk-corr")||""; }catch(e){} return v==="say"||v==="off"?v:"repeat"; }
+  function coachTarget(chk){
+    var c=(chk.correction||"").trim(), wc=c.split(/\s+/).filter(Boolean).length;
+    if(c && wc<=12) return c;                                       // short: repeat the whole corrected sentence
+    return chk.errors.slice(0,2).map(function(e){ return e.right; }).join(" … ");   // long: just the fixed parts
+  }
+  function normWords(s){ return String(s).toLowerCase().replace(/[^a-zäöüß0-9\s]/g," ").split(/\s+/).filter(Boolean); }
+  // Accept a repeat when every corrected word is there and most of the target was said.
+  function repeatOk(attempt, target, keys){
+    var a=normWords(attempt), tw=normWords(target), have={}, hit=0, i, kw;
+    if(!tw.length) return true;
+    for(i=0;i<a.length;i++) have[a[i]]=1;
+    for(i=0;i<keys.length;i++){ kw=normWords(keys[i]); for(var k=0;k<kw.length;k++) if(!have[kw[k]]) return false; }
+    for(i=0;i<tw.length;i++) if(have[tw[i]]) hit++;
+    return hit/tw.length >= 0.75;
+  }
+  function coachSay(text, then){
+    TALK.msgs.push({ role:"coach", text:text }); talkSave(); renderTalkLog();
+    var id=++VOICE.speakId; VOICE.pendingThen=then; vSet("speaking");
+    speakCore(text, talkRate(), function(){
+      if(id!==VOICE.speakId) return;
+      var f=VOICE.pendingThen; VOICE.pendingThen=null; if(f) setTimeout(f, 250);
+    });
+  }
+  function coachCorrect(turn, chk, mode){
+    VOICE.turn=turn;
+    var target=coachTarget(chk), intro=pickOne(["Kleine Korrektur:","Fast! Besser sagt man:","Achtung, richtig heißt es:"]);
+    if(mode==="say"){ coachSay(intro+" „"+target+"“", function(){ deliverReply(turn); }); return; }
+    turn.target=target; turn.tries=0; turn.keys=chk.errors.map(function(e){ return e.right; });
+    coachSay(intro+" „"+target+"“ — Bitte nachsprechen!", function(){ coachListen(turn); });
+  }
+  function coachListen(turn){
+    vListen({
+      onText:function(txt){
+        var ok=repeatOk(txt, turn.target, turn.keys); turn.tries++;
+        TALK.msgs.push({ role:"user", text:txt, spoken:true, repeat:true, ok:ok }); talkSave(); renderTalkLog();
+        if(ok){ awardXp(3); save(); refreshStats(); coachSay(pickOne(["Super!","Perfekt!","Sehr gut!","Genau so!"]), function(){ deliverReply(turn); }); }
+        else if(turn.tries<3) coachSay(pickOne(["Noch einmal, bitte:","Fast. Noch einmal:"])+" „"+turn.target+"“", function(){ coachListen(turn); });
+        else coachSay("Kein Problem, das üben wir später weiter.", function(){ deliverReply(turn); });
+      },
+      onSilence:function(){ deliverReply(turn); }               // said nothing: just carry on
+    });
+  }
+
   /* ----- Hands-free voice conversation (speak → Lena answers aloud → listens again) ----- */
-  var VOICE={ st:"idle", loop:false, rec:null, misses:0, live:"", speakId:0 };
+  var VOICE={ st:"idle", loop:false, rec:null, sess:null, live:"", speakId:0, pendingThen:null, turn:null };
   function lsFlag(k, dflt){ try{ var v=localStorage.getItem(k); return v==null?dflt:v==="1"; }catch(e){ return dflt; } }
   function lsSet(k, on){ try{ localStorage.setItem(k, on?"1":"0"); }catch(e){} }
   function talkKbd(){ return !SPEECH_OK || lsFlag("ws-talk-kbd", false); }
   function talkHands(){ return lsFlag("ws-talk-hands", true); }
   function talkSlow(){ return lsFlag("ws-talk-slow", false); }
   function talkRate(){ return talkSlow() ? 0.72 : 0.95; }
+  // How long you can pause before your turn is sent (people stop to think mid-sentence).
+  function talkPauseMs(){ var v=0; try{ v=parseInt(localStorage.getItem("ws-talk-pause")||"",10); }catch(e){} return v===2000||v===5000 ? v : 3000; }
   function vLive(txt){ VOICE.live=txt||""; var el=document.getElementById("tv-live"); if(el) el.textContent=VOICE.live; }
+  function vPauseBar(on){
+    var b=document.getElementById("tv-wait"); if(!b) return;
+    b.classList.remove("run");
+    if(on){ void b.offsetWidth; b.style.animationDuration=talkPauseMs()+"ms"; b.classList.add("run"); }
+  }
   function vSet(st, status){
     VOICE.st=st; var bar=document.getElementById("talk-vbar"); if(!bar) return;
     bar.setAttribute("data-st", st);
     var ic=bar.querySelector(".tv-ic"); if(ic) ic.textContent = st==="thinking" ? "⏳" : st==="speaking" ? "🔊" : "🎤";
     var s=document.getElementById("tv-status");
     if(s) s.textContent = status || t(st==="listening"?"talk.listening":st==="thinking"?"talk.thinking":st==="speaking"?"talk.speaking":"talk.tapSpeak");
-    if(st!=="listening") vLive("");
+    if(st!=="listening"){ vLive(""); vPauseBar(false); }
   }
   function vAbortRec(){ var r=VOICE.rec; VOICE.rec=null; if(r){ try{ r.onresult=null; r.onerror=null; r.onend=null; r.abort(); }catch(e){} } }
-  function vStop(){ VOICE.loop=false; VOICE.speakId++; vAbortRec(); try{ if(hasTTS) speechSynthesis.cancel(); }catch(e){} if(VOICE.st!=="idle") vSet("idle"); }
-  function vListen(){
+  function vStop(){
+    VOICE.loop=false; VOICE.speakId++; VOICE.pendingThen=null;
+    var s=VOICE.sess; VOICE.sess=null; if(s) clearTimeout(s.timer);
+    vAbortRec(); try{ if(hasTTS) speechSynthesis.cancel(); }catch(e){}
+    var tu=VOICE.turn; VOICE.turn=null;
+    if(tu && !tu.delivered){ tu.spoken=false; tu.delivered=true; talkBusy=false;   // keep Lena's pending answer, just don't speak it
+      TALK.msgs.push({ id:"a"+(++talkSeq)+"-"+Date.now(), role:"assistant", text:tu.reply }); talkSave(); renderTalkLog(); }
+    if(VOICE.st!=="idle") vSet("idle");
+  }
+  // One listening turn. Keeps listening through pauses shorter than talkPauseMs(), restarting the
+  // recognizer if the browser stops early; tap the mic to finish right away.
+  function vListen(opts){
     if(!SPEECH_OK||!SpeechRec) return;
-    stopRec(); vAbortRec(); VOICE.speakId++;
+    stopRec(); vAbortRec(); VOICE.speakId++; VOICE.pendingThen=null;
     try{ if(hasTTS) speechSynthesis.cancel(); }catch(e){}       // never listen while Lena is talking
-    var r, fin="", lastErr="";
-    try{ r=new SpeechRec(); r.lang="de-DE"; r.interimResults=true; r.continuous=false; r.maxAlternatives=1; }
-    catch(e){ VOICE.loop=false; vSet("idle", t("talk.didntHear")); return; }
+    var old=VOICE.sess; if(old) clearTimeout(old.timer);
+    var sess={ opts:opts||{}, text:"", heard:false, finishing:false, started:Date.now(), lastSpeech:Date.now(), timer:null, lastErr:"", n:0 };
+    VOICE.sess=sess; vSet("listening"); vLive("");
+    vStartInstance(sess);
+  }
+  function vStartInstance(sess){
+    if(VOICE.sess!==sess) return;
+    var r, inst={ fin:"", interim:"" };
+    sess.n++; sess.lastErr="";
+    try{ r=new SpeechRec(); r.lang="de-DE"; r.interimResults=true; r.continuous=true; r.maxAlternatives=1; }
+    catch(e){ vFinish(sess); return; }
     VOICE.rec=r;
-    r.onresult=function(e){ try{ var interim=""; fin="";
-      for(var i=0;i<e.results.length;i++){ var res=e.results[i]; if(res.isFinal) fin+=res[0].transcript+" "; else interim+=res[0].transcript+" "; }
-      vLive((fin+interim).trim()); }catch(_){} };
-    r.onerror=function(e){ lastErr=(e&&e.error)||"error"; };
+    r.onresult=function(e){ try{
+      var finals=[], interim="", dedup=[];
+      for(var i=0;i<e.results.length;i++){ var res=e.results[i], tx=((res[0]&&res[0].transcript)||"").trim(); if(!tx) continue;
+        if(res.isFinal) finals.push(tx); else interim+=tx+" "; }
+      // some Android versions repeat earlier text in later results: keep only the longest of each chain
+      finals.forEach(function(f){ var last=dedup[dedup.length-1];
+        if(last && f.toLowerCase().indexOf(last.toLowerCase())===0) dedup[dedup.length-1]=f; else dedup.push(f); });
+      inst.fin=dedup.join(" "); inst.interim=interim.trim();
+      sess.heard=true; sess.lastSpeech=Date.now();
+      vLive((sess.text+" "+inst.fin+" "+inst.interim).trim());
+      vArmPause(sess);
+    }catch(_){} };
+    r.onerror=function(e){ sess.lastErr=(e&&e.error)||"error"; };
     r.onend=function(){
       if(VOICE.rec!==r) return; VOICE.rec=null;
-      var txt=(fin.trim()||VOICE.live||"").trim();
-      if(txt){ VOICE.misses=0; vSet("thinking"); talkSendText(txt, true); return; }
-      if(lastErr==="not-allowed"||lastErr==="service-not-allowed"){ VOICE.loop=false; vSet("idle", t("talk.micDenied")); return; }
-      if(VOICE.loop && VOICE.misses<1 && (!lastErr||lastErr==="no-speech")){ VOICE.misses++; vListen(); return; }  // one silent retry
-      VOICE.loop=false; vSet("idle", t("talk.didntHear"));
+      var got=(inst.fin||inst.interim).trim(); if(got) sess.text=(sess.text+" "+got).trim();
+      if(sess.lastErr==="not-allowed"||sess.lastErr==="service-not-allowed"){
+        clearTimeout(sess.timer); VOICE.sess=null; VOICE.loop=false; vSet("idle", t("talk.micDenied")); return; }
+      var quiet=Date.now()-sess.lastSpeech, total=Date.now()-sess.started;
+      var fatal=sess.lastErr==="network"||sess.lastErr==="audio-capture";
+      // Silent so far → at most 2 restarts (each restart beeps on Android); mid-sentence → keep going.
+      var keepGoing = !sess.finishing && !fatal && sess.n<15 && total<60000 && (sess.heard ? quiet<talkPauseMs() : sess.n<3);
+      if(keepGoing) vStartInstance(sess); else vFinish(sess);
     };
-    try{ r.start(); vSet("listening"); }
-    catch(e){ VOICE.rec=null; VOICE.loop=false; vSet("idle", t("talk.didntHear")); }
+    try{ r.start(); }catch(e){ VOICE.rec=null; vFinish(sess); }
+  }
+  function vArmPause(sess){
+    clearTimeout(sess.timer); vPauseBar(true);
+    sess.timer=setTimeout(function(){
+      if(VOICE.sess!==sess) return; sess.finishing=true;
+      var r=VOICE.rec; if(r){ try{ r.stop(); }catch(e){ vFinish(sess); } } else vFinish(sess);
+    }, talkPauseMs());
+  }
+  function vFinish(sess){
+    if(VOICE.sess!==sess) return;
+    VOICE.sess=null; clearTimeout(sess.timer); vPauseBar(false);
+    var txt=sess.text.trim();
+    if(txt){ vSet("thinking"); if(sess.opts.onText) sess.opts.onText(txt); else talkSendText(txt, true); return; }
+    if(sess.opts.onSilence){ sess.opts.onSilence(); return; }
+    VOICE.loop=false; vSet("idle", t("talk.didntHear"));
   }
   function vSpeakReply(text){
     var id=++VOICE.speakId; vSet("speaking");
@@ -2293,9 +2431,16 @@
     });
   }
   function vMicTap(){
+    if(VOICE.st==="listening"){                                  // done talking → send now
+      var s=VOICE.sess; if(s){ s.finishing=true; var r=VOICE.rec; if(r){ try{ r.stop(); }catch(e){ vFinish(s); } } else vFinish(s); }
+      return;
+    }
+    if(VOICE.st==="speaking" && VOICE.pendingThen){               // skip Lena's correction line
+      var f=VOICE.pendingThen; VOICE.pendingThen=null; VOICE.speakId++;
+      try{ if(hasTTS) speechSynthesis.cancel(); }catch(e){} f(); return;
+    }
     if(talkBusy && VOICE.st!=="speaking") return;
-    if(VOICE.st==="listening"){ var r=VOICE.rec; if(r){ try{ r.stop(); }catch(e){} } return; }   // done talking → send
-    VOICE.loop=talkHands(); VOICE.misses=0; vListen();          // idle, or interrupting Lena
+    VOICE.loop=talkHands(); vListen();                         // idle, or interrupting Lena's reply
   }
 
   function talkHint(){
@@ -2310,7 +2455,7 @@
   }
   function talkReview(){
     var btn=document.getElementById("talk-review"); if(btn.disabled) return;
-    var said=TALK.msgs.filter(function(m){ return m.role==="user"; }).map(function(m){ return m.text; });
+    var said=TALK.msgs.filter(function(m){ return m.role==="user"&&!m.repeat; }).map(function(m){ return m.text; });
     if(said.length<3){ toast(t("talk.needMore")); return; }
     var note={ role:"note", text:t("talk.loading") }, cid=TALK.cid;
     btn.disabled=true; TALK.msgs.push(note); renderTalkLog();
@@ -2503,6 +2648,8 @@
     document.getElementById("talk-tovoice").onclick=function(){ lsSet("ws-talk-kbd",false); renderTalk(); };
     document.getElementById("talk-hands").onclick=function(){ var on=!talkHands(); lsSet("ws-talk-hands",on); if(!on) VOICE.loop=false; renderTalk(); };
     document.getElementById("talk-slow").onclick=function(){ lsSet("ws-talk-slow",!talkSlow()); renderTalk(); };
+    document.getElementById("talk-corr").onclick=function(){ var m=talkCorrMode(), nx=m==="repeat"?"say":m==="say"?"off":"repeat"; try{ localStorage.setItem("ws-talk-corr",nx); }catch(_){} renderTalk(); };
+    document.getElementById("talk-wait").onclick=function(){ var p=talkPauseMs(), nx=p===2000?3000:p===3000?5000:2000; try{ localStorage.setItem("ws-talk-pause",String(nx)); }catch(_){} renderTalk(); };
     document.getElementById("talk-scen").onclick=function(e){ var b=e.target.closest(".tsc"); if(b) talkStart(b.getAttribute("data-scen")); };
     document.getElementById("talk-new").onclick=function(){ talkStart(TALK.scenario); };
     document.getElementById("talk-hint").onclick=talkHint;
