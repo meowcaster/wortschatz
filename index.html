@@ -863,7 +863,7 @@
       <br>On your phone: open this page in the browser → Share → <b>Add to Home Screen</b> to run it like an app.
     </p>
     <div class="pic-credit">Pictograms: Sergio Palao · <a href="https://arasaac.org" target="_blank" rel="noopener">ARASAAC</a> · CC BY-NC-SA · Government of Aragón</div>
-    <div id="app-ver" style="text-align:center;font-size:11px;color:var(--faint);margin-top:6px">Wortschatz v24</div>
+    <div id="app-ver" style="text-align:center;font-size:11px;color:var(--faint);margin-top:6px">Wortschatz v25</div>
   </footer>
 </main>
 
@@ -2244,6 +2244,7 @@
     // … and the accurate check of the learner's German (also drives the level estimate).
     tutorApi({ mode:"check", level:lvl, context:prev, text:text, spoken:!!spoken }, function(j){
       if(j&&Array.isArray(j.errors)){
+        j.errors=realErrors(j.errors, spoken); if(!j.errors.length) j.correction="";
         um.check={ status:"done", correction:j.correction||"", errors:j.errors, level:j.level, score:j.score };
         if(typeof j.score==="number") updateLevel(j.score, words);
         var tu=tutorState(); j.errors.forEach(function(e){ tu.mistakes[e.type]=(tu.mistakes[e.type]||0)+1; });
@@ -2291,7 +2292,15 @@
     if(c && wc<=12) return c;                                       // short: repeat the whole corrected sentence
     return chk.errors.slice(0,2).map(function(e){ return e.right; }).join(" … ");   // long: just the fixed parts
   }
-  function normWords(s){ return String(s).toLowerCase().replace(/[^a-zäöüß0-9\s]/g," ").split(/\s+/).filter(Boolean); }
+  var NUMW={ "null":"0","eins":"1","zwei":"2","drei":"3","vier":"4","fünf":"5","sechs":"6","sieben":"7","acht":"8","neun":"9","zehn":"10","elf":"11","zwölf":"12","zwanzig":"20","hundert":"100" };
+  // Lenient word list for comparing speech: no punctuation/case, ß = ss, number words = digits.
+  function normWords(s){ return String(s).toLowerCase().replace(/ß/g,"ss").replace(/[^a-zäöü0-9\s]/g," ").split(/\s+/).filter(Boolean)
+    .map(function(w){ return NUMW[w.replace(/ss/g,"ß")]||NUMW[w]||w; }); }
+  // Drop "mistakes" that only differ in punctuation (and, for speech, capitalisation).
+  function realErrors(errs, spoken){
+    var n=function(x){ var y=String(x||"").replace(/[.,;:!?¡¿"„“”‚‘’'«»()…–—-]/g," ").replace(/\s+/g," ").trim(); return spoken?y.toLowerCase():y; };
+    return (errs||[]).filter(function(e){ return e && n(e.wrong)!==n(e.right); });
+  }
   // Accept a repeat when every corrected word is there and most of the target was said.
   function repeatOk(attempt, target, keys){
     var a=normWords(attempt), tw=normWords(target), have={}, hit=0, i, kw;

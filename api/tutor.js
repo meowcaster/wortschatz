@@ -101,6 +101,16 @@ async function askText(primary, messages, opts) {
 }
 const langRule = (ui) => `LANGUAGE RULE: every explanation/translation field MUST be written in ${lang(ui)} (German example words inside it are fine). Never write those fields in another language.`;
 
+// A "mistake" that only differs in punctuation (and, for speech, in capitalisation) isn't one:
+// speech recognition never writes commas, and German comma rules aren't what we're practising.
+function sameIgnoringPunct(a, b, ignoreCase) {
+  const n = (s) => {
+    let x = String(s || '').replace(/[.,;:!?¡¿"„“”‚‘’'«»()\[\]…–—-]/g, ' ').replace(/\s+/g, ' ').trim();
+    return ignoreCase ? x.toLowerCase() : x;
+  };
+  return n(a) === n(b);
+}
+
 // ---------- modes ----------
 async function reply(p) {
   const sys = `You are "Lena", a warm, encouraging German conversation partner in a language-learning app.
@@ -114,7 +124,7 @@ Answer with ONLY your German message — no quotes, no name prefix, no JSON, no 
 }
 
 async function check(p) {
-  const sys = `You are an expert German teacher. Check the learner's German message for real mistakes (grammar, case/article, word order, verb form, adjective ending, spelling, wrong word). Ignore punctuation and capitalisation at the start. Consider the conversation context: ${clip(p.context, 300) || '(none)'}.
+  const sys = `You are an expert German teacher. Check the learner's German message for real mistakes (grammar, case/article, word order, verb form, adjective ending, spelling, wrong word). Never report punctuation (commas, full stops, question marks) as a mistake, and ignore capitalisation at the start. Consider the conversation context: ${clip(p.context, 300) || '(none)'}.
 Estimate the learner's CEFR level from this message (score 1.0-6.0: A1=1, A2=2, B1=3, B2=4, C1=5, C2=6). Very short answers ("Ja", "Danke") show little — then score near their current level ${level(p.level)}.
 Return ONLY JSON: {"correction":"the whole message corrected, or empty string if it is already correct","errors":[{"type":"${ERR_TYPES.join('|')}","wrong":"exact wrong part","right":"fixed part","why":"very short explanation"}],"level":"B1","score":3.1}
 Only list real mistakes; never list a part that is already correct. Max 6 errors.
@@ -126,7 +136,7 @@ ${p.spoken ? 'IMPORTANT: this message was SPOKEN aloud and converted to text by 
   const errors = (Array.isArray(o.errors) ? o.errors : []).slice(0, 6).map((e) => ({
     type: ERR_TYPES.includes(e && e.type) ? e.type : 'other',
     wrong: clip(e && e.wrong, 120), right: clip(e && e.right, 120), why: clip(e && e.why, 300),
-  })).filter((e) => e.wrong && e.right && e.wrong.trim() !== e.right.trim());
+  })).filter((e) => e.wrong && e.right && sameIgnoringPunct(e.wrong, e.right, !!p.spoken) === false);
   let score = Number(o.score);
   if (!(score >= 1 && score <= 6)) score = LEVELS.indexOf(level(o.level)) + 1;
   return { correction: errors.length ? clip(o.correction, 800) : '', errors, level: level(o.level), score, model: r.model };
