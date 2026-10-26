@@ -39,8 +39,17 @@ function cleanHistory(h) {
     .map((m) => ({ role: m.role, content: clip(m.text, 600) }));
 }
 
+// The key's env-var name is matched case-insensitively (NVIDIA_KEY, NVIDIA_Key, nvidia_api_key …).
+function nvKey() {
+  for (const [k, v] of Object.entries(process.env)) {
+    const u = k.toUpperCase();
+    if ((u === 'NVIDIA_KEY' || u === 'NVIDIA_API_KEY') && v && v.trim()) return v.trim();
+  }
+  return '';
+}
+
 async function nv(model, messages, { max_tokens = 500, temperature = 0.3, timeout = 40000 } = {}) {
-  const key = process.env.NVIDIA_KEY || process.env.NVIDIA_API_KEY;
+  const key = nvKey();
   const ctl = new AbortController();
   const t = setTimeout(() => ctl.abort(), timeout);
   try {
@@ -166,7 +175,7 @@ ${langRule(p.ui)}`;
 const MODES = { reply, check, translate, hint, review };
 
 export default async function handler(req, res) {
-  const configured = !!(process.env.NVIDIA_KEY || process.env.NVIDIA_API_KEY);
+  const configured = !!nvKey();
   if (req.method === 'GET') return res.status(200).json({ ok: true, configured });
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
