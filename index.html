@@ -198,6 +198,72 @@
   .pic-credit{text-align:center;font-size:10.5px;color:var(--faint);margin-top:4px;line-height:1.5;}
   .pic-credit a{color:inherit;}
 
+  /* ---- Talk (AI conversation partner) ---- */
+  .talk-gate{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:26px 20px;text-align:center;line-height:1.6;color:var(--muted);}
+  .talk-gate .em{font-size:40px;margin-bottom:6px;}
+  .talk-gate .btn{margin-top:12px;}
+  .talk-level{display:flex;align-items:center;gap:13px;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:11px 14px;margin-bottom:12px;}
+  .tl-badge{flex:none;width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--accent-soft);border:2px solid var(--accent);
+    color:var(--accent-strong);font-family:var(--font-display);font-weight:800;font-size:19px;}
+  .tl-mid{flex:1;min-width:0;}
+  .tl-title{font-size:11px;text-transform:uppercase;letter-spacing:.09em;font-weight:700;color:var(--faint);}
+  .tl-bar{height:7px;border-radius:99px;background:var(--surface-3);overflow:hidden;margin:6px 0 5px;}
+  .tl-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-strong));border-radius:99px;transition:width .5s ease;}
+  .tl-sub{font-size:12px;color:var(--muted);}
+  .tl-focus{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px;}
+  .tl-focus span{font-size:11px;padding:2px 8px;border-radius:99px;background:color-mix(in srgb,var(--warn) 14%,var(--surface));color:var(--ink);border:1px solid color-mix(in srgb,var(--warn) 35%,var(--line));}
+  .talk-scen{display:flex;gap:7px;overflow-x:auto;padding:0 1px 6px;margin-bottom:6px;scrollbar-width:none;}
+  .talk-scen::-webkit-scrollbar{display:none;}
+  .tsc{flex:none;border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:99px;padding:7px 13px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font-sans);}
+  .tsc[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-strong);}
+  .talk-log{display:flex;flex-direction:column;gap:2px;min-height:180px;padding:4px 0 8px;}
+  .tb{max-width:86%;padding:10px 13px;border-radius:17px;margin:5px 0 3px;line-height:1.5;font-size:15.5px;word-wrap:break-word;}
+  .tb-lena{align-self:flex-start;background:var(--surface);border:1px solid var(--line);border-bottom-left-radius:6px;box-shadow:var(--shadow);}
+  .tb-me{align-self:flex-end;background:var(--accent);color:#fff;border-bottom-right-radius:6px;}
+  [dir="rtl"] .tb-lena{align-self:flex-end;} [dir="rtl"] .tb-me{align-self:flex-start;}
+  .tb-text{direction:ltr;unicode-bidi:isolate;text-align:left;font-family:var(--font-display);}
+  .tb-name{font-size:11px;font-weight:700;color:var(--accent);margin-bottom:2px;font-family:var(--font-sans);}
+  .tw{cursor:pointer;border-radius:4px;} .tw:hover{background:var(--accent-soft);}
+  .tb-tools{display:flex;gap:6px;margin-top:7px;}
+  .tb-tools button{border:1px solid var(--line);background:var(--surface-2);color:var(--muted);border-radius:99px;font-size:12px;padding:3px 10px;cursor:pointer;font-family:var(--font-sans);}
+  .tb-tr{margin-top:7px;padding-top:7px;border-top:1px dashed var(--line);font-size:13.5px;color:var(--muted);font-family:var(--font-sans);}
+  .tchk{max-width:86%;align-self:flex-end;font-size:13px;border-radius:12px;padding:8px 11px;margin:0 0 8px;line-height:1.5;}
+  [dir="rtl"] .tchk{align-self:flex-start;}
+  .tchk.pending{color:var(--faint);font-style:italic;}
+  .tchk.ok{color:var(--good);background:color-mix(in srgb,var(--good) 10%,var(--surface));border:1px solid color-mix(in srgb,var(--good) 30%,var(--line));font-weight:600;}
+  .tchk.fail{color:var(--faint);}
+  .tchk.bad{background:color-mix(in srgb,var(--warn) 9%,var(--surface));border:1px solid color-mix(in srgb,var(--warn) 32%,var(--line));color:var(--ink);}
+  .tchk-fix{direction:ltr;unicode-bidi:isolate;text-align:left;font-family:var(--font-display);font-size:14.5px;margin-bottom:5px;}
+  .tchk-fix mark{background:color-mix(in srgb,var(--good) 25%,transparent);color:inherit;border-radius:3px;padding:0 2px;font-weight:700;}
+  .tchk ul{margin:0;padding:0;list-style:none;}
+  .tchk li{margin-top:5px;}
+  .tchk .et{display:inline-block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--warn);margin-right:5px;}
+  .tchk s{color:var(--bad);} .tchk b{color:var(--good);}
+  .tchk .ew{direction:ltr;unicode-bidi:isolate;}
+  .tchk .why{display:block;color:var(--muted);font-size:12.5px;}
+  .t-typing{align-self:flex-start;padding:12px 16px;}
+  .t-typing i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--faint);margin:0 2px;animation:t-dot 1.2s infinite;}
+  .t-typing i:nth-child(2){animation-delay:.2s;} .t-typing i:nth-child(3){animation-delay:.4s;}
+  @keyframes t-dot{0%,60%,100%{opacity:.25;transform:translateY(0);}30%{opacity:1;transform:translateY(-3px);}}
+  .t-note{align-self:center;font-size:12.5px;color:var(--muted);text-align:center;padding:6px 10px;}
+  .t-review{align-self:stretch;background:var(--surface);border:1px solid color-mix(in srgb,var(--accent) 35%,var(--line));border-radius:16px;box-shadow:var(--shadow);padding:14px 16px;margin:8px 0;font-size:14px;line-height:1.55;}
+  .t-review h4{margin:0 0 4px;font-family:var(--font-display);font-size:17px;}
+  .t-review h5{margin:11px 0 3px;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);}
+  .t-review ul{margin:0;padding-left:18px;} [dir="rtl"] .t-review ul{padding-left:0;padding-right:18px;}
+  .t-review .de{direction:ltr;unicode-bidi:isolate;font-family:var(--font-display);font-weight:600;}
+  .talk-sugg{display:flex;flex-direction:column;gap:6px;margin:4px 0 8px;}
+  .talk-sugg button{text-align:left;border:1px dashed var(--accent);background:var(--accent-soft);border-radius:12px;padding:8px 12px;cursor:pointer;color:var(--ink);font-family:var(--font-sans);}
+  .talk-sugg button .de{display:block;direction:ltr;unicode-bidi:isolate;font-family:var(--font-display);font-size:15px;}
+  .talk-sugg button .tr{display:block;font-size:12.5px;color:var(--muted);}
+  .talk-comp{position:sticky;bottom:0;display:flex;gap:8px;align-items:flex-end;background:var(--bg);padding:8px 0 6px;z-index:5;}
+  #talk-input{flex:1;min-width:0;resize:none;max-height:140px;overflow-y:hidden;padding:11px 13px;border:1px solid var(--line);border-radius:14px;background:var(--surface);
+    color:var(--ink);font-family:var(--font-display);font-size:16px;line-height:1.4;direction:ltr;}
+  #talk-input:focus-visible{outline:2px solid var(--accent);outline-offset:0;border-color:var(--accent);}
+  .talk-send{flex:none;width:47px;height:47px;padding:0;border-radius:14px;font-size:18px;}
+  .talk-tools{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin-top:6px;}
+  .tt{border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:99px;padding:6px 12px;font-size:12.5px;cursor:pointer;font-family:var(--font-sans);}
+  .tt:disabled{opacity:.5;cursor:default;}
+
   .ghud{display:flex;align-items:center;gap:11px;width:100%;background:var(--surface);border:1px solid var(--line);
     border-radius:14px;box-shadow:var(--shadow);padding:9px 13px;margin-bottom:14px;cursor:pointer;position:relative;
     font-family:var(--font-sans);text-align:left;}
@@ -442,6 +508,7 @@
 
   <nav class="tabs" role="tablist">
     <button role="tab" aria-selected="true" data-tab="study" data-i18n="tab.study">Vocab</button>
+    <button role="tab" aria-selected="false" data-tab="talk" data-i18n="tab.talk">Talk</button>
     <button role="tab" aria-selected="false" data-tab="verbs" data-i18n="tab.verbs">Verbs</button>
     <button role="tab" aria-selected="false" data-tab="grammar" data-i18n="tab.grammar">Grammar</button>
     <button role="tab" aria-selected="false" data-tab="dict" data-i18n="tab.dict">Dict</button>
@@ -492,6 +559,28 @@
       <div class="flip-hint" id="flip-hint"><kbd>Space</kbd> <span data-i18n="flip.hint">or tap to reveal</span></div>
     </div>
     <div id="study-empty" class="empty hidden"></div>
+  </section>
+
+  <!-- TALK (AI conversation partner "Lena") -->
+  <section id="view-talk" class="hidden">
+    <div id="talk-gate" class="talk-gate" hidden></div>
+    <div id="talk-main" hidden>
+      <div class="talk-level" id="talk-level"></div>
+      <div class="talk-scen" id="talk-scen" role="group"></div>
+      <div class="talk-log" id="talk-log" aria-live="polite"></div>
+      <div class="talk-sugg" id="talk-sugg" hidden></div>
+      <form class="talk-comp" id="talk-form" autocomplete="off">
+        <textarea id="talk-input" rows="1" data-i18n-ph="talk.ph" placeholder="Write in German…" autocapitalize="sentences" spellcheck="false"></textarea>
+        <button type="button" class="sp-mic" id="talk-mic" hidden aria-label="Speak">🎤</button>
+        <button type="submit" class="btn talk-send" id="talk-send" aria-label="Send">➤</button>
+      </form>
+      <div class="talk-tools">
+        <button type="button" class="tt" id="talk-hint">💡 <span data-i18n="talk.hint">Hint</span></button>
+        <button type="button" class="tt" id="talk-review">📊 <span data-i18n="talk.review">How am I doing?</span></button>
+        <button type="button" class="tt" id="talk-voice"></button>
+        <button type="button" class="tt" id="talk-new">↻ <span data-i18n="talk.new">New chat</span></button>
+      </div>
+    </div>
   </section>
 
   <!-- VERBS -->
@@ -730,7 +819,7 @@
       <br>On your phone: open this page in the browser → Share → <b>Add to Home Screen</b> to run it like an app.
     </p>
     <div class="pic-credit">Pictograms: Sergio Palao · <a href="https://arasaac.org" target="_blank" rel="noopener">ARASAAC</a> · CC BY-NC-SA · Government of Aragón</div>
-    <div id="app-ver" style="text-align:center;font-size:11px;color:var(--faint);margin-top:6px">Wortschatz v21</div>
+    <div id="app-ver" style="text-align:center;font-size:11px;color:var(--faint);margin-top:6px">Wortschatz v22</div>
   </footer>
 </main>
 
@@ -794,7 +883,8 @@
     "deck.showing":"Showing first 400 of %n matches — use search to narrow.","deck.nomatch":"No cards match",
     "verb.again":"Practice again","verb.got":"Got it ✓","verb.conjugate":"Verb · conjugate",
     "deck.a1":"A1 · Basics","deck.a2":"A2 · Everyday","deck.core":"Core B1–B2","deck.arbeit":"Arbeit · Work","deck.meinung":"Meinung · Opinions","deck.advanced":"B2–C1 Advanced","deck.reisen":"Reisen · Travel","deck.essen":"Essen · Food","deck.gesundheit":"Gesundheit · Health","deck.topA":"A · most frequent","deck.topB":"B · common","deck.topC":"C · advanced","deck.top10k":"Top 12k · Frequency","deck.mine":"My cards","deck.all":"All decks",
-    "spell.flash":"Cards","spell.spell":"Spell","spell.hint":"Listen and type the German word","spell.ph":"Type what you hear…","spell.check":"Check","spell.next":"Continue","pic.wrong":"Wrong picture? Hide it","pic.hidden":"Picture hidden","spell.ok":"Correct!","spell.cap":"Right — but nouns take a capital letter","spell.no":"Not quite","spell.you":"You wrote","spell.speak":"Speak the word",
+    "spell.flash":"Cards","spell.spell":"Spell","spell.hint":"Listen and type the German word","spell.ph":"Type what you hear…","spell.check":"Check","spell.next":"Continue","pic.wrong":"Wrong picture? Hide it","pic.hidden":"Picture hidden",
+    "tab.talk":"Talk","talk.ph":"Write in German…","talk.hint":"Hint","talk.review":"How am I doing?","talk.new":"New chat","talk.voiceOn":"Voice on","talk.voiceOff":"Voice off","talk.lvl":"Your German level","talk.est":"Estimating… chat a few messages","talk.next":"%n% to","talk.based":"based on %n messages","talk.typing":"Lena is typing…","talk.checking":"Checking your German…","talk.perfect":"Perfect — no mistakes!","talk.failcheck":"Couldn't check this one.","talk.failed":"Lena couldn't answer — try again.","talk.gateOnline":"Talking with Lena needs the online app with an account.","talk.gateSignin":"Sign in to talk with Lena, your AI German partner. She corrects your mistakes and tracks your level as you chat.","talk.signinBtn":"Go to sign in","talk.notcfg":"The AI tutor isn't switched on yet.","talk.limit":"Daily practice limit reached — see you tomorrow!","talk.offline":"No connection — try again.","talk.tr":"Translate","talk.loading":"Thinking…","talk.needMore":"Send at least 3 messages first.","talk.rvTitle":"Your assessment","talk.rvStrong":"Strengths","talk.rvFocus":"Work on","talk.rvTip":"This week","talk.rvWords":"Useful words","err.wo":"Word order","err.case":"Case","err.art":"Article","err.verb":"Verb","err.adj":"Adjective ending","err.spell":"Spelling","err.choice":"Word choice","err.other":"Other","spell.ok":"Correct!","spell.cap":"Right — but nouns take a capital letter","spell.no":"Not quite","spell.you":"You wrote","spell.speak":"Speak the word",
     "game.lvl":"Level","game.total":"%n XP total","game.mastered":"Word mastered!","game.mastered2":"mastered","game.wordsLearned":"learned","game.streakWord":"day streak","game.goal":"Daily goal","game.levelup":"Level %n!","badge.section":"Achievements","badge.first":"First word","badge.words":"%n words","badge.master":"%n mastered","badge.streak":"%n-day streak","badge.level":"Level %n","badge.xp":"%n XP","badge.speller":"%n spelled",
     "tab.dict":"Dict","dict.ph":"Look up any German word…","dict.go":"Search","dict.local":"In your decks","dict.wik":"Full dictionary (Wiktionary · English)","dict.none":"No dictionary entry found.","dict.offline":"Couldn't reach the dictionary — check your connection.","dict.hint":"Type any German word and press Search — it looks in your decks first, then the full Wiktionary."
   } };
@@ -819,7 +909,8 @@
     "deck.showing":"عرض أول 400 من %n — استخدم البحث للتضييق.","deck.nomatch":"لا بطاقات تطابق",
     "verb.again":"تدرّب ثانية","verb.got":"عرفتها ✓","verb.conjugate":"فعل · صرّفه",
     "deck.a1":"A1 · أساسيات","deck.a2":"A2 · يوميات","deck.core":"أساسي B1–B2","deck.arbeit":"Arbeit · العمل","deck.meinung":"Meinung · الآراء","deck.advanced":"متقدّم B2–C1","deck.reisen":"Reisen · السفر","deck.essen":"Essen · الطعام","deck.gesundheit":"Gesundheit · الصحة","deck.topA":"A · الأكثر شيوعًا","deck.topB":"B · شائعة","deck.topC":"C · متقدّمة","deck.top10k":"أكثر 12 ألف تكرارًا","deck.mine":"بطاقاتي","deck.all":"كل المجموعات",
-    "spell.flash":"بطاقات","spell.spell":"إملاء","spell.hint":"استمع واكتب الكلمة الألمانية","spell.ph":"اكتب ما تسمعه…","spell.check":"تحقّق","spell.next":"متابعة","pic.wrong":"صورة خاطئة؟ إخفاؤها","pic.hidden":"تم إخفاء الصورة","spell.ok":"صحيح!","spell.cap":"صحيح — لكن الأسماء تبدأ بحرف كبير","spell.no":"ليس تمامًا","spell.you":"كتبتَ","spell.speak":"انطق الكلمة",
+    "spell.flash":"بطاقات","spell.spell":"إملاء","spell.hint":"استمع واكتب الكلمة الألمانية","spell.ph":"اكتب ما تسمعه…","spell.check":"تحقّق","spell.next":"متابعة","pic.wrong":"صورة خاطئة؟ إخفاؤها","pic.hidden":"تم إخفاء الصورة",
+    "tab.talk":"محادثة","talk.ph":"اكتب بالألمانية…","talk.hint":"تلميح","talk.review":"كيف أدائي؟","talk.new":"محادثة جديدة","talk.voiceOn":"الصوت مفعّل","talk.voiceOff":"الصوت متوقف","talk.lvl":"مستواك في الألمانية","talk.est":"جارٍ التقدير… تحدّث بضع رسائل","talk.next":"%n٪ نحو","talk.based":"بناءً على %n رسالة","talk.typing":"لينا تكتب…","talk.checking":"جارٍ تدقيق جملتك…","talk.perfect":"ممتاز — بلا أخطاء!","talk.failcheck":"تعذّر تدقيق هذه الرسالة.","talk.failed":"لم تتمكن لينا من الرد — حاول مجددًا.","talk.gateOnline":"المحادثة مع لينا تحتاج إلى التطبيق عبر الإنترنت مع حساب.","talk.gateSignin":"سجّل الدخول للتحدث مع لينا، شريكتك الذكية في الألمانية. تصحّح أخطاءك وتتابع مستواك أثناء المحادثة.","talk.signinBtn":"انتقل إلى تسجيل الدخول","talk.notcfg":"المعلّم الذكي غير مفعّل بعد.","talk.limit":"وصلت إلى حد التدريب اليومي — نراك غدًا!","talk.offline":"لا يوجد اتصال — حاول مجددًا.","talk.tr":"ترجمة","talk.loading":"جارٍ التفكير…","talk.needMore":"أرسل 3 رسائل على الأقل أولًا.","talk.rvTitle":"تقييمك","talk.rvStrong":"نقاط القوة","talk.rvFocus":"ركّز على","talk.rvTip":"هذا الأسبوع","talk.rvWords":"كلمات مفيدة","err.wo":"ترتيب الكلمات","err.case":"الحالة الإعرابية","err.art":"أداة التعريف","err.verb":"الفعل","err.adj":"نهاية الصفة","err.spell":"الإملاء","err.choice":"اختيار الكلمة","err.other":"أخرى","spell.ok":"صحيح!","spell.cap":"صحيح — لكن الأسماء تبدأ بحرف كبير","spell.no":"ليس تمامًا","spell.you":"كتبتَ","spell.speak":"انطق الكلمة",
     "game.lvl":"المستوى","game.total":"%n نقطة إجمالاً","game.mastered":"أتقنت الكلمة!","game.mastered2":"مُتقَنة","game.wordsLearned":"تعلّمتها","game.streakWord":"يوم متتابع","game.goal":"الهدف اليومي","game.levelup":"المستوى %n!","badge.section":"الإنجازات","badge.first":"أول كلمة","badge.words":"%n كلمة","badge.master":"%n مُتقَنة","badge.streak":"%n أيام متتابعة","badge.level":"المستوى %n","badge.xp":"%n نقطة","badge.speller":"%n إملاءً صحيحًا",
     "tab.dict":"قاموس","dict.ph":"ابحث عن أي كلمة ألمانية…","dict.go":"بحث","dict.local":"في مجموعاتك","dict.wik":"القاموس الكامل (ويكاموس · بالإنجليزية)","dict.none":"لا يوجد مدخل في القاموس.","dict.offline":"تعذّر الوصول إلى القاموس — تحقّق من اتصالك.","dict.hint":"اكتب أي كلمة ألمانية واضغط بحث — يبحث في مجموعاتك أولًا ثم في ويكاموس الكامل."
   };
@@ -844,7 +935,8 @@
     "deck.showing":"Mostrando las primeras 400 de %n — usa la búsqueda para acotar.","deck.nomatch":"Ninguna tarjeta coincide con",
     "verb.again":"Practicar otra vez","verb.got":"La sé ✓","verb.conjugate":"Verbo · conjuga",
     "deck.a1":"A1 · Básico","deck.a2":"A2 · Cotidiano","deck.core":"Esencial B1–B2","deck.arbeit":"Arbeit · Trabajo","deck.meinung":"Meinung · Opiniones","deck.advanced":"Avanzado B2–C1","deck.reisen":"Reisen · Viajes","deck.essen":"Essen · Comida","deck.gesundheit":"Gesundheit · Salud","deck.topA":"A · más frecuentes","deck.topB":"B · comunes","deck.topC":"C · avanzadas","deck.top10k":"Top 12k · Frecuencia","deck.mine":"Mis tarjetas","deck.all":"Todos los mazos",
-    "spell.flash":"Tarjetas","spell.spell":"Deletrear","spell.hint":"Escucha y escribe la palabra alemana","spell.ph":"Escribe lo que oyes…","spell.check":"Comprobar","spell.next":"Continuar","pic.wrong":"¿Imagen incorrecta? Ocúltala","pic.hidden":"Imagen oculta","spell.ok":"¡Correcto!","spell.cap":"Bien, pero los sustantivos van con mayúscula","spell.no":"Casi","spell.you":"Escribiste","spell.speak":"Di la palabra",
+    "spell.flash":"Tarjetas","spell.spell":"Deletrear","spell.hint":"Escucha y escribe la palabra alemana","spell.ph":"Escribe lo que oyes…","spell.check":"Comprobar","spell.next":"Continuar","pic.wrong":"¿Imagen incorrecta? Ocúltala","pic.hidden":"Imagen oculta",
+    "tab.talk":"Hablar","talk.ph":"Escribe en alemán…","talk.hint":"Pista","talk.review":"¿Cómo voy?","talk.new":"Nuevo chat","talk.voiceOn":"Voz activada","talk.voiceOff":"Voz desactivada","talk.lvl":"Tu nivel de alemán","talk.est":"Estimando… escribe unos mensajes","talk.next":"%n% hacia","talk.based":"según %n mensajes","talk.typing":"Lena está escribiendo…","talk.checking":"Revisando tu alemán…","talk.perfect":"¡Perfecto, sin errores!","talk.failcheck":"No se pudo revisar este mensaje.","talk.failed":"Lena no pudo responder — inténtalo de nuevo.","talk.gateOnline":"Hablar con Lena requiere la app en línea con una cuenta.","talk.gateSignin":"Inicia sesión para hablar con Lena, tu compañera de alemán con IA. Corrige tus errores y sigue tu nivel mientras chateas.","talk.signinBtn":"Ir a iniciar sesión","talk.notcfg":"El tutor de IA aún no está activado.","talk.limit":"Límite diario de práctica alcanzado — ¡hasta mañana!","talk.offline":"Sin conexión — inténtalo de nuevo.","talk.tr":"Traducir","talk.loading":"Pensando…","talk.needMore":"Envía al menos 3 mensajes primero.","talk.rvTitle":"Tu evaluación","talk.rvStrong":"Puntos fuertes","talk.rvFocus":"Trabaja en","talk.rvTip":"Esta semana","talk.rvWords":"Palabras útiles","err.wo":"Orden de palabras","err.case":"Caso","err.art":"Artículo","err.verb":"Verbo","err.adj":"Terminación del adjetivo","err.spell":"Ortografía","err.choice":"Elección de palabra","err.other":"Otro","spell.ok":"¡Correcto!","spell.cap":"Bien, pero los sustantivos van con mayúscula","spell.no":"Casi","spell.you":"Escribiste","spell.speak":"Di la palabra",
     "game.lvl":"Nivel","game.total":"%n XP en total","game.mastered":"¡Palabra dominada!","game.mastered2":"dominadas","game.wordsLearned":"aprendidas","game.streakWord":"días seguidos","game.goal":"Meta diaria","game.levelup":"¡Nivel %n!","badge.section":"Logros","badge.first":"Primera palabra","badge.words":"%n palabras","badge.master":"%n dominadas","badge.streak":"racha de %n días","badge.level":"Nivel %n","badge.xp":"%n XP","badge.speller":"%n deletreadas",
     "tab.dict":"Dicc.","dict.ph":"Busca cualquier palabra alemana…","dict.go":"Buscar","dict.local":"En tus mazos","dict.wik":"Diccionario completo (Wiktionary · en inglés)","dict.none":"No se encontró ninguna entrada.","dict.offline":"No se pudo acceder al diccionario — revisa tu conexión.","dict.hint":"Escribe cualquier palabra alemana y pulsa Buscar — mira primero en tus mazos y luego en todo Wiktionary."
   };
@@ -869,7 +961,8 @@
     "deck.showing":"Affichage des 400 premières sur %n — affinez avec la recherche.","deck.nomatch":"Aucune carte ne correspond à",
     "verb.again":"S’entraîner encore","verb.got":"Je sais ✓","verb.conjugate":"Verbe · conjuguez",
     "deck.a1":"A1 · Bases","deck.a2":"A2 · Quotidien","deck.core":"Essentiel B1–B2","deck.arbeit":"Arbeit · Travail","deck.meinung":"Meinung · Opinions","deck.advanced":"Avancé B2–C1","deck.reisen":"Reisen · Voyages","deck.essen":"Essen · Nourriture","deck.gesundheit":"Gesundheit · Santé","deck.topA":"A · plus fréquents","deck.topB":"B · courants","deck.topC":"C · avancés","deck.top10k":"Top 12k · Fréquence","deck.mine":"Mes cartes","deck.all":"Tous les paquets",
-    "spell.flash":"Cartes","spell.spell":"Épeler","spell.hint":"Écoutez et tapez le mot allemand","spell.ph":"Tapez ce que vous entendez…","spell.check":"Vérifier","spell.next":"Continuer","pic.wrong":"Mauvaise image ? Masquez-la","pic.hidden":"Image masquée","spell.ok":"Correct !","spell.cap":"Bien — mais les noms prennent une majuscule","spell.no":"Presque","spell.you":"Vous avez écrit","spell.speak":"Dites le mot",
+    "spell.flash":"Cartes","spell.spell":"Épeler","spell.hint":"Écoutez et tapez le mot allemand","spell.ph":"Tapez ce que vous entendez…","spell.check":"Vérifier","spell.next":"Continuer","pic.wrong":"Mauvaise image ? Masquez-la","pic.hidden":"Image masquée",
+    "tab.talk":"Parler","talk.ph":"Écrivez en allemand…","talk.hint":"Indice","talk.review":"Où en suis-je ?","talk.new":"Nouvelle discussion","talk.voiceOn":"Voix activée","talk.voiceOff":"Voix désactivée","talk.lvl":"Votre niveau d'allemand","talk.est":"Estimation… écrivez quelques messages","talk.next":"%n% vers","talk.based":"sur %n messages","talk.typing":"Lena écrit…","talk.checking":"Vérification de votre allemand…","talk.perfect":"Parfait — aucune faute !","talk.failcheck":"Impossible de vérifier ce message.","talk.failed":"Lena n'a pas pu répondre — réessayez.","talk.gateOnline":"Parler avec Lena nécessite l'application en ligne avec un compte.","talk.gateSignin":"Connectez-vous pour parler avec Lena, votre partenaire d'allemand IA. Elle corrige vos fautes et suit votre niveau pendant la discussion.","talk.signinBtn":"Aller à la connexion","talk.notcfg":"Le tuteur IA n'est pas encore activé.","talk.limit":"Limite quotidienne atteinte — à demain !","talk.offline":"Pas de connexion — réessayez.","talk.tr":"Traduire","talk.loading":"Réflexion…","talk.needMore":"Envoyez d'abord au moins 3 messages.","talk.rvTitle":"Votre bilan","talk.rvStrong":"Points forts","talk.rvFocus":"À travailler","talk.rvTip":"Cette semaine","talk.rvWords":"Mots utiles","err.wo":"Ordre des mots","err.case":"Cas","err.art":"Article","err.verb":"Verbe","err.adj":"Terminaison de l'adjectif","err.spell":"Orthographe","err.choice":"Choix du mot","err.other":"Autre","spell.ok":"Correct !","spell.cap":"Bien — mais les noms prennent une majuscule","spell.no":"Presque","spell.you":"Vous avez écrit","spell.speak":"Dites le mot",
     "game.lvl":"Niveau","game.total":"%n XP au total","game.mastered":"Mot maîtrisé !","game.mastered2":"maîtrisés","game.wordsLearned":"apprises","game.streakWord":"jours d'affilée","game.goal":"Objectif quotidien","game.levelup":"Niveau %n !","badge.section":"Succès","badge.first":"Premier mot","badge.words":"%n mots","badge.master":"%n maîtrisés","badge.streak":"série de %n jours","badge.level":"Niveau %n","badge.xp":"%n XP","badge.speller":"%n bien épelés",
     "tab.dict":"Dico","dict.ph":"Cherchez n'importe quel mot allemand…","dict.go":"Chercher","dict.local":"Dans vos paquets","dict.wik":"Dictionnaire complet (Wiktionnaire · en anglais)","dict.none":"Aucune entrée trouvée.","dict.offline":"Impossible d'accéder au dictionnaire — vérifiez votre connexion.","dict.hint":"Tapez n'importe quel mot allemand et appuyez sur Chercher — il regarde d'abord dans vos paquets, puis dans tout le Wiktionnaire."
   };
@@ -894,7 +987,8 @@
     "deck.showing":"%n eşleşmeden ilk 400 gösteriliyor — daraltmak için arayın.","deck.nomatch":"Eşleşen kart yok:",
     "verb.again":"Tekrar çalış","verb.got":"Biliyorum ✓","verb.conjugate":"Fiil · çek",
     "deck.a1":"A1 · Temel","deck.a2":"A2 · Günlük","deck.core":"Çekirdek B1–B2","deck.arbeit":"Arbeit · İş","deck.meinung":"Meinung · Görüşler","deck.advanced":"İleri B2–C1","deck.reisen":"Reisen · Seyahat","deck.essen":"Essen · Yemek","deck.gesundheit":"Gesundheit · Sağlık","deck.topA":"A · en sık","deck.topB":"B · yaygın","deck.topC":"C · ileri","deck.top10k":"En sık 12k","deck.mine":"Kartlarım","deck.all":"Tüm desteler",
-    "spell.flash":"Kartlar","spell.spell":"Yaz","spell.hint":"Dinle ve Almanca kelimeyi yaz","spell.ph":"Duyduğunu yaz…","spell.check":"Kontrol et","spell.next":"Devam","pic.wrong":"Yanlış resim mi? Gizle","pic.hidden":"Resim gizlendi","spell.ok":"Doğru!","spell.cap":"Doğru — ama isimler büyük harfle başlar","spell.no":"Pek değil","spell.you":"Yazdığın","spell.speak":"Kelimeyi söyle",
+    "spell.flash":"Kartlar","spell.spell":"Yaz","spell.hint":"Dinle ve Almanca kelimeyi yaz","spell.ph":"Duyduğunu yaz…","spell.check":"Kontrol et","spell.next":"Devam","pic.wrong":"Yanlış resim mi? Gizle","pic.hidden":"Resim gizlendi",
+    "tab.talk":"Konuş","talk.ph":"Almanca yaz…","talk.hint":"İpucu","talk.review":"Nasıl gidiyorum?","talk.new":"Yeni sohbet","talk.voiceOn":"Ses açık","talk.voiceOff":"Ses kapalı","talk.lvl":"Almanca seviyen","talk.est":"Tahmin ediliyor… birkaç mesaj yaz","talk.next":"%n% →","talk.based":"%n mesaja göre","talk.typing":"Lena yazıyor…","talk.checking":"Almancan kontrol ediliyor…","talk.perfect":"Mükemmel — hata yok!","talk.failcheck":"Bu mesaj kontrol edilemedi.","talk.failed":"Lena cevap veremedi — tekrar dene.","talk.gateOnline":"Lena ile konuşmak için hesaplı çevrimiçi uygulama gerekir.","talk.gateSignin":"Yapay zekâ Almanca partnerin Lena ile konuşmak için giriş yap. Sohbet ederken hatalarını düzeltir ve seviyeni takip eder.","talk.signinBtn":"Girişe git","talk.notcfg":"Yapay zekâ öğretmen henüz açılmadı.","talk.limit":"Günlük pratik sınırına ulaştın — yarın görüşürüz!","talk.offline":"Bağlantı yok — tekrar dene.","talk.tr":"Çevir","talk.loading":"Düşünüyor…","talk.needMore":"Önce en az 3 mesaj gönder.","talk.rvTitle":"Değerlendirmen","talk.rvStrong":"Güçlü yönler","talk.rvFocus":"Çalışman gerekenler","talk.rvTip":"Bu hafta","talk.rvWords":"Faydalı kelimeler","err.wo":"Kelime sırası","err.case":"Hâl","err.art":"Artikel","err.verb":"Fiil","err.adj":"Sıfat eki","err.spell":"Yazım","err.choice":"Kelime seçimi","err.other":"Diğer","spell.ok":"Doğru!","spell.cap":"Doğru — ama isimler büyük harfle başlar","spell.no":"Pek değil","spell.you":"Yazdığın","spell.speak":"Kelimeyi söyle",
     "game.lvl":"Seviye","game.total":"toplam %n XP","game.mastered":"Kelime öğrenildi!","game.mastered2":"pekişen","game.wordsLearned":"öğrenilen","game.streakWord":"gün üst üste","game.goal":"Günlük hedef","game.levelup":"Seviye %n!","badge.section":"Başarımlar","badge.first":"İlk kelime","badge.words":"%n kelime","badge.master":"%n pekişen","badge.streak":"%n günlük seri","badge.level":"Seviye %n","badge.xp":"%n XP","badge.speller":"%n doğru yazım",
     "tab.dict":"Sözlük","dict.ph":"Herhangi bir Almanca kelimeyi ara…","dict.go":"Ara","dict.local":"Destelerinde","dict.wik":"Tam sözlük (Wiktionary · İngilizce)","dict.none":"Sözlük kaydı bulunamadı.","dict.offline":"Sözlüğe ulaşılamadı — bağlantını kontrol et.","dict.hint":"Herhangi bir Almanca kelime yazıp Ara'ya bas — önce destelerine, sonra tüm Wiktionary'ye bakar."
   };
@@ -919,7 +1013,8 @@
     "deck.showing":"Показаны первые 400 из %n — уточните поиском.","deck.nomatch":"Нет карточек по запросу",
     "verb.again":"Ещё раз","verb.got":"Знаю ✓","verb.conjugate":"Глагол · спрягите",
     "deck.a1":"A1 · Основы","deck.a2":"A2 · Повседневное","deck.core":"База B1–B2","deck.arbeit":"Arbeit · Работа","deck.meinung":"Meinung · Мнения","deck.advanced":"Продвинутый B2–C1","deck.reisen":"Reisen · Путешествия","deck.essen":"Essen · Еда","deck.gesundheit":"Gesundheit · Здоровье","deck.topA":"A · самые частые","deck.topB":"B · частые","deck.topC":"C · продвинутые","deck.top10k":"Топ-12k · Частота","deck.mine":"Мои карточки","deck.all":"Все колоды",
-    "spell.flash":"Карточки","spell.spell":"Диктант","spell.hint":"Послушайте и напишите немецкое слово","spell.ph":"Напишите, что слышите…","spell.check":"Проверить","spell.next":"Дальше","pic.wrong":"Неверная картинка? Скрыть","pic.hidden":"Картинка скрыта","spell.ok":"Верно!","spell.cap":"Верно — но существительные пишутся с заглавной","spell.no":"Не совсем","spell.you":"Вы написали","spell.speak":"Произнесите слово",
+    "spell.flash":"Карточки","spell.spell":"Диктант","spell.hint":"Послушайте и напишите немецкое слово","spell.ph":"Напишите, что слышите…","spell.check":"Проверить","spell.next":"Дальше","pic.wrong":"Неверная картинка? Скрыть","pic.hidden":"Картинка скрыта",
+    "tab.talk":"Разговор","talk.ph":"Пишите по-немецки…","talk.hint":"Подсказка","talk.review":"Как мои успехи?","talk.new":"Новый чат","talk.voiceOn":"Голос вкл.","talk.voiceOff":"Голос выкл.","talk.lvl":"Ваш уровень немецкого","talk.est":"Оцениваем… напишите несколько сообщений","talk.next":"%n% до","talk.based":"по %n сообщениям","talk.typing":"Лена печатает…","talk.checking":"Проверяем ваш немецкий…","talk.perfect":"Отлично — без ошибок!","talk.failcheck":"Не удалось проверить это сообщение.","talk.failed":"Лена не смогла ответить — попробуйте ещё раз.","talk.gateOnline":"Для разговора с Леной нужно онлайн-приложение с аккаунтом.","talk.gateSignin":"Войдите, чтобы говорить с Леной — вашим ИИ-партнёром по немецкому. Она исправляет ошибки и отслеживает ваш уровень во время беседы.","talk.signinBtn":"Перейти ко входу","talk.notcfg":"ИИ-репетитор ещё не включён.","talk.limit":"Дневной лимит практики исчерпан — до завтра!","talk.offline":"Нет соединения — попробуйте ещё раз.","talk.tr":"Перевести","talk.loading":"Думаю…","talk.needMore":"Сначала отправьте хотя бы 3 сообщения.","talk.rvTitle":"Ваша оценка","talk.rvStrong":"Сильные стороны","talk.rvFocus":"Над чем работать","talk.rvTip":"На этой неделе","talk.rvWords":"Полезные слова","err.wo":"Порядок слов","err.case":"Падеж","err.art":"Артикль","err.verb":"Глагол","err.adj":"Окончание прилагательного","err.spell":"Орфография","err.choice":"Выбор слова","err.other":"Другое","spell.ok":"Верно!","spell.cap":"Верно — но существительные пишутся с заглавной","spell.no":"Не совсем","spell.you":"Вы написали","spell.speak":"Произнесите слово",
     "game.lvl":"Уровень","game.total":"всего %n XP","game.mastered":"Слово освоено!","game.mastered2":"освоено","game.wordsLearned":"выучено","game.streakWord":"дней подряд","game.goal":"Дневная цель","game.levelup":"Уровень %n!","badge.section":"Достижения","badge.first":"Первое слово","badge.words":"%n слов","badge.master":"%n освоено","badge.streak":"серия %n дней","badge.level":"Уровень %n","badge.xp":"%n XP","badge.speller":"%n верных написаний",
     "tab.dict":"Словарь","dict.ph":"Найдите любое немецкое слово…","dict.go":"Искать","dict.local":"В ваших колодах","dict.wik":"Полный словарь (Викисловарь · на английском)","dict.none":"Статья в словаре не найдена.","dict.offline":"Не удалось получить доступ к словарю — проверьте соединение.","dict.hint":"Введите любое немецкое слово и нажмите «Искать» — сначала ищет в ваших колодах, затем во всём Викисловаре."
   };
@@ -944,7 +1039,8 @@
     "deck.showing":"Mostrando os primeiros 400 de %n — use a busca para refinar.","deck.nomatch":"Nenhum cartão corresponde a",
     "verb.again":"Praticar de novo","verb.got":"Eu sei ✓","verb.conjugate":"Verbo · conjugue",
     "deck.a1":"A1 · Básico","deck.a2":"A2 · Cotidiano","deck.core":"Essencial B1–B2","deck.arbeit":"Arbeit · Trabalho","deck.meinung":"Meinung · Opiniões","deck.advanced":"Avançado B2–C1","deck.reisen":"Reisen · Viagens","deck.essen":"Essen · Comida","deck.gesundheit":"Gesundheit · Saúde","deck.topA":"A · mais frequentes","deck.topB":"B · comuns","deck.topC":"C · avançadas","deck.top10k":"Top 12k · Frequência","deck.mine":"Meus cartões","deck.all":"Todos os baralhos",
-    "spell.flash":"Cartões","spell.spell":"Soletrar","spell.hint":"Ouça e digite a palavra alemã","spell.ph":"Digite o que ouvir…","spell.check":"Verificar","spell.next":"Continuar","pic.wrong":"Imagem errada? Ocultar","pic.hidden":"Imagem ocultada","spell.ok":"Correto!","spell.cap":"Certo — mas substantivos começam com maiúscula","spell.no":"Quase","spell.you":"Você escreveu","spell.speak":"Diga a palavra",
+    "spell.flash":"Cartões","spell.spell":"Soletrar","spell.hint":"Ouça e digite a palavra alemã","spell.ph":"Digite o que ouvir…","spell.check":"Verificar","spell.next":"Continuar","pic.wrong":"Imagem errada? Ocultar","pic.hidden":"Imagem ocultada",
+    "tab.talk":"Conversar","talk.ph":"Escreva em alemão…","talk.hint":"Dica","talk.review":"Como estou indo?","talk.new":"Nova conversa","talk.voiceOn":"Voz ligada","talk.voiceOff":"Voz desligada","talk.lvl":"Seu nível de alemão","talk.est":"Estimando… mande algumas mensagens","talk.next":"%n% até","talk.based":"com base em %n mensagens","talk.typing":"Lena está digitando…","talk.checking":"Verificando seu alemão…","talk.perfect":"Perfeito — sem erros!","talk.failcheck":"Não foi possível verificar esta mensagem.","talk.failed":"A Lena não conseguiu responder — tente de novo.","talk.gateOnline":"Conversar com a Lena exige o app online com uma conta.","talk.gateSignin":"Entre para conversar com a Lena, sua parceira de alemão com IA. Ela corrige seus erros e acompanha seu nível enquanto vocês conversam.","talk.signinBtn":"Ir para o login","talk.notcfg":"O tutor de IA ainda não está ativado.","talk.limit":"Limite diário de prática atingido — até amanhã!","talk.offline":"Sem conexão — tente de novo.","talk.tr":"Traduzir","talk.loading":"Pensando…","talk.needMore":"Envie pelo menos 3 mensagens primeiro.","talk.rvTitle":"Sua avaliação","talk.rvStrong":"Pontos fortes","talk.rvFocus":"Pratique","talk.rvTip":"Esta semana","talk.rvWords":"Palavras úteis","err.wo":"Ordem das palavras","err.case":"Caso","err.art":"Artigo","err.verb":"Verbo","err.adj":"Terminação do adjetivo","err.spell":"Ortografia","err.choice":"Escolha de palavra","err.other":"Outro","spell.ok":"Correto!","spell.cap":"Certo — mas substantivos começam com maiúscula","spell.no":"Quase","spell.you":"Você escreveu","spell.speak":"Diga a palavra",
     "game.lvl":"Nível","game.total":"%n XP no total","game.mastered":"Palavra dominada!","game.mastered2":"dominadas","game.wordsLearned":"aprendidas","game.streakWord":"dias seguidos","game.goal":"Meta diária","game.levelup":"Nível %n!","badge.section":"Conquistas","badge.first":"Primeira palavra","badge.words":"%n palavras","badge.master":"%n dominadas","badge.streak":"sequência de %n dias","badge.level":"Nível %n","badge.xp":"%n XP","badge.speller":"%n soletradas",
     "tab.dict":"Dic.","dict.ph":"Procure qualquer palavra alemã…","dict.go":"Buscar","dict.local":"Nos seus baralhos","dict.wik":"Dicionário completo (Wiktionary · em inglês)","dict.none":"Nenhuma entrada encontrada.","dict.offline":"Não foi possível acessar o dicionário — verifique sua conexão.","dict.hint":"Digite qualquer palavra alemã e toque em Buscar — procura primeiro nos seus baralhos e depois em todo o Wiktionary."
   };
@@ -960,7 +1056,7 @@
   }
   function applyDir(){ document.documentElement.setAttribute("dir",isRTL()?"rtl":"ltr"); document.documentElement.setAttribute("lang",LANG); }
   function renderGrammar(){ var el=document.getElementById("grammar-content"); if(!el) return; var g=I18N[LANG]&&I18N[LANG].grammar; el.innerHTML=g||GRAMMAR_EN; }
-  function rerenderAll(){ applyStaticI18n(); refreshStats(); fillDeckFilter(); fillAddDeck(); renderGrammar(); if(ui.tab==="study") studyRender(); else if(ui.tab==="verbs"){ ui.verb=null; nextVerb(); } else if(ui.tab==="deck") deckRender(); }
+  function rerenderAll(){ applyStaticI18n(); refreshStats(); fillDeckFilter(); fillAddDeck(); renderGrammar(); if(ui.tab==="study") studyRender(); else if(ui.tab==="verbs"){ ui.verb=null; nextVerb(); } else if(ui.tab==="deck") deckRender(); else if(ui.tab==="talk") renderTalk(); }
   function loadWordT(cb){
     if(LANG==="en"||inIframe()||!window.fetch){ WORDT={}; if(cb)cb(); return; }
     fetch("./words-"+LANG+".json").then(function(r){ return r.ok?r.json():{}; }).then(function(j){ WORDT=j||{}; if(cb)cb(); }).catch(function(){ WORDT={}; if(cb)cb(); });
@@ -1331,7 +1427,7 @@
       if((c.deck||"")==="mine") mine.push(c);
     }
     return { v:1, updatedAt:Date.now(), streak:state.streak||0, lastDay:state.lastDay||null, newPerDay:state.newPerDay||20, newToday:state.newToday||0, newDay:state.newDay||null,
-      xp:state.xp||0, goal:state.goal||30, badges:state.badges||{}, spellWins:state.spellWins||0, xpToday:state.xpToday||0, xpDay:state.xpDay||null, picHide:state.picHide||{}, progress:progress, mine:mine };
+      xp:state.xp||0, goal:state.goal||30, badges:state.badges||{}, spellWins:state.spellWins||0, xpToday:state.xpToday||0, xpDay:state.xpDay||null, picHide:state.picHide||{}, tutor:state.tutor||null, progress:progress, mine:mine };
   }
   function applySave(rem){
     if(!rem) return false;
@@ -1345,6 +1441,7 @@
     }
     (rem.mine||[]).forEach(function(rc){ if(!byId[rc.id]){ state.cards.push(rc); byId[rc.id]=rc; changed=true; } });
     if(rem.xp!=null && rem.xp>(state.xp||0)){ state.xp=rem.xp; changed=true; }
+    if(rem.tutor && (rem.tutor.n||0) > ((state.tutor&&state.tutor.n)||0)){ state.tutor=rem.tutor; changed=true; }
     if(rem.picHide){ if(!state.picHide) state.picHide={}; for(var hk in rem.picHide){ if(!state.picHide[hk]){ state.picHide[hk]=1; changed=true; } } }
     if(rem.spellWins!=null && rem.spellWins>(state.spellWins||0)){ state.spellWins=rem.spellWins; changed=true; }
     if(rem.badges){ if(!state.badges) state.badges={}; for(var bk in rem.badges){ if(!state.badges[bk]){ state.badges[bk]=rem.badges[bk]; changed=true; } } }
@@ -1384,6 +1481,7 @@
     var signed=!!SYNC.token, o=document.getElementById("acc-out"), i=document.getElementById("acc-in");
     if(signed){ o.setAttribute("hidden",""); i.removeAttribute("hidden"); document.getElementById("acc-who").textContent=SYNC.email||"Signed in"; }
     else { i.setAttribute("hidden",""); o.removeAttribute("hidden"); }
+    if(ui.tab==="talk") renderTalk();
   }
   function authRequest(path){
     var email=(document.getElementById("acc-email").value||"").trim(), pass=document.getElementById("acc-pass").value||"";
@@ -1438,24 +1536,28 @@
     }catch(e){}
   }
   function sayStr(c){ return (c.pos==="noun"&&c.gender?(c.gender==="pl"?"die":c.gender)+" ":"")+c.de; }
-  var _rec=null;
+  var _rec=null, _recMic="sp-mic", _recTarget="sp-input";
   function stopRec(){ if(_rec){ try{ _rec.onend=null; _rec.onresult=null; _rec.onerror=null; _rec.abort(); }catch(e){} _rec=null; }
-    var m=document.getElementById("sp-mic"); if(m) m.classList.remove("rec"); }
-  function startRec(){
+    var m=document.getElementById(_recMic); if(m) m.classList.remove("rec"); }
+  // Dictate German into an input. Defaults to the Spell box; the Talk composer passes its own ids.
+  function recInto(targetId, micId, append){
     if(!SPEECH_OK||!SpeechRec) return;
     if(_rec){ stopRec(); return; }
-    var mic=document.getElementById("sp-mic");
+    _recTarget=targetId; _recMic=micId;
+    var mic=document.getElementById(micId);
     try{ if(hasTTS) speechSynthesis.cancel(); }catch(e){}   // free the audio session before listening
     var r;
     try{ r=new SpeechRec(); r.lang="de-DE"; r.interimResults=false; r.maxAlternatives=1; r.continuous=false; }
     catch(e){ if(mic) mic.classList.remove("rec"); _rec=null; return; }
     _rec=r;
-    r.onresult=function(e){ try{ var txt=(e&&e.results&&e.results[0]&&e.results[0][0]&&e.results[0][0].transcript)||""; var i=document.getElementById("sp-input"); if(i&&txt){ i.value=txt.trim(); i.focus(); } }catch(_){} };
+    r.onresult=function(e){ try{ var txt=((e&&e.results&&e.results[0]&&e.results[0][0]&&e.results[0][0].transcript)||"").trim();
+      var i=document.getElementById(targetId); if(i&&txt){ i.value=(append&&i.value.trim()?i.value.trim()+" ":"")+txt; i.focus(); i.dispatchEvent(new Event("input")); } }catch(_){} };
     r.onerror=function(){ stopRec(); };
-    r.onend=function(){ _rec=null; var m=document.getElementById("sp-mic"); if(m) m.classList.remove("rec"); };
+    r.onend=function(){ _rec=null; var m=document.getElementById(micId); if(m) m.classList.remove("rec"); };
     try{ r.start(); if(mic) mic.classList.add("rec"); }
     catch(e){ _rec=null; if(mic) mic.classList.remove("rec"); }
   }
+  function startRec(){ recInto("sp-input","sp-mic",false); }
   function spellDiffHTML(a,correct){
     var al=a.toLowerCase(), cl=correct.toLowerCase(), n=Math.max(a.length,correct.length), out="";
     for(var i=0;i<n;i++){
@@ -1908,6 +2010,221 @@
     })(0);
   }
 
+  /* ---------- Talk: AI conversation partner "Lena" (NVIDIA NIM via /api/tutor) ---------- */
+  var TALK_KEY="ws-talk", TALK={ scenario:"free", cid:0, msgs:[] }, talkBusy=false, talkSeq=0;
+  var SCEN=[["free","💬","Freies Gespräch"],["day","🌙","Mein Tag"],["cafe","☕","Im Café"],["shop","🛒","Im Supermarkt"],["doctor","🩺","Beim Arzt"],
+            ["work","💼","Auf der Arbeit"],["interview","🤝","Vorstellungsgespräch"],["flat","🏠","Wohnungssuche"],["travel","🗺️","Unterwegs"]];
+  var OPENERS={ free:"Hallo! Ich bin Lena. Schön, dich kennenzulernen! Worüber möchtest du heute sprechen?",
+    day:"Hallo! Erzähl mal: Wie war dein Tag heute? Was hast du gemacht?",
+    cafe:"Guten Tag und herzlich willkommen im Café Sonne! Was darf ich Ihnen bringen?",
+    shop:"Guten Tag! Kann ich Ihnen helfen? Suchen Sie etwas Bestimmtes?",
+    doctor:"Guten Morgen, Praxis Dr. Weber. Was kann ich für Sie tun?",
+    work:"Hey, endlich Mittagspause! Wie läuft's heute bei dir auf der Arbeit?",
+    interview:"Guten Tag, schön, dass Sie da sind. Erzählen Sie doch bitte etwas über sich.",
+    flat:"Hallo, kommen Sie herein! Das ist die Wohnung. Haben Sie Fragen?",
+    travel:"Hallo! Kann ich dir helfen? Du siehst aus, als ob du etwas suchst." };
+  var LVLS=["A1","A2","B1","B2","C1","C2"];
+  var ERRKEY={"word order":"err.wo","case":"err.case","article":"err.art","verb":"err.verb","adjective ending":"err.adj","spelling":"err.spell","word choice":"err.choice","other":"err.other"};
+
+  function talkLoad(){
+    try{ var j=JSON.parse(localStorage.getItem(TALK_KEY)||"null"); if(j&&Array.isArray(j.msgs)) TALK=j; }catch(e){}
+    if(!TALK.scenario) TALK.scenario="free"; if(!TALK.cid) TALK.cid=Date.now();
+    // a check still pending when the app closed can't come back
+    TALK.msgs.forEach(function(m){ if(m.check&&m.check.status==="pending") m.check={status:"fail"}; });
+  }
+  function talkSave(){ try{ TALK.msgs=TALK.msgs.slice(-80); localStorage.setItem(TALK_KEY, JSON.stringify(TALK)); }catch(e){} }
+  function tutorState(){ if(!state.tutor||typeof state.tutor!=="object") state.tutor={score:null,n:0,mistakes:{},hist:[]};
+    if(!state.tutor.mistakes) state.tutor.mistakes={}; return state.tutor; }
+  function lvlIdx(s){ return Math.max(0,Math.min(5,Math.round(s)-1)); }
+  function curLevel(){ var tu=tutorState(); return tu.score==null?"B1":LVLS[lvlIdx(tu.score)]; }
+  function talkVoiceOn(){ try{ return localStorage.getItem("ws-talk-voice")!=="0"; }catch(e){ return true; } }
+  function autoGrow(el){ el.style.height="auto"; var h=el.scrollHeight; el.style.height=Math.min(140,h)+"px"; el.style.overflowY=h>140?"auto":"hidden"; }
+  function talkHistory(){ return TALK.msgs.filter(function(m){ return m.role==="user"||m.role==="assistant"; }).slice(-12).map(function(m){ return {role:m.role,text:m.text}; }); }
+  function tutorApi(body, cb){
+    body.ui=LANG;
+    fetch("/api/tutor",{method:"POST",headers:syncHeaders(),body:JSON.stringify(body)})
+      .then(function(r){ return r.json().catch(function(){ return {}; }).then(function(j){ return {s:r.status,j:j}; }); })
+      .then(function(x){ if(x.s===401){ signOut(true); renderTalk(); } cb(x.s===200?x.j:null, x.s, x.j&&x.j.error); })
+      .catch(function(){ cb(null,0,"offline"); });
+  }
+  function talkErrMsg(status, err){
+    if(err==="tutor-not-configured") return t("talk.notcfg");
+    if(status===429) return t("talk.limit");
+    if(status===0) return t("talk.offline");
+    return t("talk.failed");
+  }
+  // Running CEFR estimate (A1=1 … C2=6). Longer messages are stronger evidence than "Ja, gerne".
+  function updateLevel(score, words){
+    var tu=tutorState(), w=Math.min(1, Math.max(0.15, words/10));
+    tu.score = tu.score==null ? score : tu.score + 0.3*w*(score - tu.score);
+    tu.score=Math.round(tu.score*100)/100; tu.n=(tu.n||0)+1;
+    tu.hist=(tu.hist||[]).concat([[Date.now(), tu.score]]).slice(-100);
+  }
+  // Wrap each German word so it can be tapped (escaping each piece separately keeps entities intact).
+  function wrapWords(text){ return String(text).split(/([A-Za-zÄÖÜäöüß]+)/).map(function(p,i){ return i%2 ? '<span class="tw">'+esc(p)+'</span>' : esc(p); }).join(""); }
+  // Word-level diff: highlight what the correction changed.
+  function diffMark(orig, fixed){
+    var a=String(orig).split(/\s+/).filter(Boolean), b=String(fixed).split(/\s+/).filter(Boolean);
+    var nm=function(w){ return w.toLowerCase().replace(/[.,!?;:"„“'’]/g,""); }, n=a.length, m=b.length, L=[], i, j;
+    for(i=0;i<=n;i++){ L[i]=[]; for(j=0;j<=m;j++) L[i][j]=0; }
+    for(i=n-1;i>=0;i--) for(j=m-1;j>=0;j--) L[i][j] = nm(a[i])===nm(b[j]) ? L[i+1][j+1]+1 : Math.max(L[i+1][j], L[i][j+1]);
+    var keep={}; i=0; j=0;
+    while(i<n&&j<m){ if(nm(a[i])===nm(b[j])){ keep[j]=1; i++; j++; } else if(L[i+1][j]>=L[i][j+1]) i++; else j++; }
+    return b.map(function(w,k){ return keep[k] ? esc(w) : '<mark>'+esc(w)+'</mark>'; }).join(" ");
+  }
+
+  function renderTalk(){
+    var gate=document.getElementById("talk-gate"), main=document.getElementById("talk-main"); if(!gate) return;
+    if(!SYNC.available){
+      gate.innerHTML='<div class="em">🗣️</div><div>'+esc(t("talk.gateOnline"))+'</div><a class="btn" href="https://wortschatz-eight.vercel.app/">wortschatz-eight.vercel.app</a>';
+      gate.hidden=false; main.hidden=true; return;
+    }
+    if(!SYNC.token){
+      gate.innerHTML='<div class="em">🗣️</div><div>'+esc(t("talk.gateSignin"))+'</div><button class="btn" type="button" id="talk-gosignin">'+esc(t("talk.signinBtn"))+'</button>';
+      gate.hidden=false; main.hidden=true;
+      document.getElementById("talk-gosignin").onclick=function(){ var a=document.getElementById("account");
+        if(a){ a.scrollIntoView({behavior:"smooth",block:"center"}); setTimeout(function(){ var e=document.getElementById("acc-email"); try{ if(e) e.focus(); }catch(_){} },450); } };
+      return;
+    }
+    gate.hidden=true; main.hidden=false;
+    if(!TALK.msgs.length) talkStart(TALK.scenario, true);
+    renderTalkLevel(); renderTalkScen(); renderTalkLog();
+    document.getElementById("talk-voice").textContent=(talkVoiceOn()?"🔊 ":"🔇 ")+t(talkVoiceOn()?"talk.voiceOn":"talk.voiceOff");
+    document.getElementById("talk-mic").hidden=!SPEECH_OK;
+    autoGrow(document.getElementById("talk-input"));
+  }
+  function renderTalkLevel(){
+    var tu=tutorState(), box=document.getElementById("talk-level"); if(!box) return;
+    var has=tu.score!=null && (tu.n||0)>=3, idx=tu.score==null?2:lvlIdx(tu.score);
+    var frac=tu.score==null?0:Math.max(0,Math.min(1, tu.score-(idx+1)+0.5)), pct=Math.round(frac*100);
+    var sub = has ? (idx<5 ? tn("talk.next",pct)+" "+LVLS[idx+1]+" · " : "") + tn("talk.based",tu.n) : t("talk.est");
+    var focus=Object.keys(tu.mistakes||{}).sort(function(a,b){ return tu.mistakes[b]-tu.mistakes[a]; }).slice(0,3);
+    box.innerHTML='<div class="tl-badge">'+(has?LVLS[idx]:"?")+'</div><div class="tl-mid"><div class="tl-title">'+esc(t("talk.lvl"))+'</div>'+
+      '<div class="tl-bar"><i style="width:'+(has?pct:0)+'%"></i></div><div class="tl-sub">'+esc(sub)+'</div>'+
+      (focus.length?'<div class="tl-focus">'+focus.map(function(k){ return '<span>'+esc(t(ERRKEY[k]||"err.other"))+' ×'+tu.mistakes[k]+'</span>'; }).join("")+'</div>':'')+'</div>';
+  }
+  function renderTalkScen(){
+    var box=document.getElementById("talk-scen"); if(!box) return;
+    box.innerHTML=SCEN.map(function(s){ return '<button type="button" class="tsc" data-scen="'+s[0]+'" aria-pressed="'+(s[0]===TALK.scenario)+'">'+s[1]+' '+esc(s[2])+'</button>'; }).join("");
+  }
+  function chkHTML(m){
+    var c=m.check; if(!c) return "";
+    if(c.status==="pending") return '<div class="tchk pending">'+esc(t("talk.checking"))+'</div>';
+    if(c.status==="fail") return '<div class="tchk fail">'+esc(t("talk.failcheck"))+'</div>';
+    if(!c.errors||!c.errors.length) return '<div class="tchk ok">✓ '+esc(t("talk.perfect"))+'</div>';
+    return '<div class="tchk bad">'+(c.correction?'<div class="tchk-fix">'+diffMark(m.text,c.correction)+'</div>':'')+'<ul>'+
+      c.errors.map(function(e){ return '<li><span class="et">'+esc(t(ERRKEY[e.type]||"err.other"))+'</span><span class="ew"><s>'+esc(e.wrong)+'</s> → <b>'+esc(e.right)+'</b></span>'+
+        (e.why?'<span class="why">'+esc(e.why)+'</span>':'')+'</li>'; }).join("")+'</ul></div>';
+  }
+  function reviewHTML(r){
+    if(!r) return "";
+    var li=function(a){ return (a||[]).map(function(x){ return '<li>'+esc(x)+'</li>'; }).join(""); };
+    return '<div class="t-review"><h4>📊 '+esc(t("talk.rvTitle"))+' — '+esc(r.level||"")+'</h4><div>'+esc(r.summary||"")+'</div>'+
+      (r.strengths&&r.strengths.length?'<h5>'+esc(t("talk.rvStrong"))+'</h5><ul>'+li(r.strengths)+'</ul>':'')+
+      (r.focus&&r.focus.length?'<h5>'+esc(t("talk.rvFocus"))+'</h5><ul>'+li(r.focus)+'</ul>':'')+
+      (r.tip?'<h5>'+esc(t("talk.rvTip"))+'</h5><div>'+esc(r.tip)+'</div>':'')+
+      (r.words&&r.words.length?'<h5>'+esc(t("talk.rvWords"))+'</h5><ul>'+r.words.map(function(w){ return '<li><span class="de">'+esc(w.de)+'</span> — '+esc(w.tr||"")+'</li>'; }).join("")+'</ul>':'')+'</div>';
+  }
+  function renderTalkLog(){
+    var log=document.getElementById("talk-log"); if(!log) return; var h="";
+    TALK.msgs.forEach(function(m){
+      if(m.role==="assistant"){
+        h+='<div class="tb tb-lena" data-id="'+attr(m.id||"")+'"><div class="tb-name">Lena</div><div class="tb-text">'+wrapWords(m.text)+'</div>'+
+          '<div class="tb-tools"><button type="button" data-act="say" aria-label="Play">🔊</button><button type="button" data-act="tr">🌐 '+esc(t("talk.tr"))+'</button></div>'+
+          (m.tr&&m.trLang===LANG&&!m.hideTr?'<div class="tb-tr">'+esc(m.tr)+'</div>':'')+'</div>';
+      } else if(m.role==="user"){
+        h+='<div class="tb tb-me"><div class="tb-text">'+esc(m.text)+'</div></div>'+chkHTML(m);
+      } else if(m.role==="review"){ h+=reviewHTML(m.review); }
+      else if(m.role==="note"){ h+='<div class="t-note">'+esc(m.text)+'</div>'; }
+    });
+    if(talkBusy) h+='<div class="tb tb-lena t-typing" aria-label="'+attr(t("talk.typing"))+'"><i></i><i></i><i></i></div>';
+    log.innerHTML=h;
+    var last=log.lastElementChild; if(last&&ui.tab==="talk"){ try{ last.scrollIntoView({block:"nearest"}); }catch(e){} }
+  }
+  function talkStart(scen, silent){
+    stopRec();
+    TALK={ scenario:scen||"free", cid:Date.now(), msgs:[{ id:"o"+Date.now(), role:"assistant", text:OPENERS[scen]||OPENERS.free }] };
+    talkBusy=false; var sg=document.getElementById("talk-sugg"); if(sg) sg.hidden=true;
+    talkSave();
+    if(!silent){ renderTalkScen(); renderTalkLog(); if(talkVoiceOn()) speak(TALK.msgs[0].text); }
+  }
+  function talkSend(){
+    var inp=document.getElementById("talk-input"), text=(inp.value||"").trim();
+    if(!text||talkBusy) return;
+    inp.value=""; autoGrow(inp); stopRec();
+    document.getElementById("talk-sugg").hidden=true;
+    var prev=""; for(var i=TALK.msgs.length-1;i>=0;i--){ if(TALK.msgs[i].role==="assistant"){ prev=TALK.msgs[i].text; break; } }
+    var um={ id:"u"+(++talkSeq)+"-"+Date.now(), role:"user", text:text, check:{status:"pending"} };
+    var cid=TALK.cid, lvl=curLevel(), words=text.split(/\s+/).filter(Boolean).length;
+    TALK.msgs.push(um); talkBusy=true; talkSave(); renderTalkLog();
+    // Lena answers (fast model) …
+    tutorApi({ mode:"reply", scenario:TALK.scenario, level:lvl, history:talkHistory() }, function(j,s,err){
+      if(TALK.cid!==cid) return;
+      talkBusy=false;
+      if(j&&j.reply){
+        TALK.msgs.push({ id:"a"+(++talkSeq)+"-"+Date.now(), role:"assistant", text:j.reply });
+        if(talkVoiceOn()) speak(j.reply);
+        awardXp(5); save(); refreshStats(); checkBadges(false);
+      } else TALK.msgs.push({ role:"note", text:talkErrMsg(s,err) });
+      talkSave(); renderTalkLog();
+    });
+    // … while the accurate model checks the learner's German and updates the level estimate.
+    tutorApi({ mode:"check", level:lvl, context:prev, text:text }, function(j){
+      if(j&&Array.isArray(j.errors)){
+        um.check={ status:"done", correction:j.correction||"", errors:j.errors, level:j.level, score:j.score };
+        if(typeof j.score==="number") updateLevel(j.score, words);
+        var tu=tutorState(); j.errors.forEach(function(e){ tu.mistakes[e.type]=(tu.mistakes[e.type]||0)+1; });
+        if(!j.errors.length && words>=4) awardXp(5);   // bonus for a mistake-free sentence
+        save(); refreshStats(); renderTalkLevel();
+      } else um.check={ status:"fail" };
+      if(TALK.cid===cid){ talkSave(); renderTalkLog(); }
+    });
+  }
+  function talkHint(){
+    var btn=document.getElementById("talk-hint"), box=document.getElementById("talk-sugg"); if(btn.disabled) return;
+    btn.disabled=true; box.hidden=false; box.innerHTML='<div class="t-note">'+esc(t("talk.loading"))+'</div>';
+    tutorApi({ mode:"hint", level:curLevel(), scenario:TALK.scenario, history:talkHistory() }, function(j,s,err){
+      btn.disabled=false;
+      if(j&&j.suggestions&&j.suggestions.length){
+        box.innerHTML=j.suggestions.map(function(x){ return '<button type="button" data-say="'+attr(x.de)+'"><span class="de">'+esc(x.de)+'</span><span class="tr">'+esc(x.tr||"")+'</span></button>'; }).join("");
+      } else box.innerHTML='<div class="t-note">'+esc(talkErrMsg(s,err))+'</div>';
+    });
+  }
+  function talkReview(){
+    var btn=document.getElementById("talk-review"); if(btn.disabled) return;
+    var said=TALK.msgs.filter(function(m){ return m.role==="user"; }).map(function(m){ return m.text; });
+    if(said.length<3){ toast(t("talk.needMore")); return; }
+    var note={ role:"note", text:t("talk.loading") }, cid=TALK.cid;
+    btn.disabled=true; TALK.msgs.push(note); renderTalkLog();
+    var errs=[]; TALK.msgs.forEach(function(m){ if(m.check&&m.check.errors) m.check.errors.forEach(function(e){ errs.push({type:e.type,wrong:e.wrong,right:e.right}); }); });
+    tutorApi({ mode:"review", level:curLevel(), said:said.slice(-30), errs:errs.slice(-25), mistakes:tutorState().mistakes }, function(j,s,err){
+      btn.disabled=false; if(TALK.cid!==cid) return;
+      var k=TALK.msgs.indexOf(note); if(k>=0) TALK.msgs.splice(k,1);
+      if(j&&j.summary){
+        TALK.msgs.push({ role:"review", review:j });
+        if(typeof j.score==="number"){ var tu=tutorState();   // a whole-conversation review is strong evidence
+          tu.score = tu.score==null ? j.score : Math.round((tu.score*0.5 + j.score*0.5)*100)/100; tu.n=Math.max(tu.n||0,3);
+          save(); renderTalkLevel(); }
+      } else TALK.msgs.push({ role:"note", text:talkErrMsg(s,err) });
+      talkSave(); renderTalkLog();
+    });
+  }
+  function talkTranslate(m, btn){
+    if(m.tr&&m.trLang===LANG){ m.hideTr=!m.hideTr; talkSave(); renderTalkLog(); return; }
+    btn.disabled=true; btn.textContent="…";
+    tutorApi({ mode:"translate", text:m.text }, function(j,s,err){
+      if(j&&j.tr){ m.tr=j.tr; m.trLang=LANG; m.hideTr=false; talkSave(); } else toast(talkErrMsg(s,err));
+      renderTalkLog();
+    });
+  }
+  // Tap a word in Lena's message: speak + show its meaning if it's in your decks, else open the dictionary.
+  function talkWord(w){
+    var lw=w.toLowerCase(), hit=null;
+    for(var i=0;i<state.cards.length;i++){ if(state.cards[i].de.toLowerCase()===lw){ hit=state.cards[i]; break; } }
+    if(hit){ speak(sayStr(hit)); toast(sayStr(hit)+" = "+meaning(hit)); return; }
+    setTab("dict"); var di=document.getElementById("dict-input"); if(di){ di.value=w; dictSearch(); }
+  }
+
   /* ---------- Add ---------- */
   function setPos(p){
     ui.pos=p;
@@ -1937,11 +2254,13 @@
     document.getElementById("view-verbs").classList.toggle("hidden",t!=="verbs");
     document.getElementById("view-grammar").classList.toggle("hidden",t!=="grammar");
     document.getElementById("view-dict").classList.toggle("hidden",t!=="dict");
+    document.getElementById("view-talk").classList.toggle("hidden",t!=="talk");
     document.getElementById("view-deck").classList.toggle("hidden",t!=="deck");
     document.getElementById("view-add").classList.toggle("hidden",t!=="add");
     if(t==="study"){ ui.ahead=false; studyRender(); }
     if(t==="verbs"){ if(!ui.verb) nextVerb(); }
     if(t==="dict") dictHint();
+    if(t==="talk") renderTalk();
     if(t==="deck") deckRender();
   }
 
@@ -2054,6 +2373,28 @@
       var cl=document.querySelector("#flashcard .sp-clue"), tmp=document.createElement("div");
       tmp.innerHTML=picHTML(ui.current,"sp"); if(cl&&tmp.firstChild) cl.parentNode.insertBefore(tmp.firstChild, cl);
     });
+    talkLoad();
+    document.getElementById("talk-form").onsubmit=function(e){ e.preventDefault(); talkSend(); };
+    (function(){ var ti=document.getElementById("talk-input");
+      ti.addEventListener("input",function(){ autoGrow(ti); });
+      ti.addEventListener("keydown",function(e){ if(e.key==="Enter"&&!e.shiftKey&&!e.isComposing){ e.preventDefault(); talkSend(); } }); })();
+    document.getElementById("talk-mic").onclick=function(){ recInto("talk-input","talk-mic",true); };
+    document.getElementById("talk-scen").onclick=function(e){ var b=e.target.closest(".tsc"); if(b) talkStart(b.getAttribute("data-scen")); };
+    document.getElementById("talk-new").onclick=function(){ talkStart(TALK.scenario); };
+    document.getElementById("talk-hint").onclick=talkHint;
+    document.getElementById("talk-review").onclick=talkReview;
+    document.getElementById("talk-voice").onclick=function(){ var on=talkVoiceOn(); try{ localStorage.setItem("ws-talk-voice", on?"0":"1"); }catch(_){}
+      if(on){ try{ speechSynthesis.cancel(); }catch(_){} } renderTalk(); };
+    document.getElementById("talk-sugg").onclick=function(e){ var b=e.target.closest("button[data-say]"); if(!b) return;
+      var ti=document.getElementById("talk-input"); ti.value=b.getAttribute("data-say"); autoGrow(ti); ti.focus(); speak(ti.value); };
+    document.getElementById("talk-log").onclick=function(e){
+      var w=e.target.closest(".tw"); if(w){ talkWord(w.textContent); return; }
+      var b=e.target.closest("button[data-act]"); if(!b) return;
+      var bub=b.closest(".tb-lena"), id=bub&&bub.getAttribute("data-id"), m=null;
+      for(var i=0;i<TALK.msgs.length;i++){ if(TALK.msgs[i].id===id){ m=TALK.msgs[i]; break; } }
+      if(!m) return;
+      if(b.getAttribute("data-act")==="say") speak(m.text); else talkTranslate(m,b);
+    };
     document.addEventListener("click",function(e){ var b=e.target.closest&&e.target.closest(".wpic-x"); if(!b) return;
       e.preventDefault(); e.stopPropagation();
       if(!state.picHide) state.picHide={}; state.picHide[b.getAttribute("data-hidepic")]=1; save();
